@@ -1,11 +1,11 @@
 # coding=utf-8
 from enum import Enum, unique, auto
-from typing import TypeAlias, Iterator
+from typing import TypeAlias, Iterator, cast
 import numpy as np
 import numpy.typing as npt
 
 Coordinate: TypeAlias = tuple[int, int]
-Map: TypeAlias = npt.NDArray[npt.NDArray[np.float64]]
+Map: TypeAlias = npt.NDArray[np.float64]  # todo: add shape information after numpy introducing variadic generics
 
 
 @unique
@@ -16,7 +16,6 @@ class Action(Enum):
     RIGHT = auto(),
 
 
-@property
 def direction(action: Action) -> Coordinate:
     match action:
         case Action.UP:
@@ -55,16 +54,16 @@ class GridWorld:
         self.agent_state: Coordinate = self.start_state
 
     @property
-    def height(self):
+    def height(self) -> int:
         return len(self.reward_map)
 
     @property
-    def width(self):
+    def width(self) -> int:
         return len(self.reward_map[0])
 
     @property
-    def shape(self):
-        return self.reward_map.shape
+    def shape(self) -> tuple[int, int]:
+        return cast(tuple[int, int], self.reward_map.shape)
 
     def state(self) -> Iterator[Coordinate]:
         for h in range(self.height):
@@ -80,8 +79,8 @@ class GridWorld:
             next_state = state
         return next_state
 
-    def reward(self, next_state: Coordinate) -> float:
-        return self.reward_map[next_state]
+    def reward(self, next_state: Coordinate) -> np.float64:
+        return cast(np.float64, self.reward_map[next_state])
 
 
 if __name__ == "__main__":
