@@ -1,10 +1,10 @@
 from collections import defaultdict
 from typing import TypeAlias, cast
 
-from reinforcement_learning.dynamic_programming.grid_world import Action, GridWorld, Coordinate
+from reinforcement_learning.dynamic_programming.grid_world import Action, GridWorld, State
 
-Policy: TypeAlias = defaultdict[Coordinate, dict[Action, float]]
-StateValue: TypeAlias = defaultdict[Coordinate, float]
+Policy: TypeAlias = defaultdict[State, dict[Action, float]]
+StateValue: TypeAlias = defaultdict[State, float]
 
 
 def eval_one_step(pi: Policy, v: StateValue, env: GridWorld, gamma: float) -> StateValue:

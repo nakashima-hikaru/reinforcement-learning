@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "reinforcement-learning"
+version = "0.1.0"
+description = ""
+authors = ["hnakashima <nakashima.alg57@gmail.com>"]
+readme = "README.md"
+packages = [{include = "reinforcement_learning"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+matplotlib = "^3.6.2"
+pytest = "^7.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
