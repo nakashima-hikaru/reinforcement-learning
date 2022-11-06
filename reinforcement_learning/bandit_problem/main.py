@@ -1,9 +1,9 @@
 # coding=utf-8
 import matplotlib.pyplot as plt
 
-from bandit_problem.agent import Agent
-from bandit_problem.bandit import Bandit
-from bandit_problem.simulator import simulate
+from reinforcement_learning.bandit_problem.agent import Agent
+from reinforcement_learning.bandit_problem.bandit import Bandit
+from reinforcement_learning.bandit_problem.simulator import simulate
 
 if __name__ == '__main__':
     steps: int = 1000

@@ -15,17 +15,17 @@ class Action(Enum):
     LEFT = auto(),
     RIGHT = auto(),
 
-
-def direction(action: Action) -> Coordinate:
-    match action:
-        case Action.UP:
-            return 0, 1
-        case Action.DOWN:
-            return 0, -1
-        case Action.LEFT:
-            return -1, 0
-        case Action.RIGHT:
-            return 1, 0
+    @property
+    def direction(self) -> Coordinate:
+        match self:
+            case Action.UP:
+                return 0, 1
+            case Action.DOWN:
+                return 0, -1
+            case Action.LEFT:
+                return -1, 0
+            case Action.RIGHT:
+                return 1, 0
 
 
 class GridWorld:
@@ -65,22 +65,22 @@ class GridWorld:
     def shape(self) -> tuple[int, int]:
         return cast(tuple[int, int], self.reward_map.shape)
 
-    def state(self) -> Iterator[Coordinate]:
+    def states(self) -> Iterator[Coordinate]:
         for h in range(self.height):
             for w in range(self.width):
                 yield h, w
 
     def next_state(self, state: Coordinate, action: Action) -> Coordinate:
-        next_state: Coordinate = state[0] + direction(action)[0], state[1] + direction(action)[1]
-        nx, ny = next_state
+        next_state: Coordinate = state[0] + action.direction[0], state[1] + action.direction[1]
+        ny, nx = next_state
         if nx < 0 or nx >= self.width or ny < 0 or ny >= self.height:
             next_state = state
         elif next_state == (1, 1):
             next_state = state
         return next_state
 
-    def reward(self, next_state: Coordinate) -> np.float64:
-        return cast(np.float64, self.reward_map[next_state])
+    def reward(self, next_state: Coordinate) -> float:
+        return float(cast(np.float64, self.reward_map[next_state]))
 
 
 if __name__ == "__main__":

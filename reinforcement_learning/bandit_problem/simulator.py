@@ -1,6 +1,6 @@
 # coding=utf-8
-from bandit_problem.agent import Agent
-from bandit_problem.bandit import Bandit
+from reinforcement_learning.bandit_problem.agent import Agent
+from reinforcement_learning.bandit_problem.bandit import Bandit
 
 
 def simulate(steps: int, bandit: Bandit, agent: Agent) -> tuple[list[float], list[float]]:

@@ -3,9 +3,9 @@ import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
 
-from bandit_problem.agent import Agent, AlphaAgent
-from bandit_problem.bandit import Bandit, NonStationaryBandit
-from bandit_problem.simulator import simulate
+from reinforcement_learning.bandit_problem.agent import Agent, AlphaAgent
+from reinforcement_learning.bandit_problem.bandit import Bandit, NonStationaryBandit
+from reinforcement_learning.bandit_problem.simulator import simulate
 
 
 if __name__ == '__main__':
