@@ -82,6 +82,16 @@ class GridWorld:
     def reward(self, next_state: State) -> float:
         return float(cast(np.float64, self.reward_map[next_state]))
 
+    def step(self, action: Action) -> tuple[State, float, bool]:
+        next_state = self.next_state(state=self.agent_state, action=action)
+        reward: float = self.reward(next_state)
+        done: bool = next_state == self.goal_state
+        self.agent_state = next_state
+        return next_state, reward, done
+
+    def reset(self) -> None:
+        self.agent_state = self.start_state
+
 
 if __name__ == "__main__":
     test_map = np.array([[0.0, 0.0, 0.0, 1.0],

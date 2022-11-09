@@ -21,7 +21,6 @@ class Agent:
 
 
 class AlphaAgent(Agent):
-
     def __init__(self, epsilon: float, action_size: int, alpha: float):
         super().__init__(epsilon, action_size)
         self.alpha: float = alpha
