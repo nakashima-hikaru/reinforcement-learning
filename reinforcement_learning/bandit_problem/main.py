@@ -1,7 +1,7 @@
 # coding=utf-8
 import matplotlib.pyplot as plt
 
-from reinforcement_learning.bandit_problem.agent import Agent
+from reinforcement_learning.bandit_problem.agent import EpsilonGreedyAgent
 from reinforcement_learning.bandit_problem.bandit import Bandit
 from reinforcement_learning.bandit_problem.simulator import simulate
 
@@ -10,7 +10,7 @@ if __name__ == '__main__':
     epsilon: float = 0.1
     n_arms: int = 10
     bandit: Bandit = Bandit(n_arms=n_arms)
-    agent: Agent = Agent(epsilon=epsilon, action_size=n_arms)
+    agent: EpsilonGreedyAgent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms)
     total_rewards, rates = simulate(steps=steps, bandit=bandit, agent=agent)
     print(total_reward := total_rewards[-1])
 

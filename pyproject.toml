@@ -10,6 +10,7 @@ packages = [{include = "reinforcement_learning"}]
 python = "^3.11"
 matplotlib = "^3.6.2"
 pytest = "^7.2.0"
+tqdm = "^4.64.1"
 
 
 [build-system]

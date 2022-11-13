@@ -5,6 +5,7 @@ from reinforcement_learning.dynamic_programming.grid_world import Action, GridWo
 
 Policy: TypeAlias = defaultdict[State, dict[Action, float]]
 StateValue: TypeAlias = defaultdict[State, float]
+ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
 
 
 def eval_one_step(pi: Policy, v: StateValue, env: GridWorld, gamma: float) -> StateValue:

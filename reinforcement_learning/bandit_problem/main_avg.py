@@ -3,7 +3,7 @@ import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
 
-from reinforcement_learning.bandit_problem.agent import Agent, AlphaAgent
+from reinforcement_learning.bandit_problem.agent import EpsilonGreedyAgent, AlphaEpsilonGreedyAgent
 from reinforcement_learning.bandit_problem.bandit import Bandit, NonStationaryBandit
 from reinforcement_learning.bandit_problem.simulator import simulate
 
@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     for run in range(runs):
         bandit: Bandit = Bandit(n_arms=n_arms)
-        agent: Agent = Agent(epsilon=epsilon, action_size=n_arms)
+        agent: EpsilonGreedyAgent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms)
         total_rewards, rates = simulate(steps=steps, bandit=bandit, agent=agent)
         all_rates[run] = rates
 
@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     for run in range(runs):
         non_stationary_bandit = NonStationaryBandit(n_arms=n_arms)
-        alpha_agent: Agent = AlphaAgent(epsilon=epsilon, action_size=n_arms, alpha=0.8)
+        alpha_agent: EpsilonGreedyAgent = AlphaEpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, alpha=0.8)
         total_rewards, rates = simulate(steps=steps, bandit=non_stationary_bandit, agent=alpha_agent)
         all_rates_alpha[run] = rates
 

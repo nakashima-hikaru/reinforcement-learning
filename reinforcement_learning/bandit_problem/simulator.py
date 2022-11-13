@@ -1,9 +1,9 @@
 # coding=utf-8
-from reinforcement_learning.bandit_problem.agent import Agent
+from reinforcement_learning.bandit_problem.agent import EpsilonGreedyAgent
 from reinforcement_learning.bandit_problem.bandit import Bandit
 
 
-def simulate(steps: int, bandit: Bandit, agent: Agent) -> tuple[list[float], list[float]]:
+def simulate(steps: int, bandit: Bandit, agent: EpsilonGreedyAgent) -> tuple[list[float], list[float]]:
     total_reward: float = 0.0
     total_rewards: list[float] = []
     rates: list[float] = []

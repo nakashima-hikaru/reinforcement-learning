@@ -83,6 +83,7 @@ class GridWorld:
         return float(cast(np.float64, self.reward_map[next_state]))
 
     def step(self, action: Action) -> tuple[State, float, bool]:
+        """Applies a given action to itself and returns the result."""
         next_state = self.next_state(state=self.agent_state, action=action)
         reward: float = self.reward(next_state)
         done: bool = next_state == self.goal_state
