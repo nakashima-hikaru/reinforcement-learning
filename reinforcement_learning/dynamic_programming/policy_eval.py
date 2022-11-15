@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import TypeAlias, cast
+from typing import TypeAlias
 
 from reinforcement_learning.dynamic_programming.grid_world import Action, GridWorld, State
 

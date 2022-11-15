@@ -1,5 +1,5 @@
 # coding=utf-8
-from enum import Enum, unique, auto
+from enum import unique, IntEnum
 from typing import TypeAlias, Iterator, cast
 import numpy as np
 import numpy.typing as npt
@@ -9,11 +9,11 @@ Map: TypeAlias = npt.NDArray[np.float64]  # todo: add shape information after nu
 
 
 @unique
-class Action(Enum):
-    UP = auto(),
-    DOWN = auto(),
-    LEFT = auto(),
-    RIGHT = auto(),
+class Action(IntEnum):
+    UP = 0
+    DOWN = 1
+    LEFT = 2
+    RIGHT = 3
 
     @property
     def direction(self) -> State:

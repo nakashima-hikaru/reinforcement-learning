@@ -17,12 +17,13 @@ class RandomAgent:
     v: StateValue = field(default_factory=lambda: defaultdict(lambda: 0.0))
     counts: defaultdict[State, int] = field(default_factory=lambda: defaultdict(lambda: 0))
     memory: list[tuple[State, Action, float]] = field(default_factory=list)
+    _action_index: list[int] = field(default_factory=lambda: list(map(int, Action)))
 
     def get_action(self, state: State) -> Action:
+        """Gets an action according to its policy `self.pi`."""
         action_probs = self.pi[state]
-        actions = np.array(list(action_probs.keys()))
         probs = list(action_probs.values())
-        return cast(Action, np.random.choice(actions, p=probs))
+        return Action(np.random.choice(self._action_index, p=probs))
 
     def add(self, state: State, action: Action, reward: float) -> None:
         data = (state, action, reward)
@@ -40,12 +41,14 @@ class RandomAgent:
 
 
 def greedy_probs(q: dict[tuple[State, Action], float], state: State, epsilon: float) -> dict[Action, float]:
-    """Returns the action probability at `state` that represents the epsilon greedy policy obtained from action value `q`. """
+    """Returns the action probability at `state` that represents the epsilon greedy policy obtained from action value
+    `q`. """
     qs = dict()
     for action in Action:
         qs[action] = q[(state, action)]
     max_action = argmax(qs)
-    action_probs: dict[Action, float] = {action: epsilon / len(Action) for action in Action}
+    base_prob = epsilon / len(Action)
+    action_probs: dict[Action, float] = {action: base_prob for action in Action}
     action_probs[max_action] += 1.0 - epsilon
     return action_probs
 
@@ -59,13 +62,13 @@ class McAgent:
     q: ActionValue = field(default_factory=lambda: defaultdict(lambda: 0.0))
     counts: defaultdict[tuple[State, Action], int] = field(default_factory=lambda: defaultdict(lambda: 0))
     memory: list[tuple[State, Action, float]] = field(default_factory=list)
+    _action_index: list[int] = field(default_factory=lambda: list(map(int, Action)))
 
     def get_action(self, state: State) -> Action:
         """Gets an action according to its policy `self.pi`."""
         action_probs = self.pi[state]
-        actions = np.array(list(action_probs.keys()))
         probs = list(action_probs.values())
-        return cast(Action, np.random.choice(actions, p=probs))
+        return Action(np.random.choice(self._action_index, p=probs))
 
     def add(self, state: State, action: Action, reward: float) -> None:
         data = (state, action, reward)
