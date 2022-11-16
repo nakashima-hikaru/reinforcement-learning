@@ -5,7 +5,7 @@ import numpy as np
 import numpy.typing as npt
 
 State: TypeAlias = tuple[int, int]
-Map: TypeAlias = npt.NDArray[np.float64]  # todo: add shape information after numpy introducing variadic generics
+Map: TypeAlias = npt.NDArray[np.float64]
 
 
 @unique

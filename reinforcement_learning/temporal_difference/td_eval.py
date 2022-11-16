@@ -1,19 +1,18 @@
 import numpy as np
 from collections import defaultdict
-from dataclasses import dataclass, field
 
 from reinforcement_learning.dynamic_programming.grid_world import State, Action, GridWorld
 from reinforcement_learning.dynamic_programming.policy_eval import Policy, ActionValue, StateValue
 from reinforcement_learning.monte_carlo.mc_eval import random_actions, McAgent
 
 
-@dataclass
 class TdAgent:
-    gamma: float
-    alpha: float
-    pi: Policy = field(default_factory=lambda: defaultdict(lambda: random_actions))
-    v: StateValue = field(default_factory=lambda: defaultdict(lambda: 0.0))
-    _action_index: list[int] = field(default_factory=lambda: list(map(int, Action)))
+    def __init__(self, gamma: float, alpha: float):
+        self.gamma: float = gamma
+        self.alpha: float = alpha
+        self.pi: Policy = defaultdict(lambda: random_actions)
+        self.v: StateValue = defaultdict(lambda: 0.0)
+        self._action_index: list[int] = list(map(int, Action))
 
     def get_action(self, state: State) -> Action:
         """Gets an action according to its policy `self.pi`."""

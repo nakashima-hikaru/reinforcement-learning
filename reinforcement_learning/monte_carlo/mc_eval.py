@@ -1,6 +1,5 @@
 from collections import defaultdict
-from dataclasses import dataclass, field
-from typing import Final, cast
+from typing import Final
 import numpy as np
 
 from reinforcement_learning.dynamic_programming.grid_world import Action, State
@@ -10,14 +9,14 @@ from reinforcement_learning.dynamic_programming.policy_iter import argmax
 random_actions: Final[dict[Action, float]] = {Action.UP: 0.25, Action.DOWN: 0.25, Action.LEFT: 0.25, Action.RIGHT: 0.25}
 
 
-@dataclass
 class RandomAgent:
-    gamma: float
-    pi: Policy = field(default_factory=lambda: defaultdict(lambda: random_actions))
-    v: StateValue = field(default_factory=lambda: defaultdict(lambda: 0.0))
-    counts: defaultdict[State, int] = field(default_factory=lambda: defaultdict(lambda: 0))
-    memory: list[tuple[State, Action, float]] = field(default_factory=list)
-    _action_index: list[int] = field(default_factory=lambda: list(map(int, Action)))
+    def __init__(self, gamma: float):
+        self.gamma: float = gamma
+        self.pi: Policy = defaultdict(lambda: random_actions)
+        self.v: StateValue = defaultdict(lambda: 0.0)
+        self.counts: defaultdict[State, int] = defaultdict(lambda: 0)
+        self.memory: list[tuple[State, Action, float]] = list()
+        self._action_index: list[int] = list(map(int, Action))
 
     def get_action(self, state: State) -> Action:
         """Gets an action according to its policy `self.pi`."""
@@ -53,16 +52,15 @@ def greedy_probs(q: dict[tuple[State, Action], float], state: State, epsilon: fl
     return action_probs
 
 
-@dataclass
 class McAgent:
-    gamma: float
-    epsilon: float
-    alpha: float
-    pi: Policy = field(default_factory=lambda: defaultdict(lambda: random_actions))
-    q: ActionValue = field(default_factory=lambda: defaultdict(lambda: 0.0))
-    counts: defaultdict[tuple[State, Action], int] = field(default_factory=lambda: defaultdict(lambda: 0))
-    memory: list[tuple[State, Action, float]] = field(default_factory=list)
-    _action_index: list[int] = field(default_factory=lambda: list(map(int, Action)))
+    def __init__(self, gamma: float, epsilon: float, alpha: float):
+        self.gamma: float = gamma
+        self.epsilon: float = epsilon
+        self.alpha: float = alpha
+        self.pi: Policy = defaultdict(lambda: random_actions)
+        self.q: ActionValue = defaultdict(lambda: 0.0)
+        self.memory: list[tuple[State, Action, float]] = list()
+        self._action_index: list[int] = list(map(int, Action))
 
     def get_action(self, state: State) -> Action:
         """Gets an action according to its policy `self.pi`."""
@@ -82,6 +80,5 @@ class McAgent:
         for state, action, reward in reversed(self.memory):
             g = self.gamma * g + reward
             key = state, action
-            self.counts[key] += 1
             self.q[key] += (g - self.q[key]) * self.alpha
             self.pi[state] = greedy_probs(q=self.q, state=state, epsilon=self.epsilon)
