@@ -11,9 +11,22 @@ python = "^3.11"
 matplotlib = "^3.6.2"
 pytest = "^7.2.0"
 tqdm = "^4.64.1"
-coverage = "^6.5.0"
+coverage = "^7.3.2"
 
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.3"
+taskipy = "^1.12.0"
+mypy = "^1.6.1"
+types-tqdm = "^4.66.0.3"
+setuptools = "^68.2.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+lint = "python -m ruff check src tests"
+format = "python -m ruff format ."
+test = "python -m pytest tests"
+mypy = "python -m mypy src"
