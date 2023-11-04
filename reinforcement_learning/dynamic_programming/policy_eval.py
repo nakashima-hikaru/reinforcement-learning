@@ -1,14 +1,23 @@
 from collections import defaultdict
 from typing import TypeAlias
 
-from reinforcement_learning.dynamic_programming.grid_world import Action, GridWorld, State
+from reinforcement_learning.dynamic_programming.grid_world import (
+    Action,
+    GridWorld,
+    State,
+)
 
 Policy: TypeAlias = defaultdict[State, dict[Action, float]]
 StateValue: TypeAlias = defaultdict[State, float]
 ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
 
 
-def eval_one_step(pi: Policy, v: StateValue, env: GridWorld, gamma: float) -> StateValue:
+def eval_one_step(
+    pi: Policy,
+    v: StateValue,
+    env: GridWorld,
+    gamma: float,
+) -> StateValue:
     for state in env.states():
         if state == env.goal_state:
             v[state] = 0.0
@@ -23,7 +32,13 @@ def eval_one_step(pi: Policy, v: StateValue, env: GridWorld, gamma: float) -> St
     return v
 
 
-def policy_eval(pi: Policy, v: StateValue, env: GridWorld, gamma: float, threshold: float) -> StateValue:
+def policy_eval(
+    pi: Policy,
+    v: StateValue,
+    env: GridWorld,
+    gamma: float,
+    threshold: float,
+) -> StateValue:
     while True:
         old_v = v.copy()
         v = eval_one_step(pi, v, env, gamma)

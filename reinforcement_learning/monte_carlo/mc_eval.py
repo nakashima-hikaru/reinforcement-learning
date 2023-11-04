@@ -1,48 +1,68 @@
 from collections import defaultdict
-from typing import Final
+from typing import TYPE_CHECKING, ClassVar, Final, Self
+
 import numpy as np
 
 from reinforcement_learning.dynamic_programming.grid_world import Action, State
-from reinforcement_learning.dynamic_programming.policy_eval import Policy, StateValue, ActionValue
 from reinforcement_learning.dynamic_programming.policy_iter import argmax
 
-random_actions: Final[dict[Action, float]] = {Action.UP: 0.25, Action.DOWN: 0.25, Action.LEFT: 0.25, Action.RIGHT: 0.25}
+if TYPE_CHECKING:
+    from reinforcement_learning.dynamic_programming.policy_eval import (
+        ActionValue,
+        Policy,
+        StateValue,
+    )
+
+SEED: Final[int] = 0
+
+RANDOM_ACTIONS: Final[dict[Action, float]] = {
+    Action.UP: 0.25,
+    Action.DOWN: 0.25,
+    Action.LEFT: 0.25,
+    Action.RIGHT: 0.25,
+}
 
 
 class RandomAgent:
-    def __init__(self, gamma: float):
+    _rng: ClassVar[np.random.Generator] = np.random.default_rng(seed=SEED)
+
+    def __init__(self: Self, gamma: float) -> None:
         self.gamma: float = gamma
-        self.pi: Policy = defaultdict(lambda: random_actions)
+        self.pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
         self.v: StateValue = defaultdict(lambda: 0.0)
         self.counts: defaultdict[State, int] = defaultdict(lambda: 0)
-        self.memory: list[tuple[State, Action, float]] = list()
-        self._action_index: list[int] = list(map(int, Action))
+        self.memory: list[tuple[State, Action, float]] = []
 
-    def get_action(self, state: State) -> Action:
+    def get_action(self: Self, state: State) -> Action:
         """Gets an action according to its policy `self.pi`."""
         action_probs = self.pi[state]
         probs = list(action_probs.values())
-        return Action(np.random.choice(self._action_index, p=probs))
+        return Action(self._rng.choice(list(Action), p=probs))
 
-    def add(self, state: State, action: Action, reward: float) -> None:
+    def add(self: Self, state: State, action: Action, reward: float) -> None:
         data = (state, action, reward)
         self.memory.append(data)
 
-    def reset(self) -> None:
+    def reset(self: Self) -> None:
         self.memory.clear()
 
-    def eval(self) -> None:
+    def evaluate(self: Self) -> None:
         g: float = 0.0
-        for state, action, reward in reversed(self.memory):
+        for state, _action, reward in reversed(self.memory):
             g = self.gamma * g + reward
             self.counts[state] += 1
             self.v[state] += (g - self.v[state]) / self.counts[state]
 
 
-def greedy_probs(q: dict[tuple[State, Action], float], state: State, epsilon: float) -> dict[Action, float]:
+def greedy_probs(
+    q: dict[tuple[State, Action], float],
+    state: State,
+    epsilon: float,
+) -> dict[Action, float]:
     """Returns the action probability at `state` that represents the epsilon greedy policy obtained from action value
-    `q`. """
-    qs = dict()
+    `q`.
+    """
+    qs = {}
     for action in Action:
         qs[action] = q[(state, action)]
     max_action = argmax(qs)
@@ -53,29 +73,30 @@ def greedy_probs(q: dict[tuple[State, Action], float], state: State, epsilon: fl
 
 
 class McAgent:
-    def __init__(self, gamma: float, epsilon: float, alpha: float):
+    _rng: ClassVar[np.random.Generator] = np.random.default_rng(seed=SEED)
+
+    def __init__(self: Self, gamma: float, epsilon: float, alpha: float) -> None:
         self.gamma: float = gamma
         self.epsilon: float = epsilon
         self.alpha: float = alpha
-        self.pi: Policy = defaultdict(lambda: random_actions)
+        self.pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
         self.q: ActionValue = defaultdict(lambda: 0.0)
-        self.memory: list[tuple[State, Action, float]] = list()
-        self._action_index: list[int] = list(map(int, Action))
+        self.memory: list[tuple[State, Action, float]] = []
 
-    def get_action(self, state: State) -> Action:
+    def get_action(self: Self, state: State) -> Action:
         """Gets an action according to its policy `self.pi`."""
         action_probs = self.pi[state]
         probs = list(action_probs.values())
-        return Action(np.random.choice(self._action_index, p=probs))
+        return Action(self._rng.choice(list(Action), p=probs))
 
-    def add(self, state: State, action: Action, reward: float) -> None:
+    def add(self: Self, state: State, action: Action, reward: float) -> None:
         data = (state, action, reward)
         self.memory.append(data)
 
-    def reset(self) -> None:
+    def reset(self: Self) -> None:
         self.memory.clear()
 
-    def update(self) -> None:
+    def update(self: Self) -> None:
         g: float = 0.0
         for state, action, reward in reversed(self.memory):
             g = self.gamma * g + reward

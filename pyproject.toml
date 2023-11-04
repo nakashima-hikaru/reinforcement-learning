@@ -26,7 +26,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-lint = "python -m ruff check src tests"
+lint = "python -m ruff check reinforcement-learning tests"
 format = "python -m ruff format ."
 test = "python -m pytest tests"
-mypy = "python -m mypy src"
+mypy = "python -m mypy ."
