@@ -3,17 +3,17 @@ import logging
 from matplotlib import pyplot as plt
 
 from reinforcement_learning.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
-from reinforcement_learning.bandit_problem.bandit import Bandit
+from reinforcement_learning.bandit_problem.bandits.stationary_bandit import StationaryBandit
 from reinforcement_learning.bandit_problem.simulator import simulate
 
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
-    steps: int = 1000
-    epsilon: float = 0.1
-    n_arms: int = 10
-    bandit: Bandit = Bandit(n_arms=n_arms)
-    agent: EpsilonGreedyAgent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms)
+    steps = 1000
+    epsilon = 0.1
+    n_arms = 10
+    bandit = StationaryBandit(n_arms=n_arms)
+    agent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms)
     total_rewards, rates = simulate(steps=steps, bandit=bandit, agent=agent)
     logging.info(total_rewards[-1])
 

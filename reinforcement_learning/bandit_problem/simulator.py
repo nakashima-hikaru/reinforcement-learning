@@ -1,10 +1,10 @@
 from reinforcement_learning.bandit_problem.agents.base import EpsilonGreedyAgentBase
-from reinforcement_learning.bandit_problem.bandit import Bandit
+from reinforcement_learning.bandit_problem.bandits.base import BanditBase
 
 
 def simulate(
     steps: int,
-    bandit: Bandit,
+    bandit: BanditBase,
     agent: EpsilonGreedyAgentBase,
 ) -> tuple[list[float], list[float]]:
     total_reward: float = 0.0
