@@ -2,23 +2,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
 
-from reinforcement_learning.bandit_problem.agent import (
-    AlphaEpsilonGreedyAgent,
-    EpsilonGreedyAgent,
-)
-from reinforcement_learning.bandit_problem.bandit import Bandit, NonStationaryBandit
+from reinforcement_learning.bandit_problem.agents.alpha_epsilon_greedy_agent import AlphaEpsilonGreedyAgent
+from reinforcement_learning.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
+from reinforcement_learning.bandit_problem.bandit import NonStationaryBandit
 from reinforcement_learning.bandit_problem.simulator import simulate
 
-if __name__ == "__main__":
+
+def main() -> None:
     runs: int = 200
     steps: int = 1000
     epsilon: float = 0.1
     n_arms: int = 10
-    all_rates: npt.NDArray[np.float64] = np.zeros((runs, steps))
+    all_rates: npt.NDArray[np.float64] = np.zeros((runs, steps), dtype=np.float64)
 
     for run in range(runs):
-        bandit: Bandit = Bandit(n_arms=n_arms)
-        agent: EpsilonGreedyAgent = EpsilonGreedyAgent(
+        bandit = NonStationaryBandit(n_arms=n_arms)
+        agent = EpsilonGreedyAgent(
             epsilon=epsilon,
             action_size=n_arms,
         )
@@ -30,11 +29,11 @@ if __name__ == "__main__":
     plt.ylabel("Rates")
     plt.plot(range(steps), avg_rates, label="simple average")
 
-    all_rates_alpha: npt.NDArray[np.float64] = np.zeros((runs, steps))
+    all_rates_alpha = np.zeros((runs, steps), dtype=np.float64)
 
     for run in range(runs):
         non_stationary_bandit = NonStationaryBandit(n_arms=n_arms)
-        alpha_agent: EpsilonGreedyAgent = AlphaEpsilonGreedyAgent(
+        alpha_agent = AlphaEpsilonGreedyAgent(
             epsilon=epsilon,
             action_size=n_arms,
             alpha=0.8,
@@ -50,3 +49,7 @@ if __name__ == "__main__":
     plt.plot(range(steps), avg_rates_alpha, label="alpha const update")
     plt.legend()
     plt.show()
+
+
+if __name__ == "__main__":
+    main()

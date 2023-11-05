@@ -1,4 +1,4 @@
-from reinforcement_learning.bandit_problem.agent import EpsilonGreedyAgent
+from reinforcement_learning.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
 from reinforcement_learning.bandit_problem.bandit import Bandit
 from reinforcement_learning.bandit_problem.simulator import simulate
 
