@@ -1,3 +1,4 @@
+"""functions for computing and improving policies based on the state values in a grid world environment."""
 import logging
 from collections import defaultdict
 from typing import Final, TypeVar
@@ -13,10 +14,33 @@ T = TypeVar("T")
 
 
 def argmax(d: dict[T, float]) -> T:
+    """Find the key with the highest value.
+
+    Args:
+    ----
+        d: A dictionary with keys of type T and values of type float.
+
+    Returns:
+    -------
+        T: The key from the dictionary with the highest corresponding value.
+
+    """
     return max(d, key=lambda key: d[key])
 
 
 def greedy_policy(v: StateValue, env: GridWorld, gamma: float) -> Policy:
+    """Compute the greedy policy based on the given state values.
+
+    Args:
+    ----
+        v: a dictionary representing the state values of each state in the environment
+        env: a GridWorld object representing the environment
+        gamma: a float representing the discount factor for future rewards
+
+    Returns:
+    -------
+        pi: a Policy object representing the greedy policy based on the given state values
+    """
     pi: Policy = Policy()
     for state in env.states():
         action_values: dict[Action, float] = {}
@@ -38,6 +62,18 @@ def greedy_policy(v: StateValue, env: GridWorld, gamma: float) -> Policy:
 
 
 def policy_iter(env: GridWorld, gamma: float, threshold: float) -> Policy:
+    """Improve policy through iteration.
+
+    Args:
+    ----
+        env (GridWorld): The grid world environment.
+        gamma (float): The discount factor for future rewards.
+        threshold (float): The convergence threshold for the value iteration.
+
+    Returns:
+    -------
+        Policy: The optimal policy for the given grid world environment.
+    """
     pi: Policy = defaultdict(
         lambda: {
             Action.UP: 0.25,
