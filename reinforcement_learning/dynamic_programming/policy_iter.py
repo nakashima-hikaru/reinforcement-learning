@@ -1,7 +1,6 @@
 """functions for computing and improving policies based on the state values in a grid world environment."""
-import logging
 from collections import defaultdict
-from typing import Final, TypeVar
+from typing import TypeVar
 
 from reinforcement_learning.dynamic_programming.grid_world import Action, GridWorld
 from reinforcement_learning.dynamic_programming.policy_eval import (
@@ -90,22 +89,3 @@ def policy_iter(env: GridWorld, gamma: float, threshold: float) -> Policy:
             break
         pi = new_pi
     return pi
-
-
-if __name__ == "__main__":
-    import numpy as np
-
-    logging.basicConfig(level=logging.INFO)
-
-    test_map = np.array(
-        [[0.0, 0.0, 0.0, 1.0], [0.0, None, 0.0, -1.0], [0.0, 0.0, 0.0, 0.0]],
-        dtype=np.float64,
-    )
-    env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
-    pi: Policy = policy_iter(env=env, gamma=0.9, threshold=1e-3)
-    max_prob: Final[float] = 1.0
-    for state in pi:
-        for action in pi[state]:
-            if pi[state][action] == max_prob:
-                msg = f"{state, action=}"
-                logging.info(msg)

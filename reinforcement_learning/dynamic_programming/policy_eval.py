@@ -81,11 +81,7 @@ def policy_eval(
     while True:
         old_v = v.copy()
         v = eval_one_step(pi, v, env, gamma)
-        delta = 0.0  # the maximum delta of the state value
-        for state in env.states():
-            t = abs(v[state] - old_v[state])
-            if delta < t:
-                delta = t
+        delta = max(abs(v[state] - old_v[state]) for state in env.states())
         if delta < threshold:
             break
     return v
