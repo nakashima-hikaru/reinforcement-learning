@@ -7,7 +7,7 @@ from reinforcement_learning.bandit_problem.agents.base import EpsilonGreedyAgent
 
 
 class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
-    def __init__(self: Self, epsilon: float, action_size: int, alpha: float) -> None:
+    def __init__(self: Self, *, epsilon: float, action_size: int, alpha: float) -> None:
         super().__init__(epsilon, action_size)
         self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
         self.alpha: float = alpha
