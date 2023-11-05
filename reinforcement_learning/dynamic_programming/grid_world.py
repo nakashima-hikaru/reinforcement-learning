@@ -90,7 +90,7 @@ class GridWorld:
             state[1] + action.direction[1],
         )
         ny, nx = next_state
-        if nx < 0 or nx >= self.width or ny < 0 or ny >= self.height or next_state == (1, 1):
+        if nx < 0 or nx >= self.width or ny < 0 or ny >= self.height or next_state in self.__wall_states:
             next_state = state
         return next_state
 
