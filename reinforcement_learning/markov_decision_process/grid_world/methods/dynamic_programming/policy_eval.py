@@ -10,12 +10,7 @@ in value_iteration, for a deterministic policy in a GridWorld environment.
 The implemented methods can be used as building blocks for more complex
 reinforcement learning algorithms in GridWorld type environments.
 """
-
-from reinforcement_learning.markov_decision_process.grid_world import (
-    GridWorld,
-    Policy,
-    StateValue,
-)
+from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld, Policy, StateValue
 
 
 def eval_one_step(

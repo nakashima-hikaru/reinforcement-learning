@@ -4,7 +4,7 @@ The agent employs an epsilon-greedy strategy (with a step-size) to balance explo
 """
 from typing import Self
 
-from reinforcement_learning.methods.bandit_problem.agents.base import EpsilonGreedyAgentBase
+from reinforcement_learning.markov_decision_process.bandit_problem.agents.base import EpsilonGreedyAgentBase
 
 
 class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):

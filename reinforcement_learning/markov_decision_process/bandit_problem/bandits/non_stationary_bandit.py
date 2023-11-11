@@ -13,7 +13,7 @@ from typing import Self
 import numpy as np
 from numpy.typing import NDArray
 
-from reinforcement_learning.markov_decision_process.bandits.base import BanditBase
+from reinforcement_learning.markov_decision_process.bandit_problem.bandits.base import BanditBase
 
 
 class NonStationaryBandit(BanditBase):

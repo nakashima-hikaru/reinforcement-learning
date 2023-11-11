@@ -1,8 +1,12 @@
-from reinforcement_learning.markov_decision_process.bandits.non_stationary_bandit import NonStationaryBandit
-from reinforcement_learning.markov_decision_process.bandits.stationary_bandit import StationaryBandit
-from reinforcement_learning.methods.bandit_problem.agents.alpha_epsilon_greedy_agent import AlphaEpsilonGreedyAgent
-from reinforcement_learning.methods.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
-from reinforcement_learning.methods.bandit_problem.simulator import simulate
+from reinforcement_learning.markov_decision_process.bandit_problem.agents.alpha_epsilon_greedy_agent import (
+    AlphaEpsilonGreedyAgent,
+)
+from reinforcement_learning.markov_decision_process.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
+from reinforcement_learning.markov_decision_process.bandit_problem.bandits.non_stationary_bandit import (
+    NonStationaryBandit,
+)
+from reinforcement_learning.markov_decision_process.bandit_problem.bandits.stationary_bandit import StationaryBandit
+from reinforcement_learning.markov_decision_process.bandit_problem.simulator import simulate
 
 
 def test_epsilon_greedy_stationary() -> None:

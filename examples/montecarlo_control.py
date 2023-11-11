@@ -3,8 +3,8 @@ import logging
 import numpy as np
 import tqdm
 
-from reinforcement_learning.markov_decision_process.grid_world import GridWorld
-from reinforcement_learning.methods.monte_carlo.mc_eval import McAgent
+from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
+from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import McAgent
 
 
 def main() -> None:

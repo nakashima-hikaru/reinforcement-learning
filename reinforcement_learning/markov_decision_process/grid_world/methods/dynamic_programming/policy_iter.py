@@ -1,8 +1,8 @@
 """functions for computing and improving policies based on the state values in a grid world environment."""
 from collections import defaultdict
 
-from reinforcement_learning.markov_decision_process.grid_world import Action, GridWorld, Policy, StateValue
-from reinforcement_learning.methods.dynamic_programming.policy_eval import (
+from reinforcement_learning.markov_decision_process.grid_world.environment import Action, GridWorld, Policy, StateValue
+from reinforcement_learning.markov_decision_process.grid_world.methods.dynamic_programming.policy_eval import (
     policy_eval,
 )
 from reinforcement_learning.util import argmax
@@ -65,7 +65,7 @@ def policy_iter(env: GridWorld, gamma: float, threshold: float) -> Policy:
     v: StateValue = defaultdict(lambda: 0)
     while True:
         v = policy_eval(pi=pi, v=v, env=env, gamma=gamma, threshold=threshold)
-        new_pi: Policy = greedy_policy(v=v, env=env, gamma=gamma)
+        new_pi = greedy_policy(v=v, env=env, gamma=gamma)
         if new_pi == pi:
             break
         pi = new_pi

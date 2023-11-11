@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from reinforcement_learning.errors import NumpyDimError
-from reinforcement_learning.markov_decision_process.grid_world import MAP_DIM, GridWorld
+from reinforcement_learning.markov_decision_process.grid_world.environment import MAP_DIM, GridWorld
 
 
 def test_shape_validation() -> None:

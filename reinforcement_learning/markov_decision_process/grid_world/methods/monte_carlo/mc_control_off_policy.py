@@ -9,14 +9,14 @@ from typing import ClassVar, Final, Self
 
 import numpy as np
 
-from reinforcement_learning.markov_decision_process.grid_world import (
+from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
     Action,
     ActionValue,
     Policy,
     State,
 )
-from reinforcement_learning.methods.monte_carlo.mc_eval import greedy_probs
+from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
 
 SEED: Final[int] = 0
 

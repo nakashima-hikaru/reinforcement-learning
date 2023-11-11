@@ -2,8 +2,8 @@ import logging
 
 import numpy as np
 
-from reinforcement_learning.markov_decision_process.grid_world import GridWorld
-from reinforcement_learning.methods.temporal_difference.td_eval import TdAgent
+from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
+from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.td_eval import TdAgent
 
 
 def main() -> None:
