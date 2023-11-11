@@ -129,12 +129,22 @@ class McAgent:
             epsilon: Exploration factor used to decide the tradeoff between exploration and exploitation.
             alpha: Learning rate used to decide the step size in learning process.
         """
-        self.gamma: float = gamma
-        self.epsilon: float = epsilon
-        self.alpha: float = alpha
-        self.pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
-        self.q: ActionValue = defaultdict(lambda: 0.0)
+        self.__gamma: float = gamma
+        self.__epsilon: float = epsilon
+        self.__alpha: float = alpha
+        self.__pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
+        self.__q: ActionValue = defaultdict(lambda: 0.0)
         self.__memory: list[tuple[State, Action, float]] = []
+
+    @property
+    def q(self: Self) -> ActionValue:
+        """Get the current value of the action-value function.
+
+        Returns
+        -------
+            ActionValue: The instance's internal action-value function.
+        """
+        return self.__q
 
     def get_action(self: Self, state: State) -> Action:
         """Add a new experience to the agent's memory.
@@ -145,7 +155,7 @@ class McAgent:
             action (Action): The action taken by the agent at a specific time step.
             reward (float): The reward received by the agent after taking the action in the given state.
         """
-        action_probs = self.pi[state]
+        action_probs = self.__pi[state]
         probs = list(action_probs.values())
         return Action(self._rng.choice(list(Action), p=probs))
 
@@ -180,7 +190,7 @@ class McAgent:
         """
         g: float = 0.0
         for state, action, reward in reversed(self.__memory):
-            g = self.gamma * g + reward
+            g = self.__gamma * g + reward
             key = state, action
-            self.q[key] += (g - self.q[key]) * self.alpha
-            self.pi[state] = greedy_probs(q=self.q, state=state, epsilon=self.epsilon)
+            self.__q[key] += (g - self.__q[key]) * self.__alpha
+            self.__pi[state] = greedy_probs(q=self.__q, state=state, epsilon=self.__epsilon)

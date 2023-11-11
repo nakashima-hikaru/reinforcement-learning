@@ -35,12 +35,12 @@ class McOffPolicyAgent:
             epsilon (float): Epsilon for epsilon-greedy policy, should be a positive real number less than or equal to 1.
             alpha (float): Learning rate, should be a positive real number less than or equal to 1.
         """
-        self.gamma: float = gamma
-        self.epsilon: float = epsilon
-        self.alpha: float = alpha
-        self.pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
-        self.b: Policy = defaultdict(lambda: RANDOM_ACTIONS)
-        self.q: ActionValue = defaultdict(lambda: 0.0)
+        self.__gamma: float = gamma
+        self.__epsilon: float = epsilon
+        self.__alpha: float = alpha
+        self.__pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
+        self.__b: Policy = defaultdict(lambda: RANDOM_ACTIONS)
+        self.__q: ActionValue = defaultdict(lambda: 0.0)
         self.__memory: list[tuple[State, Action, float]] = []
 
     def get_action(self: Self, state: State) -> Action:
@@ -54,7 +54,7 @@ class McOffPolicyAgent:
         -------
             Action: The chosen action based on the agent's current policy.
         """
-        action_probs = self.b[state]
+        action_probs = self.__b[state]
         probs = list(action_probs.values())
         return Action(self._rng.choice(list(Action), p=probs))
 
@@ -79,9 +79,9 @@ class McOffPolicyAgent:
         g: float = 0.0
         rho: float = 1.0
         for state, action, reward in reversed(self.__memory):
-            rho *= self.pi[state][action] / self.b[state][action]
-            g = self.gamma * g + reward
+            rho *= self.__pi[state][action] / self.__b[state][action]
+            g = self.__gamma * g + reward
             key = state, action
-            self.q[key] += (g - self.q[key]) * self.alpha * rho
-            self.pi[state] = greedy_probs(q=self.q, state=state, epsilon=0.0)
-            self.b[state] = greedy_probs(q=self.q, state=state, epsilon=self.epsilon)
+            self.__q[key] += (g - self.__q[key]) * self.__alpha * rho
+            self.__pi[state] = greedy_probs(q=self.__q, state=state, epsilon=0.0)
+            self.__b[state] = greedy_probs(q=self.__q, state=state, epsilon=self.__epsilon)
