@@ -4,9 +4,6 @@ The agent employs an epsilon-greedy strategy (with a step-size) to balance explo
 """
 from typing import Self
 
-import numpy as np
-import numpy.typing as npt
-
 from reinforcement_learning.methods.bandit_problem.agents.base import EpsilonGreedyAgentBase
 
 
@@ -23,7 +20,6 @@ class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
             alpha (float): The learning rate for updating action values.
         """
         super().__init__(epsilon, action_size)
-        self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
         self.alpha: float = alpha
 
     def update(self: Self, i_action: int, reward: float) -> None:

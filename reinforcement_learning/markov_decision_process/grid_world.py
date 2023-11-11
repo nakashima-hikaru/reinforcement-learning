@@ -15,6 +15,7 @@ executing environment steps based on agent actions and computing rewards for eac
 These methods are essential for implementing and running reinforcement learning algorithms on the grid world environment.
 """
 import logging
+from collections import defaultdict
 from collections.abc import Iterator
 from enum import IntEnum, unique
 from typing import Final, Self, TypeAlias, cast
@@ -230,3 +231,6 @@ if __name__ == "__main__":
     )
     env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
     logging.info(env.reward(next_state=(0, 3)))
+Policy: TypeAlias = defaultdict[State, dict[Action, float]]
+StateValue: TypeAlias = defaultdict[State, float]
+ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]

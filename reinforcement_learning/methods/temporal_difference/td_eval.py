@@ -21,18 +21,17 @@ This module can be run standalone to test the TdAgent in a GridWorld environment
 imported to be used in a reinforcement learning process.
 """
 from collections import defaultdict
-from typing import TYPE_CHECKING, ClassVar, Final, Self
+from typing import ClassVar, Final, Self
 
 import numpy as np
 
 from reinforcement_learning.markov_decision_process.grid_world import (
     RANDOM_ACTIONS,
     Action,
+    Policy,
     State,
+    StateValue,
 )
-
-if TYPE_CHECKING:
-    from reinforcement_learning.methods.dynamic_programming.policy_eval import Policy, StateValue
 
 SEED: Final[int] = 0
 

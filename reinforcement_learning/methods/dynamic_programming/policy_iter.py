@@ -1,30 +1,11 @@
 """functions for computing and improving policies based on the state values in a grid world environment."""
 from collections import defaultdict
-from typing import TypeVar
 
-from reinforcement_learning.markov_decision_process.grid_world import Action, GridWorld
+from reinforcement_learning.markov_decision_process.grid_world import Action, GridWorld, Policy, StateValue
 from reinforcement_learning.methods.dynamic_programming.policy_eval import (
-    Policy,
-    StateValue,
     policy_eval,
 )
-
-T = TypeVar("T")
-
-
-def argmax(d: dict[T, float]) -> T:
-    """Find the key with the highest value.
-
-    Args:
-    ----
-        d: A dictionary with keys of type T and values of type float.
-
-    Returns:
-    -------
-        T: The key from the dictionary with the highest corresponding value.
-
-    """
-    return max(d, key=lambda key: d[key])
+from reinforcement_learning.util import argmax
 
 
 def greedy_policy(v: StateValue, env: GridWorld, gamma: float) -> Policy:

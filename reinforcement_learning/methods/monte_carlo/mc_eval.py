@@ -8,19 +8,19 @@ Several utility functions for agents are also included, such as `greedy_probs` w
 epsilon-greedy action probabilities for a given state.
 """
 from collections import defaultdict
-from typing import TYPE_CHECKING, ClassVar, Final, Self
+from typing import ClassVar, Final, Self
 
 import numpy as np
 
-from reinforcement_learning.markov_decision_process.grid_world import RANDOM_ACTIONS, Action, State
-from reinforcement_learning.methods.dynamic_programming.policy_iter import argmax
-
-if TYPE_CHECKING:
-    from reinforcement_learning.methods.dynamic_programming.policy_eval import (
-        ActionValue,
-        Policy,
-        StateValue,
-    )
+from reinforcement_learning.markov_decision_process.grid_world import (
+    RANDOM_ACTIONS,
+    Action,
+    ActionValue,
+    Policy,
+    State,
+    StateValue,
+)
+from reinforcement_learning.util import argmax
 
 SEED: Final[int] = 0
 

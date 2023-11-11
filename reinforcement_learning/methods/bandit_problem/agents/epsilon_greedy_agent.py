@@ -9,7 +9,6 @@ The agent's state and action-value estimations are updated based on the rewards 
 from typing import ClassVar, Final, Self
 
 import numpy as np
-import numpy.typing as npt
 
 from reinforcement_learning.methods.bandit_problem.agents.base import EpsilonGreedyAgentBase
 
@@ -34,7 +33,6 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
             None
         """
         super().__init__(epsilon, action_size)
-        self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
 
     def update(self: Self, i_action: int, reward: float) -> None:
         """Update the agent's estimate of the action value based on the received reward.

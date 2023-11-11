@@ -10,18 +10,12 @@ in value_iteration, for a deterministic policy in a GridWorld environment.
 The implemented methods can be used as building blocks for more complex
 reinforcement learning algorithms in GridWorld type environments.
 """
-from collections import defaultdict
-from typing import TypeAlias
 
 from reinforcement_learning.markov_decision_process.grid_world import (
-    Action,
     GridWorld,
-    State,
+    Policy,
+    StateValue,
 )
-
-Policy: TypeAlias = defaultdict[State, dict[Action, float]]
-StateValue: TypeAlias = defaultdict[State, float]
-ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
 
 
 def eval_one_step(

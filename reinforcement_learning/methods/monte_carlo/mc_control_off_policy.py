@@ -5,19 +5,18 @@ It's constructed with several parameters
 including gamma (decay factor), epsilon (for epsilon-greedy policy) and alpha (learning rate).
 """
 from collections import defaultdict
-from typing import TYPE_CHECKING, ClassVar, Final, Self
+from typing import ClassVar, Final, Self
 
 import numpy as np
 
 from reinforcement_learning.markov_decision_process.grid_world import (
     RANDOM_ACTIONS,
     Action,
+    ActionValue,
+    Policy,
     State,
 )
 from reinforcement_learning.methods.monte_carlo.mc_eval import greedy_probs
-
-if TYPE_CHECKING:
-    from reinforcement_learning.methods.dynamic_programming.policy_eval import ActionValue, Policy
 
 SEED: Final[int] = 0
 

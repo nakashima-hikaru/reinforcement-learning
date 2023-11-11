@@ -34,6 +34,7 @@ class EpsilonGreedyAgentBase(ABC):
         """
         self._epsilon: float = epsilon
         self._qs: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
+        self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
 
     @abstractmethod
     def update(self: Self, i_action: int, reward: float) -> None:
