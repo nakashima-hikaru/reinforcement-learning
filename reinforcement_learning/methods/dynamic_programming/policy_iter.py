@@ -2,8 +2,8 @@
 from collections import defaultdict
 from typing import TypeVar
 
-from reinforcement_learning.dynamic_programming.grid_world import Action, GridWorld
-from reinforcement_learning.dynamic_programming.policy_eval import (
+from reinforcement_learning.markov_decision_process.grid_world import Action, GridWorld
+from reinforcement_learning.methods.dynamic_programming.policy_eval import (
     Policy,
     StateValue,
     policy_eval,

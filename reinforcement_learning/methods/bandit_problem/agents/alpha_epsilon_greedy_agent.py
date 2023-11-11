@@ -7,7 +7,7 @@ from typing import Self
 import numpy as np
 import numpy.typing as npt
 
-from reinforcement_learning.bandit_problem.agents.base import EpsilonGreedyAgentBase
+from reinforcement_learning.methods.bandit_problem.agents.base import EpsilonGreedyAgentBase
 
 
 class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):

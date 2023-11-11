@@ -25,14 +25,14 @@ from typing import TYPE_CHECKING, ClassVar, Final, Self
 
 import numpy as np
 
-from reinforcement_learning.dynamic_programming.grid_world import (
+from reinforcement_learning.markov_decision_process.grid_world import (
+    RANDOM_ACTIONS,
     Action,
     State,
 )
-from reinforcement_learning.monte_carlo.mc_eval import RANDOM_ACTIONS
 
 if TYPE_CHECKING:
-    from reinforcement_learning.dynamic_programming.policy_eval import Policy, StateValue
+    from reinforcement_learning.methods.dynamic_programming.policy_eval import Policy, StateValue
 
 SEED: Final[int] = 0
 

@@ -11,7 +11,7 @@ from typing import ClassVar, Final, Self
 import numpy as np
 import numpy.typing as npt
 
-from reinforcement_learning.bandit_problem.agents.base import EpsilonGreedyAgentBase
+from reinforcement_learning.methods.bandit_problem.agents.base import EpsilonGreedyAgentBase
 
 SEED: Final[int] = 0
 

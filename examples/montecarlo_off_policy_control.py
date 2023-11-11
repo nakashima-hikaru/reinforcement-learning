@@ -1,8 +1,8 @@
 import numpy as np
 from tqdm import tqdm
 
-from reinforcement_learning.dynamic_programming.grid_world import GridWorld
-from reinforcement_learning.monte_carlo.mc_control_off_policy import McOffPolicyAgent
+from reinforcement_learning.markov_decision_process.grid_world import GridWorld
+from reinforcement_learning.methods.monte_carlo.mc_control_off_policy import McOffPolicyAgent
 
 
 def main() -> None:

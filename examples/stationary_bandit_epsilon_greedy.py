@@ -2,9 +2,9 @@ import logging
 
 from matplotlib import pyplot as plt
 
-from reinforcement_learning.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
-from reinforcement_learning.bandit_problem.bandits.stationary_bandit import StationaryBandit
-from reinforcement_learning.bandit_problem.simulator import simulate
+from reinforcement_learning.methods.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
+from reinforcement_learning.methods.bandit_problem.bandits.stationary_bandit import StationaryBandit
+from reinforcement_learning.methods.bandit_problem.simulator import simulate
 
 
 def main() -> None:

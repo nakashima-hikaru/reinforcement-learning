@@ -1,4 +1,4 @@
-"""The definitions for State, Map, Action and GridWorld which are used for modeling a grid world environment.
+"""A grid world environment.
 
 A 'State' is a tuple of two integers representing the coordinates in the grid.
 'Map' is a 2D numpy array that represents the reward map for the grid world,
@@ -60,6 +60,14 @@ class Action(IntEnum):
             case Action.RIGHT:
                 ret = 0, 1
         return ret
+
+
+RANDOM_ACTIONS: Final[dict[Action, float]] = {
+    Action.UP: 0.25,
+    Action.DOWN: 0.25,
+    Action.LEFT: 0.25,
+    Action.RIGHT: 0.25,
+}
 
 
 class GridWorld:

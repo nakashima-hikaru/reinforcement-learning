@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
 
-from reinforcement_learning.bandit_problem.agents.alpha_epsilon_greedy_agent import AlphaEpsilonGreedyAgent
-from reinforcement_learning.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
-from reinforcement_learning.bandit_problem.bandits.non_stationary_bandit import NonStationaryBandit
-from reinforcement_learning.bandit_problem.simulator import simulate
+from reinforcement_learning.methods.bandit_problem.agents.alpha_epsilon_greedy_agent import AlphaEpsilonGreedyAgent
+from reinforcement_learning.methods.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
+from reinforcement_learning.methods.bandit_problem.bandits.non_stationary_bandit import NonStationaryBandit
+from reinforcement_learning.methods.bandit_problem.simulator import simulate
 
 
 def main() -> None:

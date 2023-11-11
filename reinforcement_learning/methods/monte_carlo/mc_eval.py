@@ -12,24 +12,17 @@ from typing import TYPE_CHECKING, ClassVar, Final, Self
 
 import numpy as np
 
-from reinforcement_learning.dynamic_programming.grid_world import Action, State
-from reinforcement_learning.dynamic_programming.policy_iter import argmax
+from reinforcement_learning.markov_decision_process.grid_world import RANDOM_ACTIONS, Action, State
+from reinforcement_learning.methods.dynamic_programming.policy_iter import argmax
 
 if TYPE_CHECKING:
-    from reinforcement_learning.dynamic_programming.policy_eval import (
+    from reinforcement_learning.methods.dynamic_programming.policy_eval import (
         ActionValue,
         Policy,
         StateValue,
     )
 
 SEED: Final[int] = 0
-
-RANDOM_ACTIONS: Final[dict[Action, float]] = {
-    Action.UP: 0.25,
-    Action.DOWN: 0.25,
-    Action.LEFT: 0.25,
-    Action.RIGHT: 0.25,
-}
 
 
 class RandomAgent:

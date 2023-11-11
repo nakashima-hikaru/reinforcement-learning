@@ -3,8 +3,8 @@ from typing import Final
 
 import numpy as np
 
-from reinforcement_learning.dynamic_programming.grid_world import GridWorld
-from reinforcement_learning.dynamic_programming.policy_iter import policy_iter
+from reinforcement_learning.markov_decision_process.grid_world import GridWorld
+from reinforcement_learning.methods.dynamic_programming.policy_iter import policy_iter
 
 
 def main() -> None:

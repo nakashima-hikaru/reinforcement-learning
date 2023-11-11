@@ -13,7 +13,7 @@ reinforcement learning algorithms in GridWorld type environments.
 from collections import defaultdict
 from typing import TypeAlias
 
-from reinforcement_learning.dynamic_programming.grid_world import (
+from reinforcement_learning.markov_decision_process.grid_world import (
     Action,
     GridWorld,
     State,

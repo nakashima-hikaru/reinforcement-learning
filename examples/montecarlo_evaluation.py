@@ -2,8 +2,8 @@ import logging
 
 import numpy as np
 
-from reinforcement_learning.dynamic_programming.grid_world import GridWorld
-from reinforcement_learning.monte_carlo.mc_eval import RandomAgent
+from reinforcement_learning.markov_decision_process.grid_world import GridWorld
+from reinforcement_learning.methods.monte_carlo.mc_eval import RandomAgent
 
 
 def main() -> None:
