@@ -6,8 +6,8 @@ over a specified number of steps. It uses the agent's action selection strategy
 The chosen action is then played out on the bandit, and the agent's strategy is updated based on
 a reward system (defined in the BanditBase class).
 """
+from reinforcement_learning.markov_decision_process.bandits.base import BanditBase
 from reinforcement_learning.methods.bandit_problem.agents.base import EpsilonGreedyAgentBase
-from reinforcement_learning.methods.bandit_problem.bandits.base import BanditBase
 
 
 def simulate(

@@ -2,8 +2,8 @@ import logging
 
 from matplotlib import pyplot as plt
 
+from reinforcement_learning.markov_decision_process.bandits.stationary_bandit import StationaryBandit
 from reinforcement_learning.methods.bandit_problem.agents.epsilon_greedy_agent import EpsilonGreedyAgent
-from reinforcement_learning.methods.bandit_problem.bandits.stationary_bandit import StationaryBandit
 from reinforcement_learning.methods.bandit_problem.simulator import simulate
 
 
