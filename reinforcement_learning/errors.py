@@ -42,3 +42,12 @@ class NumpyDimError(NumpyValidationError):
         self.expected_dim: int = expected_dim
         self.actual_dim: int = actual_dim
         super().__init__(message=f"{self.expected_dim}-dim is expected, but {self.actual_dim}-dim is passed.")
+
+
+class NotInitializedError(Exception):
+    """An Exception that is raised when an attribute is accessed before it has been initialized."""
+
+    def __init__(self: Self, class_name: str, attribute_name: str) -> None:
+        """Initialize the instance."""
+        message = f"{attribute_name} of {class_name} is not initialized."
+        super().__init__(message)

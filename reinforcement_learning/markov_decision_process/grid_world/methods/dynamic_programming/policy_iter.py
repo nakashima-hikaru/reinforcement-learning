@@ -8,7 +8,7 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.dynamic_p
 from reinforcement_learning.util import argmax
 
 
-def greedy_policy(v: StateValue, env: GridWorld, gamma: float) -> Policy:
+def greedy_policy(*, v: StateValue, env: GridWorld, gamma: float) -> Policy:
     """Compute the greedy policy based on the given state values.
 
     Args:
@@ -41,7 +41,7 @@ def greedy_policy(v: StateValue, env: GridWorld, gamma: float) -> Policy:
     return pi
 
 
-def policy_iter(env: GridWorld, gamma: float, threshold: float) -> Policy:
+def policy_iter(*, env: GridWorld, gamma: float, threshold: float) -> Policy:
     """Improve policy through iteration.
 
     Args:

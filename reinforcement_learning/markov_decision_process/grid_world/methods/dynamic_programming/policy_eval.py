@@ -14,6 +14,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 
 
 def eval_one_step(
+    *,
     pi: Policy,
     v: StateValue,
     env: GridWorld,
@@ -47,6 +48,7 @@ def eval_one_step(
 
 
 def policy_eval(
+    *,
     pi: Policy,
     v: StateValue,
     env: GridWorld,
@@ -69,7 +71,7 @@ def policy_eval(
     """
     while True:
         old_v = v.copy()
-        v = eval_one_step(pi, v, env, gamma)
+        v = eval_one_step(pi=pi, v=v, env=env, gamma=gamma)
         delta = max(abs(v[state] - old_v[state]) for state in env.states())
         if delta < threshold:
             break

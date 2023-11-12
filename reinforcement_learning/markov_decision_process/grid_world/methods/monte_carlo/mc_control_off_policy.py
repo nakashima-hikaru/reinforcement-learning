@@ -5,7 +5,7 @@ It's constructed with several parameters
 including gamma (decay factor), epsilon (for epsilon-greedy policy) and alpha (learning rate).
 """
 from collections import defaultdict
-from typing import Self
+from typing import Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
@@ -19,7 +19,7 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.monte_car
 class McOffPolicyAgent(McAgentBase):
     """A class that represents an agent that uses Monte Carlo Off-Policy learning."""
 
-    def __init__(self: Self, gamma: float, epsilon: float, alpha: float) -> None:
+    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int = 0) -> None:
         """Initialize the instance with the provided parameters.
 
         Args:
@@ -27,14 +27,16 @@ class McOffPolicyAgent(McAgentBase):
             gamma (float): Decay factor, should be a positive real number less than or equal to 1.
             epsilon (float): Epsilon for epsilon-greedy policy, should be a positive real number less than or equal to 1.
             alpha (float): Learning rate, should be a positive real number less than or equal to 1.
+            seed (int): Seed for action selector.
         """
-        super().__init__()
+        super().__init__(seed=seed)
         self.__gamma: float = gamma
         self.__epsilon: float = epsilon
         self.__alpha: float = alpha
         self.__pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
         self.__q: ActionValue = defaultdict(lambda: 0.0)
 
+    @final
     def update(self: Self) -> None:
         """Update the action-value function and policies in reinforcement learning."""
         g: float = 0.0

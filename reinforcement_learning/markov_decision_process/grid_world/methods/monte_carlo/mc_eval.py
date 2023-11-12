@@ -8,7 +8,7 @@ Several utility functions for agents are also included, such as `greedy_probs` w
 epsilon-greedy action probabilities for a given state.
 """
 from collections import defaultdict
-from typing import Self
+from typing import Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
@@ -23,14 +23,16 @@ from reinforcement_learning.util import argmax
 class RandomAgent(McAgentBase):
     """An agent that makes decisions using a randomized policy, and learns from its experiences."""
 
-    def __init__(self: Self, gamma: float) -> None:
+    def __init__(self: Self, *, gamma: float, seed: int = 0) -> None:
         """Initialize the instance of the RandomAgent class.
 
         Args:
         ----
-            gamma (float): Discount factor for rewards.
+            gamma: A float representing the discount factor for future rewards.
+            seed: An integer representing a seed value for random number generation.
+
         """
-        super().__init__()
+        super().__init__(seed=seed)
         self.__gamma: float = gamma
         self.__v: StateValue = defaultdict(lambda: 0.0)
         self.__counts: defaultdict[State, int] = defaultdict(lambda: 0)
@@ -40,6 +42,7 @@ class RandomAgent(McAgentBase):
         """Return the current state value."""
         return self.__v
 
+    @final
     def update(self: Self) -> None:
         """Evaluate the value function for the current policy.
 
@@ -55,6 +58,7 @@ class RandomAgent(McAgentBase):
 
 
 def greedy_probs(
+    *,
     q: dict[tuple[State, Action], float],
     state: State,
     epsilon: float,
@@ -84,16 +88,18 @@ def greedy_probs(
 class McAgent(McAgentBase):
     """The McAgent class implements a reinforcement learning agent using Monte Carlo methods."""
 
-    def __init__(self: Self, gamma: float, epsilon: float, alpha: float) -> None:
+    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int = 0) -> None:
         """Initialize a reinforcement learning agent with given parameters.
 
         Args:
         ----
-            gamma: Discount factor used to decide how important are the future rewards.
-            epsilon: Exploration factor used to decide the tradeoff between exploration and exploitation.
-            alpha: Learning rate used to decide the step size in learning process.
+            gamma: Discount factor for future rewards.
+            epsilon: Exploration factor for epsilon-greedy action selection.
+            alpha: Learning rate for updating action values.
+            seed: Seed for random number generation.
+
         """
-        super().__init__()
+        super().__init__(seed=seed)
         self.__gamma: float = gamma
         self.__epsilon: float = epsilon
         self.__alpha: float = alpha
@@ -109,6 +115,7 @@ class McAgent(McAgentBase):
         """
         return self.__q
 
+    @final
     def update(self: Self) -> None:
         """Compute the epsilon-greedy action probabilities for the given state.
 

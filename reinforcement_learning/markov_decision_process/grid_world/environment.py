@@ -22,6 +22,8 @@ from typing import Final, Self, TypeAlias, cast
 
 import numpy as np
 import numpy.typing as npt
+from pydantic import StrictFloat, StrictBool
+from pydantic.dataclasses import dataclass
 
 from reinforcement_learning.errors import NumpyDimError
 
@@ -63,6 +65,22 @@ class Action(IntEnum):
         return ret
 
 
+@dataclass
+class ActionResult:
+    """Represent the result of an action in the context of a reinforcement learning system.
+
+    Args:
+    ----
+        next_state: The next state after taking the action.
+        reward: The reward received for taking the action.
+        done: A flag indicating whether the task or episode is completed after taking the action.
+    """
+
+    next_state: State
+    reward: StrictFloat
+    done: StrictBool
+
+
 RANDOM_ACTIONS: Final[dict[Action, float]] = {
     Action.UP: 0.25,
     Action.DOWN: 0.25,
@@ -75,10 +93,10 @@ class GridWorld:
     """Class representing a GridWorld environment."""
 
     def __init__(
-        self: Self,
-        reward_map: Map,
-        goal_state: State,
-        start_state: State,
+            self: Self,
+            reward_map: Map,
+            goal_state: State,
+            start_state: State,
     ) -> None:
         """Initialize a GridWorld object with the given reward map, goal state, and start state.
 
@@ -122,13 +140,7 @@ class GridWorld:
 
     @property
     def agent_state(self: Self) -> State:
-        """Returns the current state of the agent.
-
-        Returns
-        -------
-            State: The current state of the agent.
-
-        """
+        """Return the current state of the agent."""
         return self.__agent_state
 
     @property
@@ -201,7 +213,7 @@ class GridWorld:
         """
         return cast(float, self.__reward_map[next_state])
 
-    def step(self: Self, action: Action) -> tuple[State, float, bool]:
+    def step(self: Self, action: Action) -> ActionResult:
         """Perform an environment step based on the provided action.
 
         Args:
@@ -216,9 +228,9 @@ class GridWorld:
         reward = self.reward(next_state)
         done = next_state == self.__goal_state
         self.__agent_state = next_state
-        return next_state, reward, done
+        return ActionResult(next_state=next_state, reward=reward, done=done)
 
-    def reset(self: Self) -> None:
+    def reset_agent_state(self: Self) -> None:
         """Reset the agent's state to the start state."""
         self.__agent_state = self.__start_state
 

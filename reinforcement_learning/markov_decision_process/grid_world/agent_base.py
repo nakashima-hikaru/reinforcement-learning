@@ -1,22 +1,18 @@
 """The base agent class for reinforcement learning models."""
-from abc import ABC
 from collections import defaultdict
-from typing import ClassVar, Final, Self, final
+from typing import Self, final
 
 import numpy as np
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import RANDOM_ACTIONS, Action, Policy, State
 
-SEED: Final[int] = 0
 
-
-class AgentBase(ABC):
+class ActionSelector:
     """The interface for agent class."""
 
-    _rng: ClassVar[np.random.Generator] = np.random.default_rng(seed=SEED)
-
-    def __init__(self: Self) -> None:
+    def __init__(self: Self, *, seed: int) -> None:
         """Initialize the instance."""
+        self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
         self._b: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @final
@@ -33,4 +29,4 @@ class AgentBase(ABC):
         """
         action_probs = self._b[state]
         probs = list(action_probs.values())
-        return Action(self._rng.choice(list(Action), p=probs))
+        return Action(self.__rng.choice(list(Action), p=probs))
