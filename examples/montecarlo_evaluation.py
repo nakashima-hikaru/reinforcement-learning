@@ -27,7 +27,7 @@ def main() -> None:
             next_state, reward, done = env.step(action=action)
             agent.add(state=state, action=action, reward=reward)
             if done:
-                agent.evaluate()
+                agent.update()
                 break
 
             state = next_state

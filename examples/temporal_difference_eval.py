@@ -22,7 +22,7 @@ def main() -> None:
         while True:
             action = agent.get_action(state)
             next_state, reward, done = env.step(action=action)
-            agent.evaluate(state=state, reward=reward, next_state=next_state, done=done)
+            agent.update(state=state, reward=reward, next_state=next_state, done=done)
             if done:
                 break
             state = next_state

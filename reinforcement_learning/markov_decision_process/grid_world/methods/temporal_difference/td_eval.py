@@ -21,25 +21,17 @@ This module can be run standalone to test the TdAgent in a GridWorld environment
 imported to be used in a reinforcement learning process.
 """
 from collections import defaultdict
-from typing import ClassVar, Final, Self
-
-import numpy as np
+from typing import Self
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
-    RANDOM_ACTIONS,
-    Action,
-    Policy,
     State,
     StateValue,
 )
+from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.td_agent import TdAgentBase
 
-SEED: Final[int] = 0
 
-
-class TdAgent:
+class TdAgent(TdAgentBase):
     """Represent a Temporal Difference (TD) Agent for reinforcement learning."""
-
-    _rng: ClassVar[np.random.Generator] = np.random.default_rng(seed=SEED)
 
     def __init__(self: Self, gamma: float, alpha: float) -> None:
         """Initialize the reinforcement learning object.
@@ -49,27 +41,17 @@ class TdAgent:
             gamma (float): The discount factor to be used in the process, determines the importance of future rewards.
             alpha (float): The learning rate for the algorithm, determines the extent to which new information will override the old information.
         """
-        self.gamma: float = gamma
-        self.alpha: float = alpha
-        self.pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
-        self.v: StateValue = defaultdict(lambda: 0.0)
+        super().__init__()
+        self.__gamma: float = gamma
+        self.__alpha: float = alpha
+        self.__v: StateValue = defaultdict(lambda: 0.0)
 
-    def get_action(self: Self, state: State) -> Action:
-        """Return the action to take for the given state.
+    @property
+    def v(self: Self) -> StateValue:
+        """Return the state value."""
+        return self.__v
 
-        Args:
-        ----
-            state (State): The current state of the agent.
-
-        Returns:
-        -------
-            Action: The action to take for the given state.
-        """
-        action_probs = self.pi[state]
-        probs = list(action_probs.values())
-        return Action(self._rng.choice(list(Action), p=probs))
-
-    def evaluate(self: Self, *, state: State, reward: float, next_state: State, done: bool) -> None:
+    def update(self: Self, *, state: State, reward: float, next_state: State, done: bool) -> None:
         """Update the value of the current state using the temporal difference (TD) algorithm.
 
         Args:
@@ -83,6 +65,6 @@ class TdAgent:
         -------
             None
         """
-        next_v: float = 0.0 if done else self.v[next_state]
-        target: float = reward + self.gamma * next_v
-        self.v[state] += (target - self.v[state]) * self.alpha
+        next_v: float = 0.0 if done else self.__v[next_state]
+        target: float = reward + self.__gamma * next_v
+        self.__v[state] += (target - self.__v[state]) * self.__alpha
