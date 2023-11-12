@@ -24,12 +24,12 @@ def main() -> None:
         while True:
             action = agent.get_action(state=state)
             next_state, reward, done = env.step(action=action)
-            agent.add(state=next_state, action=action, reward=reward)
+            agent.add_memory(state=next_state, action=action, reward=reward)
             if done:
-                agent.update()
                 break
 
             state = next_state
+        agent.update()
 
 
 if __name__ == "__main__":

@@ -39,10 +39,9 @@ class McOffPolicyAgent(McAgentBase):
         """Update the action-value function and policies in reinforcement learning."""
         g: float = 0.0
         rho: float = 1.0
-        for state, action, reward in reversed(self._memory):
-            rho *= self.__pi[state][action] / self._b[state][action]
-            g = self.__gamma * g + reward
-            key = state, action
-            self.__q[key] += (g - self.__q[key]) * self.__alpha * rho
-            self.__pi[state] = greedy_probs(q=self.__q, state=state, epsilon=0.0)
-            self._b[state] = greedy_probs(q=self.__q, state=state, epsilon=self.__epsilon)
+        for memory in reversed(self._memories):
+            rho *= self.__pi[memory.state][memory.action] / self._b[memory.state][memory.action]
+            g = self.__gamma * g + memory.reward
+            self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha * rho
+            self.__pi[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=0.0)
+            self._b[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)

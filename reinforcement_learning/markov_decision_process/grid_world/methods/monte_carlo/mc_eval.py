@@ -48,10 +48,10 @@ class RandomAgent(McAgentBase):
              None
         """
         g: float = 0.0
-        for state, _action, reward in reversed(self._memory):
-            g = self.__gamma * g + reward
-            self.__counts[state] += 1
-            self.__v[state] += (g - self.__v[state]) / self.__counts[state]
+        for memory in reversed(self._memories):
+            g = self.__gamma * g + memory.reward
+            self.__counts[memory.state] += 1
+            self.__v[memory.state] += (g - self.__v[memory.state]) / self.__counts[memory.state]
 
 
 def greedy_probs(
@@ -123,7 +123,7 @@ class McAgent(McAgentBase):
             A dictionary mapping actions to their epsilon-greedy probability.
         """
         g: float = 0.0
-        for state, action, reward in reversed(self._memory):
-            g = self.__gamma * g + reward
-            self.__q[state, action] += (g - self.__q[state, action]) * self.__alpha
-            self._b[state] = greedy_probs(q=self.__q, state=state, epsilon=self.__epsilon)
+        for memory in reversed(self._memories):
+            g = self.__gamma * g + memory.reward
+            self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha
+            self._b[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)
