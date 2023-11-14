@@ -47,7 +47,7 @@ class NumpyDimError(NumpyValidationError):
 class NotInitializedError(Exception):
     """An Exception that is raised when an attribute is accessed before it has been initialized."""
 
-    def __init__(self: Self, class_name: str, attribute_name: str) -> None:
+    def __init__(self: Self, instance_name: str, attribute_name: str) -> None:
         """Initialize the instance."""
-        message = f"{attribute_name} of {class_name} is not initialized."
+        message = f"{attribute_name} of {instance_name} is not initialized."
         super().__init__(message)

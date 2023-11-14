@@ -22,15 +22,15 @@ class SarsaMemory:
     Attributes
     ----------
         state (State): The current state of the environment.
-        action (Action): The action taken by the agent.
-        reward (StrictFloat): The reward received for the action taken.
-        done (StrictBool): Indicates whether the episode is done or not.
+        action (Action | None): The action taken by the agent.
+        reward (StrictFloat | None): The reward received for the action taken.
+        done (StrictBool | None): Indicates whether the episode is done or not.
     """
 
     state: State
-    action: Action
-    reward: StrictFloat
-    done: StrictBool
+    action: Action | None
+    reward: StrictFloat | None
+    done: StrictBool | None
 
 
 class SarsaAgent(ActionSelector):
@@ -45,6 +45,21 @@ class SarsaAgent(ActionSelector):
         self.__q: ActionValue = defaultdict(lambda: 0.0)
         self._memories: deque[SarsaMemory] = deque(maxlen=2)
 
+    @property
+    def q(self: Self) -> ActionValue:
+        """Return the Q values for each action in the current state."""
+        return self.__q
+
+    @final
+    def add_memory(self: Self, memory: SarsaMemory) -> None:
+        """Append SarsaMemory object to the agent's memory.
+
+        Args:
+        ----
+            memory (SarsaMemory): The SarsaMemory object to be added to the agent's memory.
+        """
+        self._memories.append(memory)
+
     @final
     def reset_memory(self: Self) -> None:
         """Reset the agent's memory."""
@@ -54,12 +69,21 @@ class SarsaAgent(ActionSelector):
     def update(self: Self) -> None:
         """Update the Q-values in the Sarsa agent."""
         if self._memories.maxlen is None:
-            raise NotInitializedError(class_name=str(self), attribute_name="_memories")
+            raise NotInitializedError(instance_name=str(self), attribute_name="_memories")
         if len(self._memories) < self._memories.maxlen:
             return
         current_memory = self._memories[0]
+        if current_memory.action is None:
+            raise NotInitializedError(instance_name=str(current_memory), attribute_name="action")
         next_memory = self._memories[1]
-        next_q = 0 if current_memory.done else self.__q[next_memory.state, next_memory.action]
+        if current_memory.done:
+            next_q = 0.0
+        else:
+            if next_memory.action is None:
+                raise NotInitializedError(instance_name=str(next_memory), attribute_name="action")
+            next_q = self.__q[next_memory.state, next_memory.action]
+        if self._memories[0].reward is None:
+            raise NotInitializedError(instance_name=str(self._memories[0]), attribute_name="reward")
         target = self._memories[0].reward + self.__gamma * next_q
         key = current_memory.state, current_memory.action
         self.__q[key] += (target - self.__q[key]) * self.__alpha

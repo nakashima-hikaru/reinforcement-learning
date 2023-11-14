@@ -14,7 +14,6 @@ It also defines a series of methods for retrieving information about the environ
 executing environment steps based on agent actions and computing rewards for each state transition.
 These methods are essential for implementing and running reinforcement learning algorithms on the grid world environment.
 """
-import logging
 from collections import defaultdict
 from collections.abc import Iterator
 from enum import IntEnum, unique
@@ -22,7 +21,7 @@ from typing import Final, Self, TypeAlias, cast
 
 import numpy as np
 import numpy.typing as npt
-from pydantic import StrictFloat, StrictBool
+from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
 
 from reinforcement_learning.errors import NumpyDimError
@@ -44,6 +43,34 @@ class Action(IntEnum):
     LEFT = 2
     RIGHT = 3
 
+    def __str__(self: Self) -> str:
+        """Return a string representation of the Action enumeration value."""
+        ret: str
+        match self:
+            case Action.UP:
+                ret = "Action.UP"
+            case Action.DOWN:
+                ret = "Action.DOWN"
+            case Action.LEFT:
+                ret = "Action.LEFT"
+            case Action.RIGHT:
+                ret = "Action.RIGHT"
+        return ret
+
+    def __repr__(self: Self) -> str:
+        """Return a string representation of the Action enumeration value."""
+        ret: str
+        match self:
+            case Action.UP:
+                ret = "Action.UP"
+            case Action.DOWN:
+                ret = "Action.DOWN"
+            case Action.LEFT:
+                ret = "Action.LEFT"
+            case Action.RIGHT:
+                ret = "Action.RIGHT"
+        return ret
+
     @property
     def direction(self: Self) -> State:
         """Gets the direction of an action.
@@ -63,6 +90,11 @@ class Action(IntEnum):
             case Action.RIGHT:
                 ret = 0, 1
         return ret
+
+
+Policy: TypeAlias = defaultdict[State, dict[Action, float]]
+StateValue: TypeAlias = defaultdict[State, float]
+ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
 
 
 @dataclass
@@ -234,15 +266,35 @@ class GridWorld:
         """Reset the agent's state to the start state."""
         self.__agent_state = self.__start_state
 
+    def render_v(
+            self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
+    ) -> None:
+        """Render the visual representation of the state values and policy.
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    test_map = np.array(
-        [[0.0, 0.0, 0.0, 1.0], [0.0, None, 0.0, -1.0], [0.0, 0.0, 0.0, 0.0]],
-        dtype=np.float64,
-    )
-    env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
-    logging.info(env.reward(next_state=(0, 3)))
-Policy: TypeAlias = defaultdict[State, dict[Action, float]]
-StateValue: TypeAlias = defaultdict[State, float]
-ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
+        Args:
+        ----
+            v: Optional argument representing the state values. If provided, it should be of type StateValue.
+            policy: Optional argument representing the policy. If provided, it should be of type Policy.
+            print_value: Optional boolean argument indicating whether to print the state values. Default is True.
+        """
+        from reinforcement_learning.markov_decision_process.grid_world import render as render_helper
+
+        renderer = render_helper.Renderer(
+            reward_map=self.__reward_map, goal_state=self.__goal_state, wall_states=self.__wall_states
+        )
+        renderer.render_v(v=v, policy=policy, print_value=print_value)
+
+    def render_q(self: Self, *, q: ActionValue, print_value: bool = True) -> None:
+        """Render the Q-values of a GridWorld object.
+
+        Args:
+        ----
+            q (ActionValue | None): The Q-values to render. Default is None.
+            print_value (bool): Whether to print the values or not. Default is True.
+        """
+        from reinforcement_learning.markov_decision_process.grid_world import render as render_helper
+
+        renderer = render_helper.Renderer(
+            reward_map=self.__reward_map, goal_state=self.__goal_state, wall_states=self.__wall_states
+        )
+        renderer.render_q(q=q, show_greedy_policy=print_value)

@@ -108,7 +108,7 @@ class TdAgent(ABC, ActionSelector):
             None
         """
         if self.__memory is None:
-            raise NotInitializedError(class_name="TdAgent", attribute_name="__memory")
+            raise NotInitializedError(instance_name=str(self), attribute_name="__memory")
         next_v: float = 0.0 if self.__memory.done else self.__v[self.__memory.next_state]
         target: float = self.__memory.reward + self.__gamma * next_v
         self.__v[self.__memory.state] += (target - self.__v[self.__memory.state]) * self.__alpha

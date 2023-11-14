@@ -15,8 +15,13 @@ class ActionSelector:
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
         self._b: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
+    @property
+    def b(self: Self) -> Policy:
+        """Return the action selector policy."""
+        return self._b
+
     @final
-    def get_action(self: Self, state: State) -> Action:
+    def get_action(self: Self, *, state: State) -> Action:
         """Select an action based on policy `self.__b`.
 
         Args:
