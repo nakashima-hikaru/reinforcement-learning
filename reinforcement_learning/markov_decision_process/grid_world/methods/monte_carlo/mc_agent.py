@@ -1,12 +1,12 @@
 """Interface."""
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Self, final
 
 from pydantic import StrictFloat
 from pydantic.dataclasses import dataclass
 
-from reinforcement_learning.markov_decision_process.grid_world.agent_base import ActionSelector
-from reinforcement_learning.markov_decision_process.grid_world.environment import Action, State
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
+from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld, State
 
 
 @final
@@ -26,24 +26,48 @@ class McMemory:
     reward: StrictFloat
 
 
-class McAgentBase(ABC, ActionSelector):
+class McAgentBase(AgentBase, ABC):
     """A base class for reinforcement learning agents using Monte Carlo methods."""
 
     def __init__(self: Self, *, seed: int) -> None:
         """Initialize the instance."""
         super().__init__(seed=seed)
-        self._memories: list[McMemory] = []
+        self.__memories: list[McMemory] = []
+
+    @property
+    def memories(self: Self) -> tuple[McMemory, ...]:
+        """Get the memories of the agent.
+
+        Returns
+        -------
+            A list of `McMemory` objects representing the agent's memories.
+        """
+        return tuple(self.__memories)
 
     @final
-    def add_memory(self: Self, memory: McMemory) -> None:
+    def add_memory(self: Self, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory."""
-        self._memories.append(memory)
+        memory = McMemory(state=state, action=action, reward=result.reward)
+        self.__memories.append(memory)
 
     @final
     def reset_memory(self: Self) -> None:
         """Clear the memory of the reinforcement learning agent."""
-        self._memories.clear()
+        self.__memories.clear()
 
-    @abstractmethod
-    def update(self: Self) -> None:
-        """Update the value function and/or the policy."""
+
+def run_monte_carlo_episode(*, env: GridWorld, agent: McAgentBase) -> None:
+    """Run a single episode."""
+    env.reset_agent_state()
+    state = env.agent_state
+    agent.reset_memory()
+
+    while True:
+        action = agent.get_action(state=state)
+        result = env.step(action=action)
+        agent.add_memory(state=state, action=action, result=result)
+        if result.done:
+            break
+
+        state = result.next_state
+    agent.update()

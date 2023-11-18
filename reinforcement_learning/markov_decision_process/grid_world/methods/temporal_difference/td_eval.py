@@ -23,15 +23,19 @@ imported to be used in a reinforcement learning process.
 from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
+from types import MappingProxyType
 from typing import Self, final
 
 from pydantic import StrictBool, StrictFloat
 
 from reinforcement_learning.errors import NotInitializedError
-from reinforcement_learning.markov_decision_process.grid_world.agent_base import ActionSelector
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
+    Action,
+    ActionResult,
     State,
     StateValue,
+    StateValueView,
 )
 
 
@@ -54,7 +58,7 @@ class TdMemory:
     done: StrictBool
 
 
-class TdAgent(ABC, ActionSelector):
+class TdAgent(AgentBase, ABC):
     """Represent a Temporal Difference (TD) Agent for reinforcement learning."""
 
     def __init__(self: Self, *, gamma: float, alpha: float, seed: int = 0) -> None:
@@ -73,19 +77,14 @@ class TdAgent(ABC, ActionSelector):
         self.__memory: TdMemory | None = None
 
     @property
-    def v(self: Self) -> StateValue:
+    def v(self: Self) -> StateValueView:
         """Return the state value."""
-        return self.__v
+        return MappingProxyType(self.__v)
 
     @final
-    def add_memory(self: Self, *, memory: TdMemory) -> None:
-        """Add memory.
-
-        Args:
-        ----
-            memory: The TdMemory object containing the memory for the TD agent.
-
-        """
+    def add_memory(self: Self, state: State, _action: Action, result: ActionResult) -> None:
+        """Add a new experience into the memory."""
+        memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
         self.__memory = memory
 
     @final

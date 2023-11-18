@@ -1,15 +1,18 @@
 """Sarsa agent."""
 from collections import defaultdict, deque
+from types import MappingProxyType
 from typing import Self, final
 
 from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
 
 from reinforcement_learning.errors import NotInitializedError
-from reinforcement_learning.markov_decision_process.grid_world.agent_base import ActionSelector
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
+    ActionResult,
     ActionValue,
+    ActionValueView,
     State,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
@@ -35,7 +38,7 @@ class SarsaMemory:
 
 
 @final
-class SarsaAgent(ActionSelector):
+class SarsaAgent(AgentBase):
     """SARSA agent."""
 
     def __init__(self: Self, *, seed: int = 0) -> None:
@@ -48,17 +51,18 @@ class SarsaAgent(ActionSelector):
         self._memories: deque[SarsaMemory] = deque(maxlen=2)
 
     @property
-    def q(self: Self) -> ActionValue:
-        """Return the Q values for each action in the current state."""
-        return self.__q
+    def q(self: Self) -> ActionValueView:
+        """Get the current value of the action-value function.
 
-    def add_memory(self: Self, memory: SarsaMemory) -> None:
-        """Append SarsaMemory object to the agent's memory.
-
-        Args:
-        ----
-            memory (SarsaMemory): The SarsaMemory object to be added to the agent's memory.
+        Returns
+        -------
+            ActionValue: The instance's internal action-value function.
         """
+        return MappingProxyType(self.__q)
+
+    def add_memory(self: Self, state: State, action: Action, result: ActionResult) -> None:
+        """Add a new experience into the memory."""
+        memory = SarsaMemory(state=state, action=action, reward=result.reward, done=result.done)
         self._memories.append(memory)
 
     def reset_memory(self: Self) -> None:
@@ -86,6 +90,6 @@ class SarsaAgent(ActionSelector):
         target = self._memories[0].reward + self.__gamma * next_q
         key = current_memory.state, current_memory.action
         self.__q[key] += (target - self.__q[key]) * self.__alpha
-        self._behavior_policy[current_memory.state] = greedy_probs(
+        self.behavior_policy[current_memory.state] = greedy_probs(
             q=self.__q, state=current_memory.state, epsilon=self.__epsilon
         )

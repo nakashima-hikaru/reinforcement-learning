@@ -8,13 +8,14 @@ Several utility functions for agents are also included, such as `greedy_probs` w
 epsilon-greedy action probabilities for a given state.
 """
 from collections import defaultdict
+from types import MappingProxyType
 from typing import Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
-    ActionValue,
     State,
     StateValue,
+    StateValueView,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McAgentBase
 from reinforcement_learning.util import argmax
@@ -38,9 +39,9 @@ class RandomAgent(McAgentBase):
         self.__counts: defaultdict[State, int] = defaultdict(lambda: 0)
 
     @property
-    def v(self: Self) -> StateValue:
+    def v(self: Self) -> StateValueView:
         """Return the current state value."""
-        return self.__v
+        return MappingProxyType(self.__v)
 
     @final
     def update(self: Self) -> None:
@@ -51,7 +52,7 @@ class RandomAgent(McAgentBase):
              None
         """
         g: float = 0.0
-        for memory in reversed(self._memories):
+        for memory in reversed(self.memories):
             g = self.__gamma * g + memory.reward
             self.__counts[memory.state] += 1
             self.__v[memory.state] += (g - self.__v[memory.state]) / self.__counts[memory.state]
@@ -83,54 +84,3 @@ def greedy_probs(
     action_probs: dict[Action, float] = {action: base_prob for action in Action}
     action_probs[max_action] += 1.0 - epsilon
     return action_probs
-
-
-@final
-class McAgent(McAgentBase):
-    """The McAgent class implements a reinforcement learning agent using Monte Carlo methods."""
-
-    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int = 0) -> None:
-        """Initialize a reinforcement learning agent with given parameters.
-
-        Args:
-        ----
-            gamma: Discount factor for future rewards.
-            epsilon: Exploration factor for epsilon-greedy action selection.
-            alpha: Learning rate for updating action values.
-            seed: Seed for random number generation.
-
-        """
-        super().__init__(seed=seed)
-        self.__gamma: float = gamma
-        self.__epsilon: float = epsilon
-        self.__alpha: float = alpha
-        self.__q: ActionValue = defaultdict(lambda: 0.0)
-
-    @property
-    def q(self: Self) -> ActionValue:
-        """Get the current value of the action-value function.
-
-        Returns
-        -------
-            ActionValue: The instance's internal action-value function.
-        """
-        return self.__q
-
-    def update(self: Self) -> None:
-        """Compute the epsilon-greedy action probabilities for the given state.
-
-        Args:
-        ----
-            q: A dictionary mapping (state, action) pairs to their respective value.
-            state: The current state of the system.
-            epsilon: The factor determining the trade-off between exploration and exploitation.
-
-        Returns:
-        -------
-            A dictionary mapping actions to their epsilon-greedy probability.
-        """
-        g: float = 0.0
-        for memory in reversed(self._memories):
-            g = self.__gamma * g + memory.reward
-            self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha
-            self._behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)

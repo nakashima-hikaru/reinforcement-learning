@@ -2,8 +2,9 @@
 
 It relies on the Matplotlib library for visualization of the state values and Q-values of the grid world environment.
 """
-from typing import TYPE_CHECKING, Self, TypeAlias, cast, final
+from typing import TYPE_CHECKING, Final, Self, TypeAlias, final
 
+import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -311,7 +312,7 @@ class Renderer:
             for x in range(self.xs):
                 for action in Action:
                     state = (y, x)
-                    r = cast(float, self.reward_map[y, x])
+                    r = float(self.reward_map[y, x])
 
                     self.render_reward_q(state=state, reward=r)
 
@@ -337,8 +338,8 @@ class Renderer:
             reward (float): The reward value for the state.
         """
         y, x = state
-        zero = 0.0
-        if reward != zero and reward is not None:
+        epsilon: Final[float] = 1e-10
+        if abs(reward) > epsilon and not math.isnan(reward):
             txt = "R " + str(reward)
             if state == self.goal_state:
                 txt = txt + " (GOAL)"
@@ -356,15 +357,20 @@ class Renderer:
             color_scale: The color scale for the polygon.
             tq: The value associated with the state-action pair.
         """
-        if state not in self.wall_states and state != self.goal_state:
+        y, x = state
+        tx, ty = x, self.ys - y - 1
+        if self.ax is None:
+            raise NotInitializedError(instance_name=str(self), attribute_name="ax")
+        if state in self.wall_states:
+            self.ax.add_patch(Rectangle((tx, ty), 1, 1, fc=(0.4, 0.4, 0.4, 1.0)))
+        elif state == self.goal_state:
+            self.ax.add_patch(Rectangle((tx, ty), 1, 1, fc=(0.0, 1.0, 0.0, 1.0)))
+        else:
             action_map = self.generate_action_map(state)
             poly = Polygon(action_map[action], fc=self.cmap(color_scale))
-            if self.ax is None:
-                raise NotInitializedError(instance_name=str(self), attribute_name="ax")
             self.ax.add_patch(poly)
             offset = self.generate_offsets_q()[action]
-            x, y = state
-            tx, ty = x, self.ys - y - 1
+
             self.ax.text(tx + offset[0], ty + offset[1], f"{tq:12.2f}")
 
     @classmethod

@@ -2,11 +2,9 @@
 from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.sarsa_agent import (
     SarsaAgent,
-    SarsaMemory,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.td_eval import (
     TdAgent,
-    TdMemory,
 )
 
 
@@ -29,8 +27,7 @@ def run_td_episode(env: GridWorld, agent: TdAgent) -> None:
     while True:
         action = agent.get_action(state=state)
         result = env.step(action=action)
-        memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
-        agent.add_memory(memory=memory)
+        agent.add_memory(state=state, _action=action, result=result)
         agent.update()
         if result.done:
             break
@@ -56,13 +53,11 @@ def run_sarsa_episode(env: GridWorld, agent: SarsaAgent) -> None:
     while True:
         action = agent.get_action(state=state)
         result = env.step(action=action)
-        memory = SarsaMemory(state=state, action=action, reward=result.reward, done=result.done)
-        agent.add_memory(memory=memory)
+        agent.add_memory(state=state, action=action, result=result)
         agent.update()
 
         if result.done:
-            memory = SarsaMemory(state=result.next_state, action=None, reward=None, done=None)
-            agent.add_memory(memory=memory)
+            agent.add_memory(state=state, action=action, result=result)
             agent.update()
             break
         state = result.next_state

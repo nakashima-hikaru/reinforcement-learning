@@ -17,6 +17,7 @@ These methods are essential for implementing and running reinforcement learning 
 from collections import defaultdict
 from collections.abc import Iterator
 from enum import IntEnum, unique
+from types import MappingProxyType
 from typing import Final, Self, TypeAlias, cast, final
 
 import numpy as np
@@ -96,6 +97,10 @@ class Action(IntEnum):
 Policy: TypeAlias = defaultdict[State, dict[Action, float]]
 StateValue: TypeAlias = defaultdict[State, float]
 ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
+
+PolicyView: TypeAlias = MappingProxyType[State, dict[Action, float]]
+StateValueView: TypeAlias = MappingProxyType[State, float]
+ActionValueView: TypeAlias = MappingProxyType[tuple[State, Action], float]
 
 
 @final

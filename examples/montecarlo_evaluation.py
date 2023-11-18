@@ -3,7 +3,6 @@ import logging
 import numpy as np
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
-from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McMemory
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import RandomAgent
 
 
@@ -26,8 +25,7 @@ def main() -> None:
         while True:
             action = agent.get_action(state=state)
             result = env.step(action=action)
-            memory = McMemory(state=state, action=action, reward=result.reward)
-            agent.add_memory(memory=memory)
+            agent.add_memory(state=state, action=action, result=result)
             if result.done:
                 break
 

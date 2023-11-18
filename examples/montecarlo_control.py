@@ -4,8 +4,9 @@ import numpy as np
 import tqdm
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
-from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McMemory
-from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import McAgent
+from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_control_on_policy import (
+    McOnPolicyAgent,
+)
 
 
 def main() -> None:
@@ -15,7 +16,7 @@ def main() -> None:
         dtype=np.float64,
     )
     env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
-    agent = McAgent(gamma=0.9, alpha=0.1, epsilon=0.1)
+    agent = McOnPolicyAgent(gamma=0.9, alpha=0.1, epsilon=0.1)
     n_episodes: int = 1000
     for _i_episode in tqdm.tqdm(range(n_episodes)):
         env.reset_agent_state()
@@ -24,8 +25,7 @@ def main() -> None:
         while True:
             action = agent.get_action(state=state)
             result = env.step(action=action)
-            memory = McMemory(state=state, action=action, reward=result.reward)
-            agent.add_memory(memory=memory)
+            agent.add_memory(state=state, action=action, result=result)
             if result.done:
                 agent.update()
                 break
