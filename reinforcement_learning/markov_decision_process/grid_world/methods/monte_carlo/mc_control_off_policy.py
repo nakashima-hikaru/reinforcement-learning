@@ -34,7 +34,7 @@ class McOffPolicyAgent(McAgentBase):
         self.__gamma: float = gamma
         self.__epsilon: float = epsilon
         self.__alpha: float = alpha
-        self.__pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
+        self.__evaluation_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
         self.__q: ActionValue = defaultdict(lambda: 0.0)
 
     def update(self: Self) -> None:
@@ -42,8 +42,9 @@ class McOffPolicyAgent(McAgentBase):
         g: float = 0.0
         rho: float = 1.0
         for memory in reversed(self._memories):
-            rho *= self.__pi[memory.state][memory.action] / self._b[memory.state][memory.action]
+            rho *= self.__evaluation_policy[memory.state][memory.action] / self._behavior_policy[memory.state][
+                memory.action]
             g = self.__gamma * g + memory.reward
             self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha * rho
-            self.__pi[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=0.0)
-            self._b[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)
+            self.__evaluation_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=0.0)
+            self._behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)

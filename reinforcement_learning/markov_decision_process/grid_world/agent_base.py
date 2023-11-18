@@ -13,12 +13,12 @@ class ActionSelector:
     def __init__(self: Self, *, seed: int) -> None:
         """Initialize the instance."""
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
-        self._b: Policy = defaultdict(lambda: RANDOM_ACTIONS)
+        self._behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @property
-    def b(self: Self) -> Policy:
+    def behavior(self: Self) -> Policy:
         """Return the action selector policy."""
-        return self._b
+        return self._behavior_policy
 
     @final
     def get_action(self: Self, *, state: State) -> Action:
@@ -32,6 +32,6 @@ class ActionSelector:
         -------
             the chosen action based on the action probabilities for the given state.
         """
-        action_probs = self._b[state]
+        action_probs = self._behavior_policy[state]
         probs = list(action_probs.values())
         return Action(self.__rng.choice(list(Action), p=probs))

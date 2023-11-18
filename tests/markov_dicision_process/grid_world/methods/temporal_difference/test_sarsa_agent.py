@@ -21,7 +21,7 @@ def test_sarsa() -> None:
     for _ in range(episodes):
         run_sarsa_episode(env=env, agent=agent)
 
-    assert agent.b == {
+    assert agent.behavior == {
         (0, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
         (0, 1): {Action.UP: 0.025, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.925},
         (0, 2): {Action.UP: 0.025, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.925},

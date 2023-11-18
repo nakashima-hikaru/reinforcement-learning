@@ -86,4 +86,6 @@ class SarsaAgent(ActionSelector):
         target = self._memories[0].reward + self.__gamma * next_q
         key = current_memory.state, current_memory.action
         self.__q[key] += (target - self.__q[key]) * self.__alpha
-        self._b[current_memory.state] = greedy_probs(q=self.__q, state=current_memory.state, epsilon=self.__epsilon)
+        self._behavior_policy[current_memory.state] = greedy_probs(
+            q=self.__q, state=current_memory.state, epsilon=self.__epsilon
+        )
