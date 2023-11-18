@@ -10,16 +10,16 @@ packages = [{include = "reinforcement_learning"}]
 python = "3.11.5"
 matplotlib = "^3.6.2"
 tqdm = "^4.64.1"
-coverage = "^7.3.2"
-numpy = "^1.26.1"
-pydantic = "^2.4.2"
+numpy = "^1.26.2"
+pydantic = "^2.5.1"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.2.0"
-ruff = "^0.1.3"
+coverage = "^7.3.2"
+pytest = "^7.4.3"
+ruff = "^0.1.6"
 taskipy = "^1.12.0"
-mypy = "^1.6.1"
+mypy = "^1.7.0"
 types-tqdm = "^4.66.0.3"
 setuptools = "^68.2.2"
 
@@ -30,6 +30,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.taskipy.tasks]
 format = "python -m ruff format ."
 test = "python -m pytest tests"
+coverage = "coverage run -m pytest tests && coverage report --omit=*/__init__.py"
 # lint
 lint_src = "python -m ruff check reinforcement_learning"
 lint_tests = "python -m ruff check tests"
@@ -42,4 +43,4 @@ mypy_tests = "python -m mypy tests"
 mypy_examples = "python -m mypy examples"
 mypy = "task mypy_src; task mypy_tests; task mypy_examples"
 
-all = "task format; task test; task lint; task mypy"
+all = "task format; task coverage; task fix_lint; task mypy"
