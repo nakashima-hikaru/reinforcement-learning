@@ -5,11 +5,13 @@ It's constructed with several parameters
 including gamma (decay factor), epsilon (for epsilon-greedy policy) and alpha (learning rate).
 """
 from collections import defaultdict
+from types import MappingProxyType
 from typing import Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
     ActionValue,
+    ActionValueView,
     Policy,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McAgentBase
@@ -37,14 +39,26 @@ class McOffPolicyAgent(McAgentBase):
         self.__evaluation_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
         self.__q: ActionValue = defaultdict(lambda: 0.0)
 
+    @property
+    def q(self: Self) -> ActionValueView:
+        """Get the current value of the action-value function.
+
+        Returns
+        -------
+            ActionValue: The instance's internal action-value function.
+        """
+        return MappingProxyType(self.__q)
+
     def update(self: Self) -> None:
         """Update the action-value function and policies in reinforcement learning."""
         g: float = 0.0
         rho: float = 1.0
-        for memory in reversed(self._memories):
-            rho *= self.__evaluation_policy[memory.state][memory.action] / self._behavior_policy[memory.state][
-                memory.action]
-            g = self.__gamma * g + memory.reward
-            self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha * rho
+        for memory in reversed(self.memories):
+            g = self.__gamma * g * rho + memory.reward
+            rho *= (
+                    self.__evaluation_policy[memory.state][memory.action]
+                    / self.behavior_policy[memory.state][memory.action]
+            )
+            self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha
             self.__evaluation_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=0.0)
-            self._behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)
+            self.behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)
