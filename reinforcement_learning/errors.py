@@ -1,5 +1,5 @@
 """Custom exception classes for numpy array validations."""
-from typing import Self
+from typing import Self, final
 
 
 class NumpyValidationError(Exception):
@@ -25,6 +25,7 @@ class NumpyValidationError(Exception):
         super().__init__(message)
 
 
+@final
 class NumpyDimError(NumpyValidationError):
     """NumpyDimError Class.
 
@@ -44,6 +45,7 @@ class NumpyDimError(NumpyValidationError):
         super().__init__(message=f"{self.expected_dim}-dim is expected, but {self.actual_dim}-dim is passed.")
 
 
+@final
 class NotInitializedError(Exception):
     """An Exception that is raised when an attribute is accessed before it has been initialized."""
 

@@ -6,7 +6,7 @@ The policy, named 'epsilon-greedy', randomly explores with epsilon probability,
 otherwise exploits its current knowledge.
 The agent's state and action-value estimations are updated based on the rewards received after choosing actions.
 """
-from typing import ClassVar, Final, Self
+from typing import ClassVar, Final, Self, final
 
 import numpy as np
 
@@ -15,6 +15,7 @@ from reinforcement_learning.markov_decision_process.bandit_problem.agents.base i
 SEED: Final[int] = 0
 
 
+@final
 class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
     """An agent for Epsilon-greedy exploration strategy for the multi-armed bandit problem."""
 

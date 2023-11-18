@@ -16,6 +16,7 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.monte_car
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
 
 
+@final
 class McOffPolicyAgent(McAgentBase):
     """A class that represents an agent that uses Monte Carlo Off-Policy learning."""
 
@@ -36,7 +37,6 @@ class McOffPolicyAgent(McAgentBase):
         self.__pi: Policy = defaultdict(lambda: RANDOM_ACTIONS)
         self.__q: ActionValue = defaultdict(lambda: 0.0)
 
-    @final
     def update(self: Self) -> None:
         """Update the action-value function and policies in reinforcement learning."""
         g: float = 0.0

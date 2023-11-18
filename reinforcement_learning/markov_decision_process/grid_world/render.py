@@ -2,7 +2,7 @@
 
 It relies on the Matplotlib library for visualization of the state values and Q-values of the grid world environment.
 """
-from typing import TYPE_CHECKING, Self, TypeAlias, cast
+from typing import TYPE_CHECKING, Self, TypeAlias, cast, final
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -27,6 +27,7 @@ if TYPE_CHECKING:
 RET: TypeAlias = dict[Action, tuple[tuple[float, float], tuple[float, float], tuple[float, float]]]
 
 
+@final
 class Renderer:
     """Class to render the grid world environment.
 

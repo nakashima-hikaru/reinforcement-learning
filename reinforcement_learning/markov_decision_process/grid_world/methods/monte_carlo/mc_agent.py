@@ -9,6 +9,7 @@ from reinforcement_learning.markov_decision_process.grid_world.agent_base import
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, State
 
 
+@final
 @dataclass
 class McMemory:
     """Memory class represents a memory of an agent in a grid world environment.

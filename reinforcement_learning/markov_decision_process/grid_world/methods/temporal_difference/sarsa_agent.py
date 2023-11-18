@@ -15,6 +15,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
 
 
+@final
 @dataclass
 class SarsaMemory:
     """The Memory class represents a piece of memory in a reinforcement learning algorithm.
@@ -33,6 +34,7 @@ class SarsaMemory:
     done: StrictBool | None
 
 
+@final
 class SarsaAgent(ActionSelector):
     """SARSA agent."""
 
@@ -50,7 +52,6 @@ class SarsaAgent(ActionSelector):
         """Return the Q values for each action in the current state."""
         return self.__q
 
-    @final
     def add_memory(self: Self, memory: SarsaMemory) -> None:
         """Append SarsaMemory object to the agent's memory.
 
@@ -60,12 +61,10 @@ class SarsaAgent(ActionSelector):
         """
         self._memories.append(memory)
 
-    @final
     def reset_memory(self: Self) -> None:
         """Reset the agent's memory."""
         self._memories.clear()
 
-    @final
     def update(self: Self) -> None:
         """Update the Q-values in the Sarsa agent."""
         if self._memories.maxlen is None:

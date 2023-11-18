@@ -35,6 +35,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 )
 
 
+@final
 @dataclass
 class TdMemory:
     """Memory class represents a single transition in a reinforcement learning environment.

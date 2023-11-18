@@ -17,7 +17,7 @@ These methods are essential for implementing and running reinforcement learning 
 from collections import defaultdict
 from collections.abc import Iterator
 from enum import IntEnum, unique
-from typing import Final, Self, TypeAlias, cast
+from typing import Final, Self, TypeAlias, cast, final
 
 import numpy as np
 import numpy.typing as npt
@@ -31,6 +31,7 @@ Map: TypeAlias = npt.NDArray[np.float64]
 MAP_DIM: Final[int] = 2
 
 
+@final
 @unique
 class Action(IntEnum):
     """The Action class represents the set of possible actions in a game or simulation.
@@ -97,6 +98,7 @@ StateValue: TypeAlias = defaultdict[State, float]
 ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
 
 
+@final
 @dataclass
 class ActionResult:
     """Represent the result of an action in the context of a reinforcement learning system.
@@ -121,6 +123,7 @@ RANDOM_ACTIONS: Final[dict[Action, float]] = {
 }
 
 
+@final
 class GridWorld:
     """Class representing a GridWorld environment."""
 

@@ -8,7 +8,7 @@ These changes in rates are dictated by a modification
 in the NonStationaryBandit's parent BanditBase class's _change_rates method,
 where Gaussian noise is added to the existing rates.
 """
-from typing import Self
+from typing import Self, final
 
 import numpy as np
 from numpy.typing import NDArray
@@ -16,6 +16,7 @@ from numpy.typing import NDArray
 from reinforcement_learning.markov_decision_process.bandit_problem.bandits.base import BanditBase
 
 
+@final
 class NonStationaryBandit(BanditBase):
     """A class representing a non-stationary bandit problem."""
 

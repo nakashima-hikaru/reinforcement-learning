@@ -2,11 +2,12 @@
 
 The agent employs an epsilon-greedy strategy (with a step-size) to balance exploration and exploitation, and it uses a constant learning rate 'alpha' for value estimation updates.
 """
-from typing import Self
+from typing import Self, final
 
 from reinforcement_learning.markov_decision_process.bandit_problem.agents.base import EpsilonGreedyAgentBase
 
 
+@final
 class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
     """Implement an Alpha Epsilon Greedy Agent for multi-armed bandit problems."""
 

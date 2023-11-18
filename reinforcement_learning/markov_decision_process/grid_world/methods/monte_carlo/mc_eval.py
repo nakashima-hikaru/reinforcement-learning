@@ -85,6 +85,7 @@ def greedy_probs(
     return action_probs
 
 
+@final
 class McAgent(McAgentBase):
     """The McAgent class implements a reinforcement learning agent using Monte Carlo methods."""
 
@@ -115,7 +116,6 @@ class McAgent(McAgentBase):
         """
         return self.__q
 
-    @final
     def update(self: Self) -> None:
         """Compute the epsilon-greedy action probabilities for the given state.
 
