@@ -2,8 +2,9 @@
 
 This project is a modern rewrite of
 the [deep-learning-from-scratch-4](https://github.com/oreilly-japan/deep-learning-from-scratch-4), focusing on
-implementing reinforcement learning algorithms using contemporary Python development practices. I created this project
-for my personal journey to understand reinforcement learning in-depth.
+implementing reinforcement learning algorithms using contemporary Python development practices. The design has been
+carefully crafted to incorporate object-oriented principles such as encapsulation and implementation of interfaces. This
+project was created as part of my personal journey to understand reinforcement learning in-depth.
 
 ## Technologies Used
 
