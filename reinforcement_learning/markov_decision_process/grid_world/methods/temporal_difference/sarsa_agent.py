@@ -60,7 +60,7 @@ class SarsaAgent(AgentBase):
         """
         return MappingProxyType(self.__q)
 
-    def add_memory(self: Self, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory."""
         memory = SarsaMemory(state=state, action=action, reward=result.reward, done=result.done)
         self._memories.append(memory)

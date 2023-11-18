@@ -82,7 +82,7 @@ class TdAgent(AgentBase, ABC):
         return MappingProxyType(self.__v)
 
     @final
-    def add_memory(self: Self, state: State, _action: Action, result: ActionResult) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:  # noqa: ARG002
         """Add a new experience into the memory."""
         memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
         self.__memory = memory

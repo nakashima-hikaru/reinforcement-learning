@@ -27,7 +27,7 @@ def run_td_episode(env: GridWorld, agent: TdAgent) -> None:
     while True:
         action = agent.get_action(state=state)
         result = env.step(action=action)
-        agent.add_memory(state=state, _action=action, result=result)
+        agent.add_memory(state=state, action=action, result=result)
         agent.update()
         if result.done:
             break

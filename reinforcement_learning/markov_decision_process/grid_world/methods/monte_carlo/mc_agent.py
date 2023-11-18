@@ -45,7 +45,7 @@ class McAgentBase(AgentBase, ABC):
         return tuple(self.__memories)
 
     @final
-    def add_memory(self: Self, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory."""
         memory = McMemory(state=state, action=action, reward=result.reward)
         self.__memories.append(memory)

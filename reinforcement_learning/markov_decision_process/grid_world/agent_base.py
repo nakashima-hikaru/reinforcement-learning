@@ -76,7 +76,7 @@ class AgentBase(ABC):
         return self.__action_selector.get_action(state=state)
 
     @abstractmethod
-    def add_memory(self: Self, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:

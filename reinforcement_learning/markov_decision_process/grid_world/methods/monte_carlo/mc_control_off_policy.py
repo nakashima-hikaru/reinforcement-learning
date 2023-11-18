@@ -27,10 +27,10 @@ class McOffPolicyAgent(McAgentBase):
 
         Args:
         ----
-            gamma (float): Decay factor, should be a positive real number less than or equal to 1.
-            epsilon (float): Epsilon for epsilon-greedy policy, should be a positive real number less than or equal to 1.
-            alpha (float): Learning rate, should be a positive real number less than or equal to 1.
-            seed (int): Seed for action selector.
+            gamma: Decay factor, should be a positive real number less than or equal to 1.
+            epsilon: Epsilon for epsilon-greedy policy, should be a positive real number less than or equal to 1.
+            alpha: Learning rate, should be a positive real number less than or equal to 1.
+            seed: Seed for action selector.
         """
         super().__init__(seed=seed)
         self.__gamma: float = gamma
