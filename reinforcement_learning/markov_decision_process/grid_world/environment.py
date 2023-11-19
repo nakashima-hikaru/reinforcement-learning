@@ -133,10 +133,10 @@ class GridWorld:
     """Class representing a GridWorld environment."""
 
     def __init__(
-            self: Self,
-            reward_map: Map,
-            goal_state: State,
-            start_state: State,
+        self: Self,
+        reward_map: Map,
+        goal_state: State,
+        start_state: State,
     ) -> None:
         """Initialize a GridWorld object with the given reward map, goal state, and start state.
 
@@ -275,7 +275,7 @@ class GridWorld:
         self.__agent_state = self.__start_state
 
     def render_v(
-            self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
+        self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
     ) -> None:
         """Render the visual representation of the state values and policy.
 

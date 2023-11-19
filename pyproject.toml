@@ -38,7 +38,7 @@ lint_examples = "python -m ruff check examples"
 lint = "task lint_src; task lint_tests; task lint_examples"
 fix_lint = "task lint_src --fix; task lint_tests --fix; task lint_examples --fix"
 # mypy
-mypy_src = "python -m mypy reinforcement_learning --html-report temp"
+mypy_src = "python -m mypy reinforcement_learning"
 mypy_tests = "python -m mypy tests"
 mypy_examples = "python -m mypy examples"
 mypy = "task mypy_src; task mypy_tests; task mypy_examples"

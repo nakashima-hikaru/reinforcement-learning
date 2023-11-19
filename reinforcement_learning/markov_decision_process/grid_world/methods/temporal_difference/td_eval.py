@@ -61,14 +61,14 @@ class TdMemory:
 class TdAgent(AgentBase, ABC):
     """Represent a Temporal Difference (TD) Agent for reinforcement learning."""
 
-    def __init__(self: Self, *, gamma: float, alpha: float, seed: int = 0) -> None:
+    def __init__(self: Self, *, gamma: float, alpha: float, seed: int | None = None) -> None:
         """Initialize the reinforcement learning object.
 
         Args:
         ----
-            gamma (float): Discount factor for future rewards.
-            alpha (float): Learning rate for updating the state values.
-            seed (int, optional): Seed used for random number generation. Defaults to 0.
+            gamma: Discount factor for future rewards.
+            alpha: Learning rate for updating the state values.
+            seed: Seed used for random number generation. Defaults to 0.
         """
         super().__init__(seed=seed)
         self.__gamma: float = gamma

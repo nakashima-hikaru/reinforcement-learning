@@ -18,7 +18,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 class ActionSelector:
     """The interface for agent class."""
 
-    def __init__(self: Self, *, seed: int) -> None:
+    def __init__(self: Self, *, seed: int | None) -> None:
         """Initialize the instance."""
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
         self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
@@ -47,7 +47,7 @@ class ActionSelector:
 class AgentBase(ABC):
     """Abstract base class for reinforcement learning agents."""
 
-    def __init__(self: Self, *, seed: int) -> None:
+    def __init__(self: Self, *, seed: int | None) -> None:
         """Initialize the AgentBase with the given seed.
 
         Args:

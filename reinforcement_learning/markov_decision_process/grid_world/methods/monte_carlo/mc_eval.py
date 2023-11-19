@@ -24,7 +24,7 @@ from reinforcement_learning.util import argmax
 class RandomAgent(McAgentBase):
     """An agent that makes decisions using a randomized policy, and learns from its experiences."""
 
-    def __init__(self: Self, *, gamma: float, seed: int = 0) -> None:
+    def __init__(self: Self, *, gamma: float, seed: int | None = None) -> None:
         """Initialize the instance of the RandomAgent class.
 
         Args:

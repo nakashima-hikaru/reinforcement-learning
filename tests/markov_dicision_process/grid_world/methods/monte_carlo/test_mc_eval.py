@@ -13,7 +13,7 @@ def test_mc_eval() -> None:
         dtype=np.float64,
     )
     env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
-    agent = RandomAgent(gamma=0.9)
+    agent = RandomAgent(gamma=0.9, seed=0)
     for _ in range(2):
         run_monte_carlo_episode(env=env, agent=agent)
 

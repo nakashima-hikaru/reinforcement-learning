@@ -15,7 +15,7 @@ def test_mc_control_on_policy() -> None:
         dtype=np.float64,
     )
     env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
-    agent = McOnPolicyAgent(gamma=0.9, epsilon=0.1, alpha=0.1)
+    agent = McOnPolicyAgent(gamma=0.9, epsilon=0.1, alpha=0.1, seed=0)
     for _ in range(2):
         run_monte_carlo_episode(env=env, agent=agent)
 

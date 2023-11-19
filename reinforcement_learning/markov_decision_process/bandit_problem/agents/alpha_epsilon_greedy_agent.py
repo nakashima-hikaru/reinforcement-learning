@@ -11,16 +11,17 @@ from reinforcement_learning.markov_decision_process.bandit_problem.agents.base i
 class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
     """Implement an Alpha Epsilon Greedy Agent for multi-armed bandit problems."""
 
-    def __init__(self: Self, *, epsilon: float, action_size: int, alpha: float) -> None:
+    def __init__(self: Self, *, epsilon: float, action_size: int, alpha: float, seed: int | None = None) -> None:
         """Initialize AlphaEpsilonGreedyAgent.
 
         Args:
         ----
-            epsilon (float): The value of epsilon for epsilon-greedy action selection.
-            action_size (int): The number of possible actions.
-            alpha (float): The learning rate for updating action values.
+            epsilon: The value of epsilon for epsilon-greedy action selection.
+            action_size: The number of possible actions.
+            alpha: The learning rate for updating action values.
+            seed: The seed value for random number generation. Must be an integer or None.
         """
-        super().__init__(epsilon, action_size)
+        super().__init__(epsilon=epsilon, action_size=action_size, seed=seed)
         self.alpha: float = alpha
 
     def update(self: Self, i_action: int, reward: float) -> None:

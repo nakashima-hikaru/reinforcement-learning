@@ -20,15 +20,15 @@ from reinforcement_learning.markov_decision_process.bandit_problem.bandits.base 
 class NonStationaryBandit(BanditBase):
     """A class representing a non-stationary bandit problem."""
 
-    def __init__(self: Self, *, n_arms: int) -> None:
+    def __init__(self: Self, *, n_arms: int, seed: int | None = None) -> None:
         """Initialize NonStationaryBandit.
 
         Args:
         ----
             n_arms: An integer representing the number of arms in the stationary bandit problem.
-
+            seed: An optional seed value for random number generation.
         """
-        super().__init__(n_arms=n_arms)
+        super().__init__(n_arms=n_arms, seed=seed)
 
     def _change_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
         return rates + 0.1 * self._rng.standard_normal(size=self._n_arms)

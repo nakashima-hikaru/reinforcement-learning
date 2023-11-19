@@ -2,9 +2,9 @@
 
 It relies on the Matplotlib library for visualization of the state values and Q-values of the grid world environment.
 """
+import math
 from typing import TYPE_CHECKING, Final, Self, TypeAlias, final
 
-import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -96,7 +96,7 @@ class Renderer:
         ax.grid(visible=True)
 
     def render_v(
-            self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
+        self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
     ) -> None:
         """Render the state values of the grid world environment.
 
@@ -164,7 +164,7 @@ class Renderer:
         self.ax.pcolormesh(np.flipud(v_array), cmap=cmap, vmin=vmin, vmax=vmax)
 
     def render_annotations(
-            self: Self, *, v_array: npt.NDArray[np.float64], policy: Policy | None, print_value: bool
+        self: Self, *, v_array: npt.NDArray[np.float64], policy: Policy | None, print_value: bool
     ) -> None:
         """Render the annotations for the grid world environment.
 

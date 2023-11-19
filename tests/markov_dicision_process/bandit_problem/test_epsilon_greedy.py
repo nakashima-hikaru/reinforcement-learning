@@ -13,8 +13,8 @@ def test_epsilon_greedy_stationary() -> None:
     steps = 1000
     epsilon = 0.1
     n_arms = 10
-    bandit = StationaryBandit(n_arms=n_arms)
-    agent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms)
+    bandit = StationaryBandit(n_arms=n_arms, seed=0)
+    agent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, seed=0)
     total_rewards, _rates = simulate(steps=steps, bandit=bandit, agent=agent)
     expected = 887.0
     assert total_rewards[-1] == expected
@@ -24,10 +24,10 @@ def test_epsilon_greedy_non_stationary() -> None:
     steps = 1000
     epsilon = 0.1
     n_arms = 10
-    bandit = NonStationaryBandit(n_arms=n_arms)
-    agent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms)
+    bandit = NonStationaryBandit(n_arms=n_arms, seed=0)
+    agent = EpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, seed=0)
     total_rewards, _rates = simulate(steps=steps, bandit=bandit, agent=agent)
-    expected = 854.0
+    expected = 674.0
     assert total_rewards[-1] == expected
 
 
@@ -35,10 +35,10 @@ def test_alpha_epsilon_greedy_stationary() -> None:
     steps = 1000
     epsilon = 0.1
     n_arms = 10
-    bandit = StationaryBandit(n_arms=n_arms)
-    agent = AlphaEpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, alpha=0.1)
+    bandit = StationaryBandit(n_arms=n_arms, seed=0)
+    agent = AlphaEpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, alpha=0.1, seed=0)
     total_rewards, _rates = simulate(steps=steps, bandit=bandit, agent=agent)
-    expected = 861.0
+    expected = 740.0
     assert total_rewards[-1] == expected
 
 
@@ -46,8 +46,8 @@ def test_alpha_epsilon_greedy_non_stationary() -> None:
     steps = 1000
     epsilon = 0.1
     n_arms = 10
-    bandit = NonStationaryBandit(n_arms=n_arms)
-    agent = AlphaEpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, alpha=0.1)
+    bandit = NonStationaryBandit(n_arms=n_arms, seed=0)
+    agent = AlphaEpsilonGreedyAgent(epsilon=epsilon, action_size=n_arms, alpha=0.1, seed=0)
     total_rewards, _rates = simulate(steps=steps, bandit=bandit, agent=agent)
-    expected = 873.0
+    expected = 800.0
     assert total_rewards[-1] == expected

@@ -7,7 +7,7 @@ An important concept in bandit algorithms is that of 'arms'
 which refer to the options or decisions that the agent can make.
 """
 from abc import ABC, abstractmethod
-from typing import ClassVar, Final, Self, cast
+from typing import Final, Self, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -18,17 +18,17 @@ SEED: Final[int] = 0
 class BanditBase(ABC):
     """Abstract base class for implementing bandit algorithms."""
 
-    _rng: ClassVar[np.random.Generator] = np.random.default_rng(seed=SEED)
-
-    def __init__(self: Self, *, n_arms: int) -> None:
+    def __init__(self: Self, *, n_arms: int, seed: int | None = None) -> None:
         """Initialize BanditBase.
 
         Args:
         ----
             n_arms: The number of arms in the bandit.
+            seed: An optional seed value for random number generation.
 
         """
         self._n_arms: int = n_arms
+        self._rng: np.random.Generator = np.random.default_rng(seed=seed)
         self.rates: NDArray[np.float64] = self._rng.random(n_arms)
 
     @abstractmethod

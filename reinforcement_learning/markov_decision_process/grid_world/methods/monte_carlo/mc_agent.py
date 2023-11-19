@@ -29,7 +29,7 @@ class McMemory:
 class McAgentBase(AgentBase, ABC):
     """A base class for reinforcement learning agents using Monte Carlo methods."""
 
-    def __init__(self: Self, *, seed: int) -> None:
+    def __init__(self: Self, *, seed: int | None) -> None:
         """Initialize the instance."""
         super().__init__(seed=seed)
         self.__memories: list[McMemory] = []

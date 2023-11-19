@@ -22,7 +22,7 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.monte_car
 class McOffPolicyAgent(McAgentBase):
     """A class that represents an agent that uses Monte Carlo Off-Policy learning."""
 
-    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int = 0) -> None:
+    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int | None = None) -> None:
         """Initialize the instance with the provided parameters.
 
         Args:
@@ -56,8 +56,8 @@ class McOffPolicyAgent(McAgentBase):
         for memory in reversed(self.memories):
             g = self.__gamma * g * rho + memory.reward
             rho *= (
-                    self.__evaluation_policy[memory.state][memory.action]
-                    / self.behavior_policy[memory.state][memory.action]
+                self.__evaluation_policy[memory.state][memory.action]
+                / self.behavior_policy[memory.state][memory.action]
             )
             self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha
             self.__evaluation_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=0.0)

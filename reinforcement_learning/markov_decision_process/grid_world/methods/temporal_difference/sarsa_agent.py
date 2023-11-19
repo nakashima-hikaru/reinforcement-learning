@@ -41,7 +41,7 @@ class SarsaMemory:
 class SarsaAgent(AgentBase):
     """SARSA agent."""
 
-    def __init__(self: Self, *, seed: int = 0) -> None:
+    def __init__(self: Self, *, seed: int | None = None) -> None:
         """Initialize an instance of the SarsaAgent class."""
         super().__init__(seed=seed)
         self.__gamma: float = 0.9

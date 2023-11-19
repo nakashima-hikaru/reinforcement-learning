@@ -6,12 +6,10 @@ The class includes essential methods that each epsilon-greedy agent should imple
 estimation and 'get_action' to get the next action following the epsilon-greedy policy.
 """
 from abc import ABC, abstractmethod
-from typing import ClassVar, Final, Self
+from typing import Self
 
 import numpy as np
 import numpy.typing as npt
-
-SEED: Final[int] = 0
 
 
 class EpsilonGreedyAgentBase(ABC):
@@ -21,23 +19,23 @@ class EpsilonGreedyAgentBase(ABC):
     which is an exploration-exploitation algorithm commonly used in Reinforcement Learning.
     """
 
-    _rng: ClassVar[np.random.Generator] = np.random.default_rng(seed=SEED)
-
-    def __init__(self: Self, epsilon: float, action_size: int) -> None:
+    def __init__(self: Self, *, epsilon: float, action_size: int, seed: int | None) -> None:
         """Initialize EpsilonGreedyAgentBase.
 
         Args:
         ----
-            epsilon (float): The value of the exploration rate. Must be between 0 and 1, inclusive.
-            action_size (int): The number of possible actions.
+            epsilon: The value of the exploration rate. Must be between 0 and 1, inclusive.
+            action_size: The number of possible actions.
+            seed: An optional seed value for random number generation.
 
         """
         self._epsilon: float = epsilon
         self._qs: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
         self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
+        self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
 
     @abstractmethod
-    def update(self: Self, i_action: int, reward: float) -> None:
+    def update(self: Self, *, i_action: int, reward: float) -> None:
         """Update the agent's internal state based on the given action and reward.
 
         Args:
@@ -49,6 +47,6 @@ class EpsilonGreedyAgentBase(ABC):
 
     def get_action(self: Self) -> int:
         """Determine an action according to its policy."""
-        if self._rng.random() < self._epsilon:
-            return int(self._rng.integers(0, len(self._qs)))
+        if self.__rng.random() < self._epsilon:
+            return int(self.__rng.integers(0, len(self._qs)))
         return int(np.argmax(self._qs))

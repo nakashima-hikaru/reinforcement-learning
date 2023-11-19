@@ -17,7 +17,7 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.monte_car
 class McOnPolicyAgent(McAgentBase):
     """The McAgent class implements a reinforcement learning agent using Monte Carlo methods."""
 
-    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int = 0) -> None:
+    def __init__(self: Self, *, gamma: float, epsilon: float, alpha: float, seed: int | None = None) -> None:
         """Initialize a reinforcement learning agent with given parameters.
 
         Args:
