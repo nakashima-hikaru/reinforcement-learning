@@ -15,13 +15,14 @@ pydantic = "^2.5.1"
 
 
 [tool.poetry.group.dev.dependencies]
-coverage = "^7.3.2"
 pytest = "^7.4.3"
 ruff = "^0.1.6"
 taskipy = "^1.12.0"
 mypy = "^1.7.0"
 types-tqdm = "^4.66.0.3"
 setuptools = "^68.2.2"
+pytest-cov = "^4.1.0"
+pre-commit = "^3.5.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -29,8 +30,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 format = "python -m ruff format ."
-test = "python -m pytest tests"
-coverage = "coverage run -m pytest tests && coverage report --omit=*/__init__.py"
+test = "python -m pytest -v --cov --cov-branch --no-cov-on-fail --cov-report=html"
 # lint
 lint_src = "python -m ruff check reinforcement_learning"
 lint_tests = "python -m ruff check tests"
@@ -38,9 +38,9 @@ lint_examples = "python -m ruff check examples"
 lint = "task lint_src; task lint_tests; task lint_examples"
 fix_lint = "task lint_src --fix; task lint_tests --fix; task lint_examples --fix"
 # mypy
-mypy_src = "python -m mypy reinforcement_learning"
+mypy_src = "python -m mypy reinforcement_learning --html-report temp"
 mypy_tests = "python -m mypy tests"
 mypy_examples = "python -m mypy examples"
 mypy = "task mypy_src; task mypy_tests; task mypy_examples"
 
-all = "task format; task coverage; task fix_lint; task mypy"
+all = "task format; task test; task fix_lint; task mypy"
