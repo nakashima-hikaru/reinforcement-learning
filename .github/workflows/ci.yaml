@@ -23,10 +23,10 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Mypy
-        run: task mypy
+        run: poetry run task mypy
       - name: Ruff
         run: |
-          task lint
+          poetry run task lint
       - name: pytest coverage
         run: |
           poetry run pytest --cov --junitxml=pytest.xml --cov-report=term-missing:skip-covered
