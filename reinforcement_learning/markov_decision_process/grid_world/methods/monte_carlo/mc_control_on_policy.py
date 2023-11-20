@@ -6,11 +6,14 @@ on action-value estimates.
 """
 from collections import defaultdict
 from types import MappingProxyType
-from typing import Self, final
+from typing import TYPE_CHECKING, Self, final
 
-from reinforcement_learning.markov_decision_process.grid_world.environment import ActionValue, ActionValueView
+from reinforcement_learning.markov_decision_process.grid_world.environment import ActionValueView
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McAgentBase
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
+
+if TYPE_CHECKING:
+    from reinforcement_learning.markov_decision_process.grid_world.environment import ActionValue
 
 
 @final

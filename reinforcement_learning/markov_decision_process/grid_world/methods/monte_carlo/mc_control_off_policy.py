@@ -6,16 +6,20 @@ including gamma (decay factor), epsilon (for epsilon-greedy policy) and alpha (l
 """
 from collections import defaultdict
 from types import MappingProxyType
-from typing import Self, final
+from typing import TYPE_CHECKING, Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
-    ActionValue,
     ActionValueView,
-    Policy,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McAgentBase
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
+
+if TYPE_CHECKING:
+    from reinforcement_learning.markov_decision_process.grid_world.environment import (
+        ActionValue,
+        Policy,
+    )
 
 
 @final

@@ -6,10 +6,12 @@ The class includes essential methods that each epsilon-greedy agent should imple
 estimation and 'get_action' to get the next action following the epsilon-greedy policy.
 """
 from abc import ABC, abstractmethod
-from typing import Self
+from typing import TYPE_CHECKING, Self
 
 import numpy as np
-import numpy.typing as npt
+
+if TYPE_CHECKING:
+    import numpy.typing as npt
 
 
 class EpsilonGreedyAgentBase(ABC):

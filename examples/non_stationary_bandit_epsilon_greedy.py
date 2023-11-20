@@ -1,6 +1,7 @@
+from typing import TYPE_CHECKING
+
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy.typing as npt
 
 from reinforcement_learning.markov_decision_process.bandit_problem.agents.alpha_epsilon_greedy_agent import (
     AlphaEpsilonGreedyAgent,
@@ -10,6 +11,9 @@ from reinforcement_learning.markov_decision_process.bandit_problem.bandits.non_s
     NonStationaryBandit,
 )
 from reinforcement_learning.markov_decision_process.bandit_problem.simulator import simulate
+
+if TYPE_CHECKING:
+    import numpy.typing as npt
 
 
 def main() -> None:

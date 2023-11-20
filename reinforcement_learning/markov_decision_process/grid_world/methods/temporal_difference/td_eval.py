@@ -24,7 +24,7 @@ from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import Self, final
+from typing import TYPE_CHECKING, Self, final
 
 from pydantic import StrictBool, StrictFloat
 
@@ -34,9 +34,13 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
     Action,
     ActionResult,
     State,
-    StateValue,
     StateValueView,
 )
+
+if TYPE_CHECKING:
+    from reinforcement_learning.markov_decision_process.grid_world.environment import (
+        StateValue,
+    )
 
 
 @final

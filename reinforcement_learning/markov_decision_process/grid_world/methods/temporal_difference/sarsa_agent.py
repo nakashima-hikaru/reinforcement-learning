@@ -1,7 +1,7 @@
 """Sarsa agent."""
 from collections import defaultdict, deque
 from types import MappingProxyType
-from typing import Final, Self, final
+from typing import TYPE_CHECKING, Final, Self, final
 
 from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
@@ -11,12 +11,16 @@ from reinforcement_learning.markov_decision_process.grid_world.agent_base import
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
     ActionResult,
-    ActionValue,
     ActionValueView,
     PolicyView,
     State,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
+
+if TYPE_CHECKING:
+    from reinforcement_learning.markov_decision_process.grid_world.environment import (
+        ActionValue,
+    )
 
 
 @final
