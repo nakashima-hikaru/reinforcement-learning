@@ -1,6 +1,7 @@
 ![CI](https://github.com/nakashima-hikaru/reinforcement-learning/actions/workflows/ci.yaml/badge.svg)
 [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/nakashima-hikaru/39e7ad55fb0943a43d055782915a2024/raw/pytest-coverage-comment.json)](https://github.com/nakashima-hikaru/reinforcement-learning/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 # Reinforcement Learning Project
 
 This project is a modern rewrite of
