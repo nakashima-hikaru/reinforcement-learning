@@ -21,25 +21,20 @@ class ActionSelector:
     def __init__(self: Self, *, seed: int | None) -> None:
         """Initialize the instance."""
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
-        self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
-    @property
-    def behavior_policy(self: Self) -> Policy:
-        """Return the action selector policy."""
-        return self.__behavior_policy
-
-    def get_action(self: Self, *, state: State) -> Action:
+    def get_action(self: Self, *, state: State, policy: Policy) -> Action:
         """Select an action based on policy `self.__b`.
 
         Args:
         ----
-            state (State): the state of the environment.
+            state: the state of the environment.
+            policy: the policy of the agent.
 
         Returns:
         -------
             the chosen action based on the action probabilities for the given state.
         """
-        action_probs = self.__behavior_policy[state]
+        action_probs = policy[state]
         probs = list(action_probs.values())
         return Action(self.__rng.choice(list(Action), p=probs))
 
@@ -55,11 +50,7 @@ class AgentBase(ABC):
             seed (int): The seed value for random number generation.
         """
         self.__action_selector: ActionSelector = ActionSelector(seed=seed)
-
-    @property
-    def behavior_policy(self: Self) -> Policy:
-        """Return the action selector policy."""
-        return self.__action_selector.behavior_policy
+        self._behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @final
     def get_action(self: Self, *, state: State) -> Action:
@@ -73,17 +64,17 @@ class AgentBase(ABC):
         -------
             the chosen action based on the action probabilities for the given state.
         """
-        return self.__action_selector.get_action(state=state)
+        return self.__action_selector.get_action(state=state, policy=self._behavior_policy)
 
     @abstractmethod
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
         """Add a new experience into the memory.
 
         Args:
         ----
-            state (State): The current state of the agent.
-            action (Action): The action taken by the agent.
-            result (ActionResult): The result of the action taken by the agent.
+            state: The current state of the agent.
+            action: The action taken by the agent.
+            result: The result of the action taken by the agent.
         """
 
     @abstractmethod

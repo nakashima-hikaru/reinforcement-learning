@@ -28,7 +28,7 @@ from typing import Self, final
 
 from pydantic import StrictBool, StrictFloat
 
-from reinforcement_learning.errors import NotInitializedError
+from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
@@ -40,7 +40,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 
 
 @final
-@dataclass
+@dataclass(frozen=True)
 class TdMemory:
     """Memory class represents a single transition in a reinforcement learning environment.
 
@@ -82,8 +82,12 @@ class TdAgent(AgentBase, ABC):
         return MappingProxyType(self.__v)
 
     @final
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:  # noqa: ARG002
+    def add_memory(self: Self, *, state: State, action: Action | None,
+                   result: ActionResult | None) -> None:  # noqa: ARG002
         """Add a new experience into the memory."""
+        if result is None:
+            message = "result must not be None"
+            raise InvalidMemoryError(message)
         memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
         self.__memory = memory
 

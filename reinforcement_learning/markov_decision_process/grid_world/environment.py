@@ -55,23 +55,13 @@ class Action(IntEnum):
                 ret = "Action.DOWN"
             case Action.LEFT:
                 ret = "Action.LEFT"
-            case Action.RIGHT:
+            case _:
                 ret = "Action.RIGHT"
         return ret
 
     def __repr__(self: Self) -> str:
         """Return a string representation of the Action enumeration value."""
-        ret: str
-        match self:
-            case Action.UP:
-                ret = "Action.UP"
-            case Action.DOWN:
-                ret = "Action.DOWN"
-            case Action.LEFT:
-                ret = "Action.LEFT"
-            case Action.RIGHT:
-                ret = "Action.RIGHT"
-        return ret
+        return f"Action.{self.name}"
 
     @property
     def direction(self: Self) -> State:
@@ -89,7 +79,7 @@ class Action(IntEnum):
                 ret = 1, 0
             case Action.LEFT:
                 ret = 0, -1
-            case Action.RIGHT:
+            case _:
                 ret = 0, 1
         return ret
 
@@ -104,7 +94,7 @@ ActionValueView: TypeAlias = MappingProxyType[tuple[State, Action], float]
 
 
 @final
-@dataclass
+@dataclass(frozen=True)
 class ActionResult:
     """Represent the result of an action in the context of a reinforcement learning system.
 
@@ -163,8 +153,8 @@ class GridWorld:
             return se
 
         self.__wall_states: frozenset[State] = frozenset(collect_walls(reward_map))
-        self.__goal_state: State = goal_state
-        self.__start_state: State = start_state
+        self.__goal_state: Final[State] = goal_state
+        self.__start_state: Final[State] = start_state
         self.__agent_state: State = self.__start_state
 
     @property
@@ -273,36 +263,3 @@ class GridWorld:
     def reset_agent_state(self: Self) -> None:
         """Reset the agent's state to the start state."""
         self.__agent_state = self.__start_state
-
-    def render_v(
-        self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
-    ) -> None:
-        """Render the visual representation of the state values and policy.
-
-        Args:
-        ----
-            v: Optional argument representing the state values. If provided, it should be of type StateValue.
-            policy: Optional argument representing the policy. If provided, it should be of type Policy.
-            print_value: Optional boolean argument indicating whether to print the state values. Default is True.
-        """
-        from reinforcement_learning.markov_decision_process.grid_world import render as render_helper
-
-        renderer = render_helper.Renderer(
-            reward_map=self.__reward_map, goal_state=self.__goal_state, wall_states=self.__wall_states
-        )
-        renderer.render_v(v=v, policy=policy, print_value=print_value)
-
-    def render_q(self: Self, *, q: ActionValue, print_value: bool = True) -> None:
-        """Render the Q-values of a GridWorld object.
-
-        Args:
-        ----
-            q (ActionValue | None): The Q-values to render. Default is None.
-            print_value (bool): Whether to print the values or not. Default is True.
-        """
-        from reinforcement_learning.markov_decision_process.grid_world import render as render_helper
-
-        renderer = render_helper.Renderer(
-            reward_map=self.__reward_map, goal_state=self.__goal_state, wall_states=self.__wall_states
-        )
-        renderer.render_q(q=q, show_greedy_policy=print_value)

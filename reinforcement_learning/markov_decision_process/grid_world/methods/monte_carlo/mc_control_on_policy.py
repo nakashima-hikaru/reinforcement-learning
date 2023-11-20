@@ -57,4 +57,4 @@ class McOnPolicyAgent(McAgentBase):
         for memory in reversed(self.memories):
             g = self.__gamma * g + memory.reward
             self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha
-            self.behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)
+            self._behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)

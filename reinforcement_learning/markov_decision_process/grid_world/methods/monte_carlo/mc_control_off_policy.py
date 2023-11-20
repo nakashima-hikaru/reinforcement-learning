@@ -57,8 +57,8 @@ class McOffPolicyAgent(McAgentBase):
             g = self.__gamma * g * rho + memory.reward
             rho *= (
                 self.__evaluation_policy[memory.state][memory.action]
-                / self.behavior_policy[memory.state][memory.action]
+                / self._behavior_policy[memory.state][memory.action]
             )
             self.__q[memory.state, memory.action] += (g - self.__q[memory.state, memory.action]) * self.__alpha
             self.__evaluation_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=0.0)
-            self.behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)
+            self._behavior_policy[memory.state] = greedy_probs(q=self.__q, state=memory.state, epsilon=self.__epsilon)

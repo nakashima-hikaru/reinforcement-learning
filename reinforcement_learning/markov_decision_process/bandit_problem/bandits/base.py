@@ -32,8 +32,13 @@ class BanditBase(ABC):
         self.rates: NDArray[np.float64] = self._rng.random(n_arms)
 
     @abstractmethod
-    def _change_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
-        pass
+    def _next_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
+        """Return next rates.
+
+        Args:
+        ----
+            rates: An NDArray containing rates of a bandit machine.
+        """
 
     def play(self: Self, *, i_arm: int) -> float:
         """Play a single round of the bandit game.
@@ -47,7 +52,7 @@ class BanditBase(ABC):
             A float indicating the reward obtained from playing the arm.
         """
         rate: np.float64 = cast(np.float64, self.rates[i_arm])
-        self.rates = self._change_rates(rates=self.rates)
+        self.rates = self._next_rates(rates=self.rates)
         if rate > float(self._rng.random()):
             return 1.0
         return 0.0

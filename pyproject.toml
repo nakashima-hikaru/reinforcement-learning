@@ -23,6 +23,7 @@ types-tqdm = "^4.66.0.3"
 setuptools = "^68.2.2"
 pytest-cov = "^4.1.0"
 pre-commit = "^3.5.0"
+pytest-mock = "^3.12.0"
 
 [build-system]
 requires = ["poetry-core"]

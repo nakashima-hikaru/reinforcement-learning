@@ -57,7 +57,7 @@ def run_sarsa_episode(env: GridWorld, agent: SarsaAgent) -> None:
         agent.update()
 
         if result.done:
-            agent.add_memory(state=state, action=action, result=result)
+            agent.add_memory(state=state, action=None, result=None)
             agent.update()
             break
         state = result.next_state

@@ -5,12 +5,13 @@ from typing import Self, final
 from pydantic import StrictFloat
 from pydantic.dataclasses import dataclass
 
+from reinforcement_learning.errors import InvalidMemoryError
 from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld, State
 
 
 @final
-@dataclass
+@dataclass(frozen=True)
 class McMemory:
     """Memory class represents a memory of an agent in a grid world environment.
 
@@ -45,8 +46,16 @@ class McAgentBase(AgentBase, ABC):
         return tuple(self.__memories)
 
     @final
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
         """Add a new experience into the memory."""
+        if action is None or result is None:
+            if action is None and result is None:
+                message = "action or result must not be None"
+            elif action is None:
+                message = "action must not be None"
+            else:
+                message = "result must not be None"
+            raise InvalidMemoryError(message)
         memory = McMemory(state=state, action=action, reward=result.reward)
         self.__memories.append(memory)
 

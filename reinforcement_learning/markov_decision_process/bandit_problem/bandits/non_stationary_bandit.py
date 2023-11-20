@@ -30,5 +30,5 @@ class NonStationaryBandit(BanditBase):
         """
         super().__init__(n_arms=n_arms, seed=seed)
 
-    def _change_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
+    def _next_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
         return rates + 0.1 * self._rng.standard_normal(size=self._n_arms)

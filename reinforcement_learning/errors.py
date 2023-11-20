@@ -53,3 +53,8 @@ class NotInitializedError(Exception):
         """Initialize the instance."""
         message = f"{attribute_name} of {instance_name} is not initialized."
         super().__init__(message)
+
+
+@final
+class InvalidMemoryError(Exception):
+    """Exception raised for invalid memory access."""
