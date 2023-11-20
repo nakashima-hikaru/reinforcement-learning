@@ -21,7 +21,7 @@ def test_td_add_memory() -> None:
 def test_update_with_empty_memory() -> None:
     agent = TdAgent(gamma=0.9, alpha=0.1, seed=0)
     with pytest.raises(
-            NotInitializedError, match=str(NotInitializedError(instance_name=str(agent), attribute_name="__memory"))
+        NotInitializedError, match=str(NotInitializedError(instance_name=str(agent), attribute_name="__memory"))
     ):
         agent.update()
 
