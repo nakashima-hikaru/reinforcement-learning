@@ -48,7 +48,7 @@ if TYPE_CHECKING:
 class TdMemory:
     """Memory class represents a single transition in a reinforcement learning environment.
 
-    Attributes
+    Attributes:
     ----------
         state (State): The current state in the transition.
         reward (StrictFloat): The reward received in the transition.

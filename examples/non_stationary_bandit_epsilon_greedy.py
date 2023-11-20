@@ -46,7 +46,7 @@ def main() -> None:
             action_size=n_arms,
             alpha=0.8,
         )
-        total_rewards, rates = simulate(
+        _, rates = simulate(
             steps=steps,
             bandit=non_stationary_bandit,
             agent=alpha_agent,

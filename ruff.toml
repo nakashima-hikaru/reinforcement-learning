@@ -25,11 +25,17 @@ unfixable = []
 "__init__.py" = ["E402"]
 "tests/*" = ["S101"]
 
+[lint.flake8-copyright]
+author = "Hikaru Nakashima"
+
 [lint.flake8-annotations]
 mypy-init-return = true
 
 [lint.flake8-type-checking]
 strict = true
+
+[lint.pydocstyle]
+convention = "google"
 
 [format]
 # Like Black, use double quotes for strings.

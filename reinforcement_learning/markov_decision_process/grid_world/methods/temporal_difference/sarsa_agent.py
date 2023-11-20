@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 class SarsaMemory:
     """The Memory class represents a piece of memory in a reinforcement learning algorithm.
 
-    Attributes
+    Attributes:
     ----------
         state (State): The current state of the environment.
         action (Action | None): The action taken by the agent.
@@ -61,7 +61,7 @@ class SarsaAgent(AgentBase):
     def q(self: Self) -> ActionValueView:
         """Get the current value of the action-value function.
 
-        Returns
+        Returns:
         -------
             ActionValue: The instance's internal action-value function.
         """

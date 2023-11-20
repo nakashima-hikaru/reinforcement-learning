@@ -15,7 +15,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 class McMemory:
     """Memory class represents a memory of an agent in a grid world environment.
 
-    Attributes
+    Attributes:
     ----------
         state (State): the current state of the agent.
         action (Action): the action taken by the agent in the current state.
@@ -39,7 +39,7 @@ class McAgentBase(AgentBase, ABC):
     def memories(self: Self) -> tuple[McMemory, ...]:
         """Get the memories of the agent.
 
-        Returns
+        Returns:
         -------
             A list of `McMemory` objects representing the agent's memories.
         """

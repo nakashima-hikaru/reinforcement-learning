@@ -67,7 +67,7 @@ class Action(IntEnum):
     def direction(self: Self) -> State:
         """Gets the direction of an action.
 
-        Returns
+        Returns:
         -------
             ret (State): a tuple representing the direction of the action.
         """
@@ -161,7 +161,7 @@ class GridWorld:
     def goal_state(self: Self) -> State:
         """Return the goal state of the GridWorld.
 
-        Returns
+        Returns:
         -------
                 State: The goal state of the GridWorld.
 
@@ -177,7 +177,7 @@ class GridWorld:
     def height(self: Self) -> int:
         """Return the height of the grid in the GridWorld object.
 
-        Returns
+        Returns:
         -------
             int: The height of the grid.
         """
@@ -187,7 +187,7 @@ class GridWorld:
     def width(self: Self) -> int:
         """Return the width of the reward map.
 
-        Returns
+        Returns:
         -------
             the length of the first element of the private class attribute __reward_map,
             which represents the width of the reward map.

@@ -5,7 +5,7 @@ from typing import Self, final
 class NumpyValidationError(Exception):
     """Exception raised when encountering a validation error in numpy arrays.
 
-    Attributes
+    Attributes:
     ----------
         message (str): Description of the validation error.
     """

@@ -2,9 +2,9 @@
 
 It relies on the Matplotlib library for visualization of the state values and Q-values of the grid world environment.
 """
-import math
 from typing import TYPE_CHECKING, Final, Self, TypeAlias, final
 
+import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -156,8 +156,8 @@ class Renderer:
         vmax, vmin = v_array.max(), v_array.min()
         vmax = max(vmax, abs(vmin))
         vmin = -1 * vmax
-        vmax = 1 if vmax < 1 else vmax
-        vmin = -1 if vmin > -1 else vmin
+        vmax = max(vmax, 1)
+        vmin = min(vmin, -1)
         if self.ax is None:
             raise NotInitializedError(instance_name=str(self), attribute_name="ax")
 
@@ -263,7 +263,7 @@ class Renderer:
     def generate_policy(self: Self, *, q: ActionValue) -> Policy:
         """Generate a policy based on the state-action values.
 
-        Returns
+        Returns:
         -------
             Policy: A dictionary representing the policy, where each state maps to a dictionary of action probabilities.
         """
@@ -303,7 +303,7 @@ class Renderer:
 
         qmax, qmin = max(q.values()), min(q.values())
         qmax = max(qmax, abs(qmin))
-        qmax = 1 if qmax < 1 else qmax
+        qmax = max(qmax, 1)
 
         color_list = ["red", "white", "green"]
         self.cmap = mpl.colors.LinearSegmentedColormap.from_list("colormap_name", color_list)
@@ -377,7 +377,7 @@ class Renderer:
     def generate_offsets_q(cls: type[Self]) -> dict[Action, tuple[float, float]]:
         """Generate Offsets Q.
 
-        Returns
+        Returns:
         -------
         - A dictionary that maps each action to a tuple of offset values.
           The offset values represent the coordinates where the action label should be placed in the grid.

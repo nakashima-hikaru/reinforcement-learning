@@ -47,7 +47,7 @@ class McOffPolicyAgent(McAgentBase):
     def q(self: Self) -> ActionValueView:
         """Get the current value of the action-value function.
 
-        Returns
+        Returns:
         -------
             ActionValue: The instance's internal action-value function.
         """

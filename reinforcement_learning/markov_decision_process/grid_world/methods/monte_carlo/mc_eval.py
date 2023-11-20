@@ -51,7 +51,7 @@ class RandomAgent(McAgentBase):
     def update(self: Self) -> None:
         """Evaluate the value function for the current policy.
 
-        Returns
+        Returns:
         -------
              None
         """
