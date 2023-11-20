@@ -29,7 +29,7 @@ jobs:
           poetry run task lint
       - name: pytest coverage
         run: |
-          poetry run pytest --cov --junitxml=pytest.xml --cov-report=term-missing:skip-covered
+          poetry run pytest --cov --junitxml=pytest.xml --cov-report=term-missing:skip-covered | tee pytest-coverage.txt
       - name: Create Coverage Comment
         id: coverageComment
         uses: MishaKav/pytest-coverage-comment@main

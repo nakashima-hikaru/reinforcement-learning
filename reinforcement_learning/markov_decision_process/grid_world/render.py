@@ -2,9 +2,9 @@
 
 It relies on the Matplotlib library for visualization of the state values and Q-values of the grid world environment.
 """
+import math
 from typing import TYPE_CHECKING, Final, Self, TypeAlias, final
 
-import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np

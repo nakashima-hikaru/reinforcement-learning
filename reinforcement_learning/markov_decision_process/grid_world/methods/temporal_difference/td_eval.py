@@ -86,8 +86,7 @@ class TdAgent(AgentBase, ABC):
         return MappingProxyType(self.__v)
 
     @final
-    def add_memory(self: Self, *, state: State, action: Action | None,
-                   result: ActionResult | None) -> None:  # noqa: ARG002
+    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:  # noqa: ARG002
         """Add a new experience into the memory."""
         if result is None:
             message = "result must not be None"
