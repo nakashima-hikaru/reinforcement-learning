@@ -88,9 +88,9 @@ Policy: TypeAlias = defaultdict[State, dict[Action, float]]
 StateValue: TypeAlias = defaultdict[State, float]
 ActionValue: TypeAlias = defaultdict[tuple[State, Action], float]
 
-PolicyView: TypeAlias = MappingProxyType[State, dict[Action, float]]
-StateValueView: TypeAlias = MappingProxyType[State, float]
-ActionValueView: TypeAlias = MappingProxyType[tuple[State, Action], float]
+ReadOnlyPolicy: TypeAlias = MappingProxyType[State, dict[Action, float]]
+ReadOnlyStateValue: TypeAlias = MappingProxyType[State, float]
+ReadOnlyActionValue: TypeAlias = MappingProxyType[tuple[State, Action], float]
 
 
 @final

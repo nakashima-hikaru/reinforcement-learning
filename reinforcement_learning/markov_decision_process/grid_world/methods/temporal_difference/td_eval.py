@@ -33,8 +33,8 @@ from reinforcement_learning.markov_decision_process.grid_world.agent_base import
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
     ActionResult,
+    ReadOnlyStateValue,
     State,
-    StateValueView,
 )
 
 if TYPE_CHECKING:
@@ -81,7 +81,7 @@ class TdAgent(AgentBase, ABC):
         self.__memory: TdMemory | None = None
 
     @property
-    def v(self: Self) -> StateValueView:
+    def v(self: Self) -> ReadOnlyStateValue:
         """Return the state value."""
         return MappingProxyType(self.__v)
 

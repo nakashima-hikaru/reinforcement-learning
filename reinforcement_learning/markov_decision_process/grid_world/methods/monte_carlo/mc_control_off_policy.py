@@ -10,10 +10,10 @@ from typing import TYPE_CHECKING, Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
-    ActionValueView,
+    ReadOnlyActionValue,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McAgentBase
-from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_eval import greedy_probs
+from reinforcement_learning.markov_decision_process.grid_world.util import greedy_probs
 
 if TYPE_CHECKING:
     from reinforcement_learning.markov_decision_process.grid_world.environment import (
@@ -44,7 +44,7 @@ class McOffPolicyAgent(McAgentBase):
         self.__q: ActionValue = defaultdict(lambda: 0.0)
 
     @property
-    def q(self: Self) -> ActionValueView:
+    def q(self: Self) -> ReadOnlyActionValue:
         """Get the current value of the action-value function.
 
         Returns:
