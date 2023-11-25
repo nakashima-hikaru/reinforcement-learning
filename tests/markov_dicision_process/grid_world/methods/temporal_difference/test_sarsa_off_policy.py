@@ -74,26 +74,13 @@ def test_sarsa() -> None:
     for _ in range(episodes):
         run_sarsa_episode(env=env, agent=agent)
 
-    assert agent.behavior_policy == {(0, 0): {Action.UP: 0.925,
-                                              Action.DOWN: 0.025,
-                                              Action.LEFT: 0.025,
-                                              Action.RIGHT: 0.025},
-                                     (0, 1): {Action.UP: 0.925,
-                                              Action.DOWN: 0.025,
-                                              Action.LEFT: 0.025,
-                                              Action.RIGHT: 0.025},
-                                     (0, 2): {Action.UP: 0.025,
-                                              Action.DOWN: 0.025,
-                                              Action.LEFT: 0.025,
-                                              Action.RIGHT: 0.925},
-                                     (1, 0): {Action.UP: 0.925,
-                                              Action.DOWN: 0.025,
-                                              Action.LEFT: 0.025,
-                                              Action.RIGHT: 0.025},
-                                     (2, 0): {Action.UP: 0.925,
-                                              Action.DOWN: 0.025,
-                                              Action.LEFT: 0.025,
-                                              Action.RIGHT: 0.025}}
+    assert agent.behavior_policy == {
+        (0, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
+        (0, 1): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
+        (0, 2): {Action.UP: 0.025, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.925},
+        (1, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
+        (2, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
+    }
     assert agent.action_value == {
         ((2, 0), Action.LEFT): 0.0,
         ((2, 0), Action.UP): 0.0,

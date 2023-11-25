@@ -4,10 +4,10 @@ from reinforcement_learning.util import argmax
 
 
 def greedy_probs(
-        *,
-        q: dict[tuple[State, Action], float],
-        state: State,
-        epsilon: float,
+    *,
+    q: dict[tuple[State, Action], float],
+    state: State,
+    epsilon: float,
 ) -> dict[Action, float]:
     """Generate the probabilities of actions where each is chosen by a greedy approach.
 

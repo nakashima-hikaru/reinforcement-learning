@@ -74,8 +74,8 @@ class SarsaOffPolicyAgent(SarsaAgentBase):
                 raise NotInitializedError(instance_name=str(next_memory), attribute_name="action")
             next_q = self.__action_value[next_memory.state, next_memory.action]
             rho = (
-                    self.__evaluation_policy[current_memory.state][current_memory.action]
-                    / self.behavior_policy[current_memory.state][current_memory.action]
+                self.__evaluation_policy[current_memory.state][current_memory.action]
+                / self.behavior_policy[current_memory.state][current_memory.action]
             )
         if current_memory.reward is None:
             raise NotInitializedError(instance_name=str(current_memory), attribute_name="reward")
@@ -85,5 +85,6 @@ class SarsaOffPolicyAgent(SarsaAgentBase):
         self.__behavior_policy[current_memory.state] = greedy_probs(
             q=self.__action_value, state=current_memory.state, epsilon=self.epsilon
         )
-        self.__evaluation_policy[current_memory.state] = greedy_probs(q=self.__action_value, state=current_memory.state,
-                                                                      epsilon=0.0)
+        self.__evaluation_policy[current_memory.state] = greedy_probs(
+            q=self.__action_value, state=current_memory.state, epsilon=0.0
+        )
