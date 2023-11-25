@@ -53,3 +53,11 @@ def test_mc_control_off_policy() -> None:
         ((2, 0), Action.LEFT): 0.0,
         ((2, 0), Action.RIGHT): 0.0,
     }
+
+    assert agent.evaluation_policy == {
+        (0, 2): {Action.UP: 0.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 1.0},
+        (0, 1): {Action.UP: 0.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 1.0},
+        (0, 0): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+        (1, 0): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+        (2, 0): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+    }

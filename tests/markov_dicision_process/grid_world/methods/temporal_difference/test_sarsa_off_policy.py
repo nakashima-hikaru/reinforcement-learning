@@ -81,6 +81,15 @@ def test_sarsa() -> None:
         (1, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
         (2, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},
     }
+
+    assert agent.evaluation_policy == {
+        (2, 0): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+        (1, 0): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+        (0, 0): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+        (0, 1): {Action.UP: 1.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 0.0},
+        (0, 2): {Action.UP: 0.0, Action.DOWN: 0.0, Action.LEFT: 0.0, Action.RIGHT: 1.0},
+    }
+
     assert agent.action_value == {
         ((2, 0), Action.LEFT): 0.0,
         ((2, 0), Action.UP): 0.0,
