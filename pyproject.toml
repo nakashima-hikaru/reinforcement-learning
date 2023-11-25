@@ -44,4 +44,4 @@ mypy_tests = "python -m mypy tests"
 mypy_examples = "python -m mypy examples"
 mypy = "task mypy_src; task mypy_tests; task mypy_examples"
 
-all = "task format; task test; task fix_lint; task mypy"
+all = "task format; task test; task lint; task mypy"
