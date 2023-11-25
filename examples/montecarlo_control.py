@@ -32,7 +32,7 @@ def main() -> None:
 
             state = result.next_state
 
-    logging.info(agent.q)
+    logging.info(agent.action_value)
 
 
 if __name__ == "__main__":

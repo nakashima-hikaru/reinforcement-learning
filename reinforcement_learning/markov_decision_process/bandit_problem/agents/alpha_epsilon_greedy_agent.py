@@ -36,4 +36,4 @@ class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
         -------
             None
         """
-        self._qs[i_action] += (reward - self._qs[i_action]) * self.alpha
+        self._action_values[i_action] += (reward - self._action_values[i_action]) * self.alpha

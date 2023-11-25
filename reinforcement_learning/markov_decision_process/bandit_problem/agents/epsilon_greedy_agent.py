@@ -45,4 +45,4 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
             None
         """
         self._ns[i_action] += 1
-        self._qs[i_action] += (reward - self._qs[i_action]) / self._ns[i_action]
+        self._action_values[i_action] += (reward - self._action_values[i_action]) / self._ns[i_action]

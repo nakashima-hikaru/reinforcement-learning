@@ -1,24 +1,25 @@
+"""Utility functions for grid-world problem."""
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, State
 from reinforcement_learning.util import argmax
 
 
 def greedy_probs(
-    *,
-    q: dict[tuple[State, Action], float],
-    state: State,
-    epsilon: float,
+        *,
+        q: dict[tuple[State, Action], float],
+        state: State,
+        epsilon: float,
 ) -> dict[Action, float]:
-    """Compute the epsilon-greedy action probabilities for the given state.
+    """Generate the probabilities of actions where each is chosen by a greedy approach.
 
     Args:
     ----
-        q: A dictionary mapping (state, action) pairs to their respective value.
-        state: The current state of the system.
+        q: A dictionary mapping pairs of state and action to a float value, representing Q-value function.
+        state: The current state for which the action probabilities are to be generated.
         epsilon: The factor determining the trade-off between exploration and exploitation.
 
     Returns:
     -------
-        A dictionary mapping actions to their epsilon-greedy probability.
+        action_probs: A dictionary where keys represent actions and values represent the probability for each action according to epsilon-greedy approach.
     """
     qs = {}
     for action in Action:

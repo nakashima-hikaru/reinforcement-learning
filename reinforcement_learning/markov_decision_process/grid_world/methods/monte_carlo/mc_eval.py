@@ -12,17 +12,14 @@ from types import MappingProxyType
 from typing import TYPE_CHECKING, Self, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
+    RANDOM_ACTIONS,
+    ReadOnlyPolicy,
     ReadOnlyStateValue,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import McAgentBase
 
 if TYPE_CHECKING:
-    from reinforcement_learning.markov_decision_process.grid_world.environment import (
-        State,
-    )
-    from reinforcement_learning.markov_decision_process.grid_world.environment import (
-        StateValue,
-    )
+    from reinforcement_learning.markov_decision_process.grid_world.environment import Policy, State, StateValue
 
 
 class RandomAgent(McAgentBase):
@@ -39,13 +36,19 @@ class RandomAgent(McAgentBase):
         """
         super().__init__(seed=seed)
         self.__gamma: float = gamma
-        self.__v: StateValue = defaultdict(lambda: 0.0)
+        self.__state_value: StateValue = defaultdict(lambda: 0.0)
         self.__counts: defaultdict[State, int] = defaultdict(lambda: 0)
+        self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @property
-    def v(self: Self) -> ReadOnlyStateValue:
+    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+        """Return the behavior policy."""
+        return MappingProxyType(self.__behavior_policy)
+
+    @property
+    def state_value(self: Self) -> ReadOnlyStateValue:
         """Return the current state value."""
-        return MappingProxyType(self.__v)
+        return MappingProxyType(self.__state_value)
 
     @final
     def update(self: Self) -> None:
@@ -59,4 +62,4 @@ class RandomAgent(McAgentBase):
         for memory in reversed(self.memories):
             g = self.__gamma * g + memory.reward
             self.__counts[memory.state] += 1
-            self.__v[memory.state] += (g - self.__v[memory.state]) / self.__counts[memory.state]
+            self.__state_value[memory.state] += (g - self.__state_value[memory.state]) / self.__counts[memory.state]

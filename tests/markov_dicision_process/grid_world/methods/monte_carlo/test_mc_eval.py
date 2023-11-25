@@ -17,7 +17,7 @@ def test_mc_eval() -> None:
     for _ in range(2):
         run_monte_carlo_episode(env=env, agent=agent)
 
-    assert agent.v == {
+    assert agent.state_value == {
         (0, 2): 0.22042382796141025,
         (0, 1): 0.05544759280164322,
         (0, 0): 0.11230028389108984,

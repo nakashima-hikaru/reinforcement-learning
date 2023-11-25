@@ -32,7 +32,7 @@ class EpsilonGreedyAgentBase(ABC):
 
         """
         self._epsilon: float = epsilon
-        self._qs: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
+        self._action_values: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
         self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
 
@@ -50,5 +50,5 @@ class EpsilonGreedyAgentBase(ABC):
     def get_action(self: Self) -> int:
         """Determine an action according to its policy."""
         if self.__rng.random() < self._epsilon:
-            return int(self.__rng.integers(0, len(self._qs)))
-        return int(np.argmax(self._qs))
+            return int(self.__rng.integers(0, len(self._action_values)))
+        return int(np.argmax(self._action_values))

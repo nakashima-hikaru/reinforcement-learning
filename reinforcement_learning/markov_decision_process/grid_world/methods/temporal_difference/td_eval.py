@@ -20,7 +20,6 @@ function of the agent.
 This module can be run standalone to test the TdAgent in a GridWorld environment. Otherwise, the TdAgent class can be
 imported to be used in a reinforcement learning process.
 """
-from abc import ABC
 from collections import defaultdict
 from dataclasses import dataclass
 from types import MappingProxyType
@@ -31,14 +30,17 @@ from pydantic import StrictBool, StrictFloat
 from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
+    RANDOM_ACTIONS,
     Action,
     ActionResult,
+    ReadOnlyPolicy,
     ReadOnlyStateValue,
     State,
 )
 
 if TYPE_CHECKING:
     from reinforcement_learning.markov_decision_process.grid_world.environment import (
+        Policy,
         StateValue,
     )
 
@@ -62,7 +64,8 @@ class TdMemory:
     done: StrictBool
 
 
-class TdAgent(AgentBase, ABC):
+@final
+class TdAgent(AgentBase):
     """Represent a Temporal Difference (TD) Agent for reinforcement learning."""
 
     def __init__(self: Self, *, gamma: float, alpha: float, seed: int | None = None) -> None:
@@ -79,14 +82,19 @@ class TdAgent(AgentBase, ABC):
         self.__alpha: float = alpha
         self.__v: StateValue = defaultdict(lambda: 0.0)
         self.__memory: TdMemory | None = None
+        self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
+
+    @property
+    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+        """Return the behavior policy."""
+        return MappingProxyType(self.__behavior_policy)
 
     @property
     def v(self: Self) -> ReadOnlyStateValue:
         """Return the state value."""
         return MappingProxyType(self.__v)
 
-    @final
-    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:  # noqa: ARG002
+    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:  # noqa: ARG02
         """Add a new experience into the memory."""
         if result is None:
             message = "result must not be None"
@@ -94,12 +102,10 @@ class TdAgent(AgentBase, ABC):
         memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
         self.__memory = memory
 
-    @final
     def reset_memory(self: Self) -> None:
         """Clear the memory of the reinforcement learning agent."""
         self.__memory = None
 
-    @final
     def update(self: Self) -> None:
         """Update the value of the current state using the temporal difference (TD) algorithm.
 

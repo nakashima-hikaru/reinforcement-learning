@@ -31,7 +31,7 @@ def test_mc_control_on_policy() -> None:
     for _ in range(2):
         run_monte_carlo_episode(env=env, agent=agent)
 
-    assert agent.q == {
+    assert agent.action_value == {
         ((0, 2), Action.RIGHT): 0.19,
         ((0, 2), Action.UP): 0.09000000000000001,
         ((0, 2), Action.DOWN): 0.0,

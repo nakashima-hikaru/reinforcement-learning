@@ -1,8 +1,7 @@
 """Sarsa agent."""
 from abc import ABC
-from collections import defaultdict, deque
-from types import MappingProxyType
-from typing import TYPE_CHECKING, Final, Self, final
+from collections import deque
+from typing import Final, Self, final
 
 from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
@@ -11,15 +10,8 @@ from reinforcement_learning.markov_decision_process.grid_world.agent_base import
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
     ActionResult,
-    ReadOnlyActionValue,
-    ReadOnlyPolicy,
     State,
 )
-
-if TYPE_CHECKING:
-    from reinforcement_learning.markov_decision_process.grid_world.environment import (
-        ActionValue,
-    )
 
 
 @final
@@ -49,31 +41,42 @@ class SarsaAgentBase(AgentBase, ABC):
     def __init__(self: Self, *, seed: int | None) -> None:
         """Initialize an instance of the SarsaAgent class."""
         super().__init__(seed=seed)
-        self._gamma: float = 0.9
-        self._alpha: float = 0.8
-        self._epsilon: float = 0.1
-        self._q: ActionValue = defaultdict(lambda: 0.0)
-        self._memories: deque[SarsaMemory] = deque(maxlen=SarsaAgentBase.max_memory_length)
+        self.__gamma: float = 0.9
+        self.__alpha: float = 0.8
+        self.__epsilon: float = 0.1
+        self.__memories: deque[SarsaMemory] = deque(maxlen=SarsaAgentBase.max_memory_length)
 
     @property
-    def q(self: Self) -> ReadOnlyActionValue:
-        """Get the current value of the action-value function.
+    def gamma(self: Self) -> float:
+        """Return the gamma value of the SarsaAgentBase.
 
         Returns:
-        -------
-            ActionValue: The instance's internal action-value function.
+            float: The gamma value of the SarsaAgentBase.
         """
-        return MappingProxyType(self._q)
+        return self.__gamma
 
     @property
-    def behavior_policy(self: Self) -> ReadOnlyPolicy:
-        """Return the action selector policy."""
-        return MappingProxyType(self._behavior_policy)
+    def alpha(self: Self) -> float:
+        """Return the alpha value of the SarsaAgentBase.
+
+        Returns:
+            float: The alpha value of the SarsaAgentBase.
+        """
+        return self.__alpha
+
+    @property
+    def epsilon(self: Self) -> float:
+        """Return the epsilon value of the SarsaAgentBase.
+
+        Returns:
+            float: The epsilon value of the SarsaAgentBase.
+        """
+        return self.__epsilon
 
     @property
     def memories(self: Self) -> tuple[SarsaMemory, ...]:
         """Return a tuple of memories."""
-        return tuple(self._memories)
+        return tuple(self.__memories)
 
     def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
         """Add a new experience into the memory."""
@@ -83,8 +86,8 @@ class SarsaAgentBase(AgentBase, ABC):
             reward=result.reward if result is not None else None,
             done=result.done if result is not None else None,
         )
-        self._memories.append(memory)
+        self.__memories.append(memory)
 
     def reset_memory(self: Self) -> None:
         """Reset the agent's memory."""
-        self._memories.clear()
+        self.__memories.clear()
