@@ -32,7 +32,7 @@ def main() -> None:
             state = result.next_state
         agent.update()
 
-    logging.info(agent.v)
+    logging.info(agent.state_value)
 
 
 if __name__ == "__main__":
