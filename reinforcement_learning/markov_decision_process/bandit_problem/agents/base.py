@@ -6,12 +6,10 @@ The class includes essential methods that each epsilon-greedy agent should imple
 estimation and 'get_action' to get the next action following the epsilon-greedy policy.
 """
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Self
+from typing import Self
 
 import numpy as np
-
-if TYPE_CHECKING:
-    import numpy.typing as npt
+import numpy.typing as npt
 
 
 class EpsilonGreedyAgentBase(ABC):
@@ -21,7 +19,7 @@ class EpsilonGreedyAgentBase(ABC):
     which is an exploration-exploitation algorithm commonly used in Reinforcement Learning.
     """
 
-    def __init__(self: Self, *, epsilon: float, action_size: int, seed: int | None) -> None:
+    def __init__(self: Self, *, epsilon: float, seed: int | None) -> None:
         """Initialize EpsilonGreedyAgentBase.
 
         Args:
@@ -31,10 +29,13 @@ class EpsilonGreedyAgentBase(ABC):
             seed: An optional seed value for random number generation.
 
         """
-        self._epsilon: float = epsilon
-        self._action_values: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
-        self._ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
+        self.__epsilon: float = epsilon
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
+
+    @property
+    @abstractmethod
+    def action_values(self: Self) -> npt.NDArray[np.float64]:
+        """Return the action value."""
 
     @abstractmethod
     def update(self: Self, *, i_action: int, reward: float) -> None:
@@ -49,6 +50,6 @@ class EpsilonGreedyAgentBase(ABC):
 
     def get_action(self: Self) -> int:
         """Determine an action according to its policy."""
-        if self.__rng.random() < self._epsilon:
-            return int(self.__rng.integers(0, len(self._action_values)))
-        return int(np.argmax(self._action_values))
+        if self.__rng.random() < self.__epsilon:
+            return int(self.__rng.integers(0, len(self.action_values)))
+        return int(np.argmax(self.action_values))

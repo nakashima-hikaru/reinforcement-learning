@@ -6,16 +6,22 @@ The policy, named 'epsilon-greedy', randomly explores with epsilon probability,
 otherwise exploits its current knowledge.
 The agent's state and action-value estimations are updated based on the rewards received after choosing actions.
 """
-from typing import Final, Self, final
+from typing import Self, final
+
+import numpy as np
+import numpy.typing as npt
 
 from reinforcement_learning.markov_decision_process.bandit_problem.agents.base import EpsilonGreedyAgentBase
-
-SEED: Final[int] = 0
 
 
 @final
 class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
     """An agent for Epsilon-greedy exploration strategy for the multi-armed bandit problem."""
+
+    @property
+    def action_values(self: Self) -> npt.NDArray[np.float64]:
+        """Return the array of action values for the current agent."""
+        return self.__action_values
 
     def __init__(self: Self, epsilon: float, action_size: int, seed: int | None = None) -> None:
         """Initialize an EpsilonGreedyAgent instance.
@@ -30,7 +36,9 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
         -------
             None
         """
-        super().__init__(epsilon=epsilon, action_size=action_size, seed=seed)
+        super().__init__(epsilon=epsilon, seed=seed)
+        self.__ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
+        self.__action_values: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
 
     def update(self: Self, *, i_action: int, reward: float) -> None:
         """Update the agent's estimate of the action value based on the received reward.
@@ -44,5 +52,5 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
         -------
             None
         """
-        self._ns[i_action] += 1
-        self._action_values[i_action] += (reward - self._action_values[i_action]) / self._ns[i_action]
+        self.__ns[i_action] += 1
+        self.__action_values[i_action] += (reward - self.__action_values[i_action]) / self.__ns[i_action]
