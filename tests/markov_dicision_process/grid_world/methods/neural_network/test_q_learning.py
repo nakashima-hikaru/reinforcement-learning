@@ -24,7 +24,7 @@ def test_q_learning() -> None:
     agent = QLearningAgent(seed=0, env=env)
     for _ in range(2):
         run_td_episode(env=env, agent=agent)
-    expected = 0.1085729799230003
+    expected = pytest.approx(0.1085729799230003)
     assert agent.average_loss == expected
     assert agent.action_value == {
         ((0, 0), Action.UP): pytest.approx(0.012391064316034317),
