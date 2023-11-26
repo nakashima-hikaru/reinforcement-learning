@@ -27,9 +27,19 @@ class BanditBase(ABC):
             seed: An optional seed value for random number generation.
 
         """
-        self._n_arms: int = n_arms
-        self._rng: np.random.Generator = np.random.default_rng(seed=seed)
-        self.rates: NDArray[np.float64] = self._rng.random(n_arms)
+        self.__n_arms: int = n_arms
+        self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
+        self.rates: NDArray[np.float64] = self.__rng.random(n_arms)
+
+    @property
+    def rng(self: Self) -> np.random.Generator:
+        """Return the random number generator."""
+        return self.__rng
+
+    @property
+    def n_arms(self: Self) -> int:
+        """Return the number of the arms."""
+        return self.__n_arms
 
     @abstractmethod
     def _next_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
@@ -53,6 +63,6 @@ class BanditBase(ABC):
         """
         rate: np.float64 = cast(np.float64, self.rates[i_arm])
         self.rates = self._next_rates(rates=self.rates)
-        if rate > float(self._rng.random()):
+        if rate > float(self.__rng.random()):
             return 1.0
         return 0.0

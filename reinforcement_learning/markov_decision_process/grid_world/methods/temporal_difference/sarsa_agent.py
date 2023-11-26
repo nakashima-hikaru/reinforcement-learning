@@ -6,7 +6,7 @@ from typing import Final, Self, final
 from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
 
-from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import DistributionModelAgent
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
     ActionResult,
@@ -33,7 +33,7 @@ class SarsaMemory:
     done: StrictBool | None
 
 
-class SarsaAgentBase(AgentBase, ABC):
+class SarsaAgentBase(DistributionModelAgent, ABC):
     """SARSA agent."""
 
     max_memory_length: Final[int] = 2

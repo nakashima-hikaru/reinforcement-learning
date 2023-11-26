@@ -28,7 +28,7 @@ from typing import TYPE_CHECKING, Self, final
 from pydantic import StrictBool, StrictFloat
 
 from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
-from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import DistributionModelAgent
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
     Action,
@@ -65,7 +65,7 @@ class TdMemory:
 
 
 @final
-class TdAgent(AgentBase):
+class TdAgent(DistributionModelAgent):
     """Represent a Temporal Difference (TD) Agent for reinforcement learning."""
 
     def __init__(self: Self, *, gamma: float, alpha: float, seed: int | None = None) -> None:

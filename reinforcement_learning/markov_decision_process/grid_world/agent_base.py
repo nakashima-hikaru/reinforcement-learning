@@ -25,10 +25,11 @@ class AgentBase(ABC):
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
 
     @property
-    @abstractmethod
-    def behavior_policy(self: Self) -> ReadOnlyPolicy:
-        """Return the behavior policy."""
+    def rng(self: Self) -> np.random.Generator:
+        """Return the random number generator."""
+        return self.__rng
 
+    @abstractmethod
     def get_action(self: Self, *, state: State) -> Action:
         """Select an action based on policy `self.__b`.
 
@@ -41,9 +42,6 @@ class AgentBase(ABC):
         -------
             the chosen action based on the action probabilities for the given state.
         """
-        action_probs = self.behavior_policy[state]
-        probs = list(action_probs.values())
-        return Action(self.__rng.choice(list(Action), p=probs))
 
     @abstractmethod
     def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
@@ -63,3 +61,27 @@ class AgentBase(ABC):
     @abstractmethod
     def update(self: Self) -> None:
         """Update the agent's internal state based on the current conditions and any new information."""
+
+
+class DistributionModelAgent(AgentBase, ABC):
+    """An agent that utilizes a behavior policy to select actions in a given environment."""
+
+    @property
+    @abstractmethod
+    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+        """Return the behavior policy."""
+
+    def get_action(self: Self, *, state: State) -> Action:
+        """Select an action based on policy `self.__b`.
+
+        Args:
+        ----
+            state: the state of the environment.
+
+        Returns:
+        -------
+            the chosen action based on the action probabilities for the given state.
+        """
+        action_probs = self.behavior_policy[state]
+        probs = list(action_probs.values())
+        return Action(self.rng.choice(list(Action), p=probs))

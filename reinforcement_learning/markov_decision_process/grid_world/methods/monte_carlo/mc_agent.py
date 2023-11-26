@@ -6,7 +6,7 @@ from pydantic import StrictFloat
 from pydantic.dataclasses import dataclass
 
 from reinforcement_learning.errors import InvalidMemoryError
-from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import DistributionModelAgent
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld, State
 
 
@@ -27,7 +27,7 @@ class McMemory:
     reward: StrictFloat
 
 
-class McAgentBase(AgentBase, ABC):
+class McAgentBase(DistributionModelAgent, ABC):
     """A base class for reinforcement learning agents using Monte Carlo methods."""
 
     def __init__(self: Self, *, seed: int | None) -> None:

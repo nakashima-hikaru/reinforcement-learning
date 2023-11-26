@@ -1,14 +1,12 @@
 """Episode runner."""
+from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.sarsa_agent import (
     SarsaAgentBase,
 )
-from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.td_eval import (
-    TdAgent,
-)
 
 
-def run_td_episode(env: GridWorld, agent: TdAgent) -> None:
+def run_td_episode(env: GridWorld, agent: AgentBase) -> None:
     """Run an episode for a temporary difference agent in the environment.
 
     Args:
