@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
 
-from reinforcement_learning.errors import NotInitializedError
+from reinforcement_learning.errors import InvalidMemoryError
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.agent_episodes import (
-    run_td_episode,
+    run_sarsa_episode,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.sarsa_off_policy import (
     SarsaOffPolicyAgent,
@@ -33,32 +33,32 @@ def test_update() -> None:
 
 def test_update_with_first_empty_action() -> None:
     agent = SarsaOffPolicyAgent()
-    agent.add_memory(state=(0, 0), action=None, result=ActionResult(next_state=(0, 1), reward=1.0, done=False))
+    agent.add_state_as_memory(state=(0, 0))
     agent.add_memory(state=(0, 1), action=Action.UP, result=ActionResult(next_state=(0, 2), reward=1.0, done=False))
-    with pytest.raises(NotInitializedError):
+    with pytest.raises(InvalidMemoryError):
         agent.update()
 
 
 def test_update_with_second_empty_action_not_done() -> None:
     agent = SarsaOffPolicyAgent()
     agent.add_memory(state=(0, 0), action=Action.UP, result=ActionResult(next_state=(0, 1), reward=1.0, done=False))
-    agent.add_memory(state=(0, 1), action=None, result=ActionResult(next_state=(0, 2), reward=1.0, done=False))
-    with pytest.raises(NotInitializedError):
+    agent.add_state_as_memory(state=(0, 1))
+    with pytest.raises(InvalidMemoryError):
         agent.update()
 
 
 def test_update_with_second_empty_action_done() -> None:
     agent = SarsaOffPolicyAgent()
     agent.add_memory(state=(0, 0), action=Action.UP, result=ActionResult(next_state=(0, 1), reward=1.0, done=True))
-    agent.add_memory(state=(0, 1), action=None, result=ActionResult(next_state=(0, 2), reward=1.0, done=False))
+    agent.add_state_as_memory(state=(0, 1))
     agent.update()
 
 
 def test_update_with_first_empty_reward() -> None:
     agent = SarsaOffPolicyAgent()
-    agent.add_memory(state=(0, 0), action=Action.UP, result=None)
+    agent.add_state_as_memory(state=(0, 0))
     agent.add_memory(state=(0, 1), action=Action.UP, result=ActionResult(next_state=(0, 2), reward=1.0, done=False))
-    with pytest.raises(NotInitializedError):
+    with pytest.raises(InvalidMemoryError):
         agent.update()
 
 
@@ -72,7 +72,7 @@ def test_sarsa() -> None:
     episodes = 2
 
     for _ in range(episodes):
-        run_td_episode(env=env, agent=agent, add_goal_state_to_memory=True)
+        run_sarsa_episode(env=env, agent=agent)
 
     assert agent.behavior_policy == {
         (0, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},

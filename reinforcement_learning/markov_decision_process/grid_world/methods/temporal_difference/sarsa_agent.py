@@ -28,9 +28,9 @@ class SarsaMemory:
     """
 
     state: State
-    action: Action | None
-    reward: StrictFloat | None
-    done: StrictBool | None
+    action: Action
+    reward: StrictFloat
+    done: StrictBool
 
 
 class SarsaAgentBase(DistributionModelAgent, ABC):
@@ -44,7 +44,7 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         self.__gamma: float = 0.9
         self.__alpha: float = 0.8
         self.__epsilon: float = 0.1
-        self.__memories: deque[SarsaMemory] = deque(maxlen=SarsaAgentBase.max_memory_length)
+        self.__memories: deque[SarsaMemory | State] = deque(maxlen=SarsaAgentBase.max_memory_length)
 
     @property
     def gamma(self: Self) -> float:
@@ -74,11 +74,11 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         return self.__epsilon
 
     @property
-    def memories(self: Self) -> tuple[SarsaMemory, ...]:
+    def memories(self: Self) -> tuple[SarsaMemory | State, ...]:
         """Return a tuple of memories."""
         return tuple(self.__memories)
 
-    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -90,10 +90,18 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         memory = SarsaMemory(
             state=state,
             action=action,
-            reward=result.reward if result is not None else None,
-            done=result.done if result is not None else None,
+            reward=result.reward,
+            done=result.done,
         )
         self.__memories.append(memory)
+
+    def add_state_as_memory(self: Self, *, state: State) -> None:
+        """Add a state to the agent's memory.
+
+        Args:
+            state: The state to be added to the agent's memory.
+        """
+        self.__memories.append(state)
 
     def reset_memory(self: Self) -> None:
         """Reset the agent's memory."""

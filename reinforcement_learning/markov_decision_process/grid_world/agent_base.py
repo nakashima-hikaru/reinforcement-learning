@@ -44,7 +44,7 @@ class AgentBase(ABC):
         """
 
     @abstractmethod
-    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:

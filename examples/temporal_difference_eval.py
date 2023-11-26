@@ -21,7 +21,7 @@ def main() -> None:
     agent = TdAgent(gamma=0.9, alpha=0.01)
     n_episodes: int = 1000
     for _ in range(n_episodes):
-        run_td_episode(env=env, agent=agent, add_goal_state_to_memory=False)
+        run_td_episode(env=env, agent=agent)
     logging.info(agent.v)
 
 

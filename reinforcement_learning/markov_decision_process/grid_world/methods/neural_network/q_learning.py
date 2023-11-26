@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as f
 from torch import Tensor, nn, optim
 
-from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
+from reinforcement_learning.errors import NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.agent_base import AgentBase
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
@@ -118,7 +118,7 @@ class QLearningAgent(AgentBase):
 
         return Action(torch.argmax(self.__q_net(self.__env.convert_to_one_hot(state=state)), dim=1)[0].item())
 
-    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -127,14 +127,6 @@ class QLearningAgent(AgentBase):
             action: The action taken by the agent.
             result: The result of the action taken by the agent.
         """
-        if action is None or result is None:
-            if action is None and result is None:
-                message = "action or result must not be None"
-            elif action is None:
-                message = "action must not be None"
-            else:
-                message = "result must not be None"
-            raise InvalidMemoryError(message)
         self.__memory = QLearningMemory(
             state=state, action=action, reward=result.reward, next_state=result.next_state, done=result.done
         )

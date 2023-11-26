@@ -1,21 +1,12 @@
 import numpy as np
 import pytest
 
-from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
-from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld
+from reinforcement_learning.errors import NotInitializedError
+from reinforcement_learning.markov_decision_process.grid_world.environment import GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.agent_episodes import (
     run_td_episode,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.td_eval import TdAgent
-
-
-def test_td_add_memory() -> None:
-    agent = TdAgent(gamma=0.9, alpha=0.1, seed=0)
-    with pytest.raises(InvalidMemoryError):
-        agent.add_memory(state=(0, 0), action=None, result=None)
-    with pytest.raises(InvalidMemoryError):
-        agent.add_memory(state=(0, 0), action=Action.UP, result=None)
-    agent.add_memory(state=(0, 0), action=None, result=ActionResult(next_state=(0, 1), reward=1.0, done=False))
 
 
 def test_update_with_empty_memory() -> None:
@@ -35,7 +26,7 @@ def test_td_evaluation() -> None:
     agent = TdAgent(gamma=0.9, alpha=0.01, seed=41)
     n_episodes: int = 2
     for _ in range(n_episodes):
-        run_td_episode(env=env, agent=agent, add_goal_state_to_memory=False)
+        run_td_episode(env=env, agent=agent)
 
     assert agent.v == {
         (2, 1): -8.100000000000001e-07,

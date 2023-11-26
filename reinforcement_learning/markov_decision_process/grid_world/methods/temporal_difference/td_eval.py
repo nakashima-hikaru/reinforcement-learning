@@ -27,7 +27,7 @@ from typing import TYPE_CHECKING, Self, final
 
 from pydantic import StrictBool, StrictFloat
 
-from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
+from reinforcement_learning.errors import NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.agent_base import DistributionModelAgent
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
@@ -94,7 +94,7 @@ class TdAgent(DistributionModelAgent):
         """Return the state value."""
         return MappingProxyType(self.__v)
 
-    def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:  # noqa: ARG002
+    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:  # noqa: ARG002
         """Add a new experience into the memory.
 
         Args:
@@ -103,9 +103,6 @@ class TdAgent(DistributionModelAgent):
             action: The action taken by the agent.
             result: The result of the action taken by the agent.
         """
-        if result is None:
-            message = "result must not be None"
-            raise InvalidMemoryError(message)
         memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
         self.__memory = memory
 

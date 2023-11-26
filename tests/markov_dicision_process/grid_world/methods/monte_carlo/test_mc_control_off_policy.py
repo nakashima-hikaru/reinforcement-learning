@@ -1,24 +1,12 @@
 import numpy as np
-import pytest
 
-from reinforcement_learning.errors import InvalidMemoryError
-from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld
+from reinforcement_learning.markov_decision_process.grid_world.environment import Action, GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_agent import (
     run_monte_carlo_episode,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.monte_carlo.mc_control_off_policy import (
     McOffPolicyAgent,
 )
-
-
-def test_mc_add_memory() -> None:
-    agent = McOffPolicyAgent(gamma=0.9, epsilon=0.1, alpha=0.1, seed=0)
-    with pytest.raises(InvalidMemoryError):
-        agent.add_memory(state=(0, 0), action=None, result=None)
-    with pytest.raises(InvalidMemoryError):
-        agent.add_memory(state=(0, 0), action=Action.UP, result=None)
-    with pytest.raises(InvalidMemoryError):
-        agent.add_memory(state=(0, 0), action=None, result=ActionResult(next_state=(0, 1), reward=1.0, done=False))
 
 
 def test_mc_control_off_policy() -> None:
