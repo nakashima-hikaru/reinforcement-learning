@@ -31,7 +31,7 @@ class AgentBase(ABC):
 
     @abstractmethod
     def get_action(self: Self, *, state: State) -> Action:
-        """Select an action based on policy `self.__b`.
+        """Select an action.
 
         Args:
         ----
@@ -56,7 +56,7 @@ class AgentBase(ABC):
 
     @abstractmethod
     def reset_memory(self: Self) -> None:
-        """Clear the memory of the reinforcement learning agent."""
+        """Reset the agent's memory."""
 
     @abstractmethod
     def update(self: Self) -> None:

@@ -79,7 +79,14 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         return tuple(self.__memories)
 
     def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
-        """Add a new experience into the memory."""
+        """Add a new experience into the memory.
+
+        Args:
+        ----
+            state: The current state of the agent.
+            action: The action taken by the agent.
+            result: The result of the action taken by the agent.
+        """
         memory = SarsaMemory(
             state=state,
             action=action,

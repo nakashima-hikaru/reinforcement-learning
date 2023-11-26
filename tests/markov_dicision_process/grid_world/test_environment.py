@@ -28,6 +28,8 @@ def test_states(mock_env: GridWorld) -> None:
     all_states = set(mock_env.states())
     assert all_states == {(h, w) for h in range(mock_env.shape[0]) for w in range(mock_env.shape[1])}
 
+    assert mock_env.wall_states == {(1, 1)}
+
 
 @pytest.fixture(params=Action)
 def action(request: SubRequest) -> Action:

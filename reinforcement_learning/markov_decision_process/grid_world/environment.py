@@ -174,6 +174,11 @@ class GridWorld:
         return self.__agent_state
 
     @property
+    def wall_states(self: Self) -> frozenset[State]:
+        """Return the wall states of the GridWorld."""
+        return self.__wall_states
+
+    @property
     def height(self: Self) -> int:
         """Return the height of the grid in the GridWorld object.
 

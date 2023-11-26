@@ -47,7 +47,14 @@ class McAgentBase(DistributionModelAgent, ABC):
 
     @final
     def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
-        """Add a new experience into the memory."""
+        """Add a new experience into the memory.
+
+        Args:
+        ----
+            state: The current state of the agent.
+            action: The action taken by the agent.
+            result: The result of the action taken by the agent.
+        """
         if action is None or result is None:
             if action is None and result is None:
                 message = "action or result must not be None"
@@ -61,7 +68,7 @@ class McAgentBase(DistributionModelAgent, ABC):
 
     @final
     def reset_memory(self: Self) -> None:
-        """Clear the memory of the reinforcement learning agent."""
+        """Reset the agent's memory."""
         self.__memories.clear()
 
 

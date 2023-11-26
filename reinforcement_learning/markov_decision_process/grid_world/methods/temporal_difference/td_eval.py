@@ -95,7 +95,14 @@ class TdAgent(DistributionModelAgent):
         return MappingProxyType(self.__v)
 
     def add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:  # noqa: ARG002
-        """Add a new experience into the memory."""
+        """Add a new experience into the memory.
+
+        Args:
+        ----
+            state: The current state of the agent.
+            action: The action taken by the agent.
+            result: The result of the action taken by the agent.
+        """
         if result is None:
             message = "result must not be None"
             raise InvalidMemoryError(message)
@@ -103,7 +110,7 @@ class TdAgent(DistributionModelAgent):
         self.__memory = memory
 
     def reset_memory(self: Self) -> None:
-        """Clear the memory of the reinforcement learning agent."""
+        """Reset the agent's memory."""
         self.__memory = None
 
     def update(self: Self) -> None:

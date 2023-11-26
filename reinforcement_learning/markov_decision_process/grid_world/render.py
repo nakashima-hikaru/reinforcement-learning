@@ -14,9 +14,9 @@ from matplotlib.patches import Polygon, Rectangle
 from reinforcement_learning.errors import NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     Action,
-    ActionValue,
     Map,
     Policy,
+    ReadOnlyActionValue,
     State,
     StateValue,
 )
@@ -260,7 +260,7 @@ class Renderer:
             offset = offsets[action]
             self.ax.text(state[1] + 0.45 + offset[0], self.ys - state[0] - 0.5 + offset[1], arrow)
 
-    def generate_policy(self: Self, *, q: ActionValue) -> Policy:
+    def generate_policy(self: Self, *, q: ReadOnlyActionValue) -> Policy:
         """Generate a policy based on the state-action values.
 
         Returns:
@@ -279,7 +279,7 @@ class Renderer:
 
         return policy
 
-    def render_q(self: Self, *, q: ActionValue, show_greedy_policy: bool = True) -> None:
+    def render_q(self: Self, *, q: ReadOnlyActionValue, show_greedy_policy: bool = True) -> None:
         """Render the Q-values of the grid world environment.
 
         Args:
