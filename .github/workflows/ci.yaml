@@ -32,7 +32,7 @@ jobs:
         run: poetry run task mypy
       - name: Run unittests with coverage check
         run: |
-          poetry run pytest --cov --junitxml=pytest.xml --cov-report=term-missing:skip-covered && tee pytest-coverage.txt
+          poetry run pytest --cov --junitxml=pytest.xml --cov-report=term-missing:skip-covered --no-cov-on-fail | tee pytest-coverage.txt
       - name: Create Coverage Comment
         id: coverageComment
         uses: MishaKav/pytest-coverage-comment@main
