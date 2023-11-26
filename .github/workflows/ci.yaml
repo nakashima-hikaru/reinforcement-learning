@@ -22,12 +22,15 @@ jobs:
           poetry-version: "1.6.1"
       - name: Install dependencies
         run: poetry install
-      - name: Mypy
-        run: poetry run task mypy
-      - name: Ruff
+      - name: Check format
+        run: |
+          poetry run task check_format
+      - name: Check lint
         run: |
           poetry run task lint
-      - name: pytest coverage
+      - name: Check mypy
+        run: poetry run task mypy
+      - name: Run unittests with coverage check
         run: |
           poetry run pytest --cov --junitxml=pytest.xml --cov-report=term-missing:skip-covered | tee pytest-coverage.txt
       - name: Create Coverage Comment
