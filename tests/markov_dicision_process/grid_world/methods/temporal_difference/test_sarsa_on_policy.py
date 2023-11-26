@@ -4,7 +4,7 @@ import pytest
 from reinforcement_learning.errors import NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.agent_episodes import (
-    run_sarsa_episode,
+    run_td_episode,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.sarsa_on_policy import (
     SarsaOnPolicyAgent,
@@ -72,7 +72,7 @@ def test_sarsa() -> None:
     episodes = 2
 
     for _ in range(episodes):
-        run_sarsa_episode(env=env, agent=agent)
+        run_td_episode(env=env, agent=agent, add_goal_state_to_memory=True)
 
     assert agent.behavior_policy == {
         (0, 0): {Action.UP: 0.925, Action.DOWN: 0.025, Action.LEFT: 0.025, Action.RIGHT: 0.025},

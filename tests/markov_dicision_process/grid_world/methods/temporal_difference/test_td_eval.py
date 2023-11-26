@@ -26,7 +26,7 @@ def test_update_with_empty_memory() -> None:
         agent.update()
 
 
-def test_evaluation() -> None:
+def test_td_evaluation() -> None:
     test_map = np.array(
         [[0.0, 0.0, 0.0, 1.0], [0.0, None, 0.0, -1.0], [0.0, 0.0, 0.0, 0.0]],
         dtype=np.float64,
@@ -35,7 +35,7 @@ def test_evaluation() -> None:
     agent = TdAgent(gamma=0.9, alpha=0.01, seed=41)
     n_episodes: int = 2
     for _ in range(n_episodes):
-        run_td_episode(env=env, agent=agent)
+        run_td_episode(env=env, agent=agent, add_goal_state_to_memory=False)
 
     assert agent.v == {
         (2, 1): -8.100000000000001e-07,

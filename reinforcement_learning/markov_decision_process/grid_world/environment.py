@@ -22,8 +22,10 @@ from typing import Final, Self, TypeAlias, cast, final
 
 import numpy as np
 import numpy.typing as npt
+import torch
 from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
+from torch import Tensor
 
 from reinforcement_learning.errors import NumpyDimError
 
@@ -207,6 +209,12 @@ class GridWorld:
         """
         return cast(tuple[int, int], self.__reward_map.shape)
 
+    def state(self: Self) -> Iterator[State]:
+        """Iterate over the state of the GridWorld."""
+        for h in range(self.height):
+            for w in range(self.width):
+                yield h, w
+
     def states(self: Self) -> Iterator[State]:
         """Execute and yield all possible states in the two-dimensional grid."""
         for h in range(self.height):
@@ -235,7 +243,7 @@ class GridWorld:
             next_state = state
         return next_state
 
-    def reward(self: Self, next_state: State) -> float:
+    def reward(self: Self, *, next_state: State) -> float:
         """Compute the reward for a given state transition.
 
         Args:
@@ -248,7 +256,7 @@ class GridWorld:
         """
         return cast(float, self.__reward_map[next_state])
 
-    def step(self: Self, action: Action) -> ActionResult:
+    def step(self: Self, *, action: Action) -> ActionResult:
         """Perform an environment step based on the provided action.
 
         Args:
@@ -260,7 +268,7 @@ class GridWorld:
         tuple(State, float, bool): The next state, reward from the current action and whether the goal state is reached.
         """
         next_state = self.next_state(state=self.__agent_state, action=action)
-        reward = self.reward(next_state)
+        reward = self.reward(next_state=next_state)
         done = next_state == self.__goal_state
         self.__agent_state = next_state
         return ActionResult(next_state=next_state, reward=reward, done=done)
@@ -268,3 +276,18 @@ class GridWorld:
     def reset_agent_state(self: Self) -> None:
         """Reset the agent's state to the start state."""
         self.__agent_state = self.__start_state
+
+    def convert_to_one_hot(self: Self, *, state: State) -> Tensor:
+        """Convert the given state into a one-hot encoded tensor.
+
+        Args:
+            state: The state to be converted into a one-hot encoded tensor.
+
+        Returns:
+            A one-hot encoded tensor representing the given state.
+        """
+        vec = torch.zeros(self.height * self.width)
+        y, x = state
+        idx = self.width * y + x
+        vec[idx] = 1.0
+        return cast(Tensor, vec.unsqueeze(dim=0))

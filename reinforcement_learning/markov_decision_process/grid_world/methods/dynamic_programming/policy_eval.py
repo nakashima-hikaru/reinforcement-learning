@@ -41,7 +41,7 @@ def eval_one_step(
         new_v: float = 0.0
         for action, action_prob in action_probs.items():
             next_state = env.next_state(state=state, action=action)
-            reward = env.reward(next_state)
+            reward = env.reward(next_state=next_state)
             new_v += action_prob * (reward + gamma * v[next_state])
         v[state] = new_v
     return v

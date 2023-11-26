@@ -4,7 +4,7 @@ import pytest
 from reinforcement_learning.errors import InvalidMemoryError, NotInitializedError
 from reinforcement_learning.markov_decision_process.grid_world.environment import Action, ActionResult, GridWorld
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.agent_episodes import (
-    run_q_learning_episode,
+    run_td_episode,
 )
 from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_difference.q_learning import (
     QLearningAgent,
@@ -35,7 +35,7 @@ def test_q_learning() -> None:
     env = GridWorld(reward_map=test_map, goal_state=(0, 3), start_state=(2, 0))
     agent = QLearningAgent(seed=0)
     for _ in range(2):
-        run_q_learning_episode(env=env, agent=agent)
+        run_td_episode(env=env, agent=agent, add_goal_state_to_memory=False)
 
     assert agent.action_value == {
         ((2, 0), Action.UP): 0.0,
