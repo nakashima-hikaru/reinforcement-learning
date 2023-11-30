@@ -29,7 +29,6 @@ class RandomAgent(McAgentBase):
         """Initialize the instance of the RandomAgent class.
 
         Args:
-        ----
             gamma: A float representing the discount factor for future rewards.
             seed: An integer representing a seed value for random number generation.
 
@@ -55,7 +54,6 @@ class RandomAgent(McAgentBase):
         """Evaluate the value function for the current policy.
 
         Returns:
-        -------
              None
         """
         g: float = 0.0

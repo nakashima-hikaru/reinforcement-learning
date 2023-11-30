@@ -48,7 +48,6 @@ class SarsaOffPolicyAgent(SarsaAgentBase):
         """Get the current value of the action-value function.
 
         Returns:
-        -------
             ActionValue: The instance's internal action-value function.
         """
         return MappingProxyType(self.__action_value)

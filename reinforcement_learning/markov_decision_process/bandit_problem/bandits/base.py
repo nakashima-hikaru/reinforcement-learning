@@ -22,7 +22,6 @@ class BanditBase(ABC):
         """Initialize BanditBase.
 
         Args:
-        ----
             n_arms: The number of arms in the bandit.
             seed: An optional seed value for random number generation.
 
@@ -46,7 +45,6 @@ class BanditBase(ABC):
         """Return next rates.
 
         Args:
-        ----
             rates: An NDArray containing rates of a bandit machine.
         """
 
@@ -54,11 +52,9 @@ class BanditBase(ABC):
         """Play a single round of the bandit game.
 
         Args:
-        ----
             i_arm: An integer representing the index of the arm to play.
 
         Returns:
-        -------
             A float indicating the reward obtained from playing the arm.
         """
         rate: np.float64 = cast(np.float64, self.rates[i_arm])

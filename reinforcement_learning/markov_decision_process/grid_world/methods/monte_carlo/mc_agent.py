@@ -15,7 +15,6 @@ class McMemory:
     """Memory class represents a memory of an agent in a grid world environment.
 
     Attributes:
-    ----------
         state (State): the current state of the agent.
         action (Action): the action taken by the agent in the current state.
         reward (float): the reward received by the agent for taking the action in the current state.
@@ -39,7 +38,6 @@ class McAgentBase(DistributionModelAgent, ABC):
         """Get the memories of the agent.
 
         Returns:
-        -------
             A list of `McMemory` objects representing the agent's memories.
         """
         return tuple(self.__memories)
@@ -49,7 +47,6 @@ class McAgentBase(DistributionModelAgent, ABC):
         """Add a new experience into the memory.
 
         Args:
-        ----
             state: The current state of the agent.
             action: The action taken by the agent.
             result: The result of the action taken by the agent.

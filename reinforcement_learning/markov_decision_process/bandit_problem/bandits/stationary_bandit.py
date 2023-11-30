@@ -21,7 +21,6 @@ class StationaryBandit(BanditBase):
         """Initialize StationaryBandit.
 
         Args:
-        ----
             n_arms: An integer representing the number of arms in the stationary bandit problem.
             seed: An optional seed value for random number generation.
 

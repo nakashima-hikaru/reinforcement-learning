@@ -20,11 +20,10 @@ class SarsaMemory:
     """The Memory class represents a piece of memory in a reinforcement learning algorithm.
 
     Attributes:
-    ----------
         state (State): The current state of the environment.
-        action (Action | None): The action taken by the agent.
-        reward (StrictFloat | None): The reward received for the action taken.
-        done (StrictBool | None): Indicates whether the episode is done or not.
+        action (Action): The action taken by the agent.
+        reward (StrictFloat): The reward received for the action taken.
+        done (StrictBool): Indicates whether the episode is done or not.
     """
 
     state: State
@@ -82,7 +81,6 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         """Add a new experience into the memory.
 
         Args:
-        ----
             state: The current state of the agent.
             action: The action taken by the agent.
             result: The result of the action taken by the agent.

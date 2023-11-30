@@ -43,7 +43,6 @@ class QLearningAgent(AgentBase):
     """A Q-learning algorithm for reinforcement learning in a GridWorld environment.
 
     Attributes:
-    ----------
     - __gamma (float): Discount factor for future rewards.
     - __lr (float): Learning rate for optimization.
     - __epsilon (float): Exploration rate for epsilon-greedy policy.
@@ -55,7 +54,6 @@ class QLearningAgent(AgentBase):
     - __count (int): Count of training steps performed.
 
     Methods:
-    -------
     - average_loss(self: Self) -> float:
         Returns the average loss per training step.
 
@@ -122,7 +120,6 @@ class QLearningAgent(AgentBase):
         """Add a new experience into the memory.
 
         Args:
-        ----
             state: The current state of the agent.
             action: The action taken by the agent.
             result: The result of the action taken by the agent.

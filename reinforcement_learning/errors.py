@@ -6,7 +6,6 @@ class NumpyValidationError(Exception):
     """Exception raised when encountering a validation error in numpy arrays.
 
     Attributes:
-    ----------
         message (str): Description of the validation error.
     """
 
@@ -14,11 +13,9 @@ class NumpyValidationError(Exception):
         """Initialize a NumpyValidationError object with the given message.
 
         Args:
-        ----
             message (str): The error message associated with the exception.
 
         Returns:
-        -------
             None
 
         """
@@ -36,7 +33,6 @@ class NumpyDimError(NumpyValidationError):
         """Initialize the instance with expected and actual dimensions.
 
         Args:
-        ----
         expected_dim (int): The expected dimensionality.
         actual_dim (int): The actual dimensionality provided.
         """

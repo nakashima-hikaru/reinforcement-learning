@@ -31,7 +31,6 @@ class McOnPolicyAgent(McAgentBase):
         """Initialize a reinforcement learning agent with given parameters.
 
         Args:
-        ----
             gamma: Discount factor for future rewards.
             epsilon: Exploration factor for epsilon-greedy action selection.
             alpha: Learning rate for updating action values.
@@ -55,7 +54,6 @@ class McOnPolicyAgent(McAgentBase):
         """Get the current value of the action-value function.
 
         Returns:
-        -------
             ActionValue: The instance's internal action-value function.
         """
         return MappingProxyType(self.__action_value)
@@ -64,7 +62,6 @@ class McOnPolicyAgent(McAgentBase):
         """Compute the epsilon-greedy action probabilities for the given state.
 
         Args:
-        ----
             q: A dictionary mapping (state, action) pairs to their respective value.
             state: The current state of the system.
             epsilon: The factor determining the trade-off between exploration and exploitation.

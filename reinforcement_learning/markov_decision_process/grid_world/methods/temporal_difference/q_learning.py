@@ -30,7 +30,6 @@ class QLearningMemory:
     """Memory class represents a single transition in a reinforcement learning environment.
 
     Attributes:
-    ----------
         state (State): The current state in the transition.
         reward (StrictFloat): The reward received in the transition.
         next_state (State): The next state after the transition.
@@ -44,6 +43,7 @@ class QLearningMemory:
     done: StrictBool
 
 
+@final
 class QLearningAgent(AgentBase):
     """An agent that uses the Q-learning algorithm to learn and make decisions in a grid world environment."""
 
@@ -61,7 +61,6 @@ class QLearningAgent(AgentBase):
         """Get the current value of the action-value function.
 
         Returns:
-        -------
             ActionValue: The instance's internal action-value function.
         """
         return MappingProxyType(self.__action_value)
@@ -76,7 +75,6 @@ class QLearningAgent(AgentBase):
         """Add a new experience into the memory.
 
         Args:
-        ----
             state: The current state of the agent.
             action: The action taken by the agent.
             result: The result of the action taken by the agent.

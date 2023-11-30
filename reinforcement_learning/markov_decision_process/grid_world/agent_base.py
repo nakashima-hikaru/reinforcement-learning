@@ -19,7 +19,6 @@ class AgentBase(ABC):
         """Initialize the AgentBase with the given seed.
 
         Args:
-        ----
             seed (int): The seed value for random number generation.
         """
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
@@ -34,12 +33,10 @@ class AgentBase(ABC):
         """Select an action.
 
         Args:
-        ----
             state: the state of the environment.
             policy: the policy of the agent.
 
         Returns:
-        -------
             the chosen action based on the action probabilities for the given state.
         """
 
@@ -48,7 +45,6 @@ class AgentBase(ABC):
         """Add a new experience into the memory.
 
         Args:
-        ----
             state: The current state of the agent.
             action: The action taken by the agent.
             result: The result of the action taken by the agent.
@@ -75,11 +71,9 @@ class DistributionModelAgent(AgentBase, ABC):
         """Select an action based on policy `self.__b`.
 
         Args:
-        ----
             state: the state of the environment.
 
         Returns:
-        -------
             the chosen action based on the action probabilities for the given state.
         """
         action_probs = self.behavior_policy[state]

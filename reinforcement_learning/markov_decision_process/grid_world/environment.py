@@ -70,7 +70,6 @@ class Action(IntEnum):
         """Gets the direction of an action.
 
         Returns:
-        -------
             ret (State): a tuple representing the direction of the action.
         """
         ret: State
@@ -101,7 +100,6 @@ class ActionResult:
     """Represent the result of an action in the context of a reinforcement learning system.
 
     Args:
-    ----
         next_state: The next state after taking the action.
         reward: The reward received for taking the action.
         done: A flag indicating whether the task or episode is completed after taking the action.
@@ -133,13 +131,11 @@ class GridWorld:
         """Initialize a GridWorld object with the given reward map, goal state, and start state.
 
         Args:
-        ----
             reward_map (Map): A 2D numpy array representing the reward map of the grid world.
             goal_state (State): The coordinates of the goal state in the grid world.
             start_state (State): The coordinates of the start state in the grid world.
 
         Raises:
-        ------
             NumpyDimError: If the reward map has a dimension other than 2.
         """
         if reward_map.ndim != MAP_DIM:
@@ -164,7 +160,6 @@ class GridWorld:
         """Return the goal state of the GridWorld.
 
         Returns:
-        -------
                 State: The goal state of the GridWorld.
 
         """
@@ -185,7 +180,6 @@ class GridWorld:
         """Return the height of the grid in the GridWorld object.
 
         Returns:
-        -------
             int: The height of the grid.
         """
         return len(self.__reward_map)
@@ -195,7 +189,6 @@ class GridWorld:
         """Return the width of the reward map.
 
         Returns:
-        -------
             the length of the first element of the private class attribute __reward_map,
             which represents the width of the reward map.
         """
@@ -225,13 +218,11 @@ class GridWorld:
         """Move to the next state based on the provided action.
 
         Args:
-        ----
             self (Self): An instance of the current object.
             state (State): A tuple representing the current state (y_coordinate, x_coordinate).
             action (Action): An object representing the action to be taken.
 
         Returns:
-        -------
             State: A tuple representing the next state after performing the action.
         """
         next_state: State = (
@@ -247,11 +238,9 @@ class GridWorld:
         """Compute the reward for a given state transition.
 
         Args:
-        ----
             next_state (State): The state to which transition is made.
 
         Returns:
-        -------
             float: The reward for transitioning to the provided state.
         """
         return cast(float, self.__reward_map[next_state])
@@ -260,11 +249,9 @@ class GridWorld:
         """Perform an environment step based on the provided action.
 
         Args:
-        ----
         action (Action): The action taken by the agent in the current state of the environment.
 
         Returns:
-        -------
         tuple(State, float, bool): The next state, reward from the current action and whether the goal state is reached.
         """
         next_state = self.next_state(state=self.__agent_state, action=action)

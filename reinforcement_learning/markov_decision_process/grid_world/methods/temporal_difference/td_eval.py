@@ -51,7 +51,6 @@ class TdMemory:
     """Memory class represents a single transition in a reinforcement learning environment.
 
     Attributes:
-    ----------
         state (State): The current state in the transition.
         reward (StrictFloat): The reward received in the transition.
         next_state (State): The next state after the transition.
@@ -72,7 +71,6 @@ class TdAgent(DistributionModelAgent):
         """Initialize the reinforcement learning object.
 
         Args:
-        ----
             gamma: Discount factor for future rewards.
             alpha: Learning rate for updating the state values.
             seed: Seed used for random number generation. Defaults to 0.
@@ -98,7 +96,6 @@ class TdAgent(DistributionModelAgent):
         """Add a new experience into the memory.
 
         Args:
-        ----
             state: The current state of the agent.
             action: The action taken by the agent.
             result: The result of the action taken by the agent.
@@ -114,14 +111,12 @@ class TdAgent(DistributionModelAgent):
         """Update the value of the current state using the temporal difference (TD) algorithm.
 
         Args:
-        ----
             state (State): The current state.
             reward (float): The reward for taking the current action from the current state.
             next_state (State): The next state.
             done (bool): Indicates if the episode is done or not.
 
         Returns:
-        -------
             None
         """
         if self.__memory is None:

@@ -31,7 +31,6 @@ class McOffPolicyAgent(McAgentBase):
         """Initialize the instance with the provided parameters.
 
         Args:
-        ----
             gamma: Decay factor, should be a positive real number less than or equal to 1.
             epsilon: Epsilon for epsilon-greedy policy, should be a positive real number less than or equal to 1.
             alpha: Learning rate, should be a positive real number less than or equal to 1.
@@ -60,7 +59,6 @@ class McOffPolicyAgent(McAgentBase):
         """Get the current value of the action-value function.
 
         Returns:
-        -------
             ActionValue: The instance's internal action-value function.
         """
         return MappingProxyType(self.__action_value)

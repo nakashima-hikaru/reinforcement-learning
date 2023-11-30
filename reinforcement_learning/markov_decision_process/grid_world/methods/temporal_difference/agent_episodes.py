@@ -10,12 +10,10 @@ def run_sarsa_episode(*, env: GridWorld, agent: SarsaAgentBase) -> None:
     """Run an episode for a temporary difference agent in the environment.
 
     Args:
-    ----
         env: The GridWorld environment in which the agent will run.
         agent: The TdAgent.
 
     Returns:
-    -------
         None
 
     """
@@ -37,12 +35,10 @@ def run_td_episode(*, env: GridWorld, agent: AgentBase) -> None:
     """Run an episode for a temporary difference agent in the environment.
 
     Args:
-    ----
         env: The GridWorld environment in which the agent will run.
         agent: The TdAgent.
 
     Returns:
-    -------
         None
 
     """

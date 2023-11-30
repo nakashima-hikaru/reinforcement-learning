@@ -27,13 +27,11 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
         """Initialize an EpsilonGreedyAgent instance.
 
         Args:
-        ----
             epsilon: The exploration rate, between 0.0 and 1.0.
             action_size: The number of possible actions.
             seed: An optional seed value for random number generation.
 
         Returns:
-        -------
             None
         """
         super().__init__(epsilon=epsilon, seed=seed)
@@ -44,12 +42,10 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
         """Update the agent's estimate of the action value based on the received reward.
 
         Args:
-        ----
             i_action (int): The index of the chosen action.
             reward (float): The reward received after taking the action.
 
         Returns:
-        -------
             None
         """
         self.__ns[i_action] += 1

@@ -35,7 +35,7 @@ class Renderer:
     This class provides methods to render the state values and Q-values of the grid world environment.
     It uses the Matplotlib library for visualization.
 
-    Attributes:    -----------
+    Attributes:
     reward_map (Map): The reward map representing the grid world environment.
     goal_state (State): The goal state in the grid world.
     wall_states (set[State]): The set of wall states in the grid world.
@@ -50,13 +50,11 @@ class Renderer:
         """Initialize the Renderer class.
 
         Args:
-        ----
             reward_map (Map): The reward map representing the grid world environment.
             goal_state (State): The goal state in the grid world.
             wall_states (set[State]): The set of wall states in the grid world.
 
         Attributes:
-        ----------
             reward_map (Map): The reward map representing the grid world environment.
             goal_state (State): The goal state in the grid world.
             wall_states (frozenset[State]): The set of wall states in the grid world.
@@ -80,7 +78,6 @@ class Renderer:
         """Set the figure size for rendering.
 
         Args:
-        ----
             figsize: A tuple of two floats representing the width and height of the figure.
                      If None, default figure size will be used.
         """
@@ -101,7 +98,6 @@ class Renderer:
         """Render the state values of the grid world environment.
 
         Args:
-        ----
             v: StateValue or None, the state value function to be rendered
             policy: Policy or None, the policy to be rendered
             print_value: bool, whether to print the state values on the grid
@@ -124,11 +120,9 @@ class Renderer:
         """Retrieve the value array from the given StateValue object.
 
         Args:
-        ----
             v: The StateValue object from which to extract the value array.
 
         Returns:
-        -------
             The value array as a numpy NDArray of type np.float64.
         """
         v_array = np.zeros(shape=self.reward_map.shape)
@@ -143,11 +137,9 @@ class Renderer:
         """Render a 2D array of values using a color map.
 
         Args:
-        ----
         v_array: A 2D numpy array of float64 values representing the values to be rendered.
 
         Returns:
-        -------
         None
         """
         color_list = ["red", "white", "green"]
@@ -169,7 +161,6 @@ class Renderer:
         """Render the annotations for the grid world environment.
 
         Args:
-        ----
             v_array: A 2D numpy array containing the state values for each state in the grid world.
             policy: The policy object containing the action probabilities for each state.
             print_value: A boolean indicating whether to print the state values on the grid (default=False).
@@ -191,11 +182,9 @@ class Renderer:
         """Render the reward value for a given state on the grid.
 
         Args:
-        ----
             state (State): The state for which to render the reward value.
 
         Returns:
-        -------
             None
         """
         if self.ax is None:
@@ -212,13 +201,11 @@ class Renderer:
         """Render the value of a given state on the matplotlib figure.
 
         Args:
-        ----
             v_array (npt.NDArray[np.float64]): Array containing the state values.
             state (State): The state for which the value is to be rendered.
             print_value (bool): Whether to print the value on the figure.
 
         Returns:
-        -------
             None
         """
         if self.ax is None:
@@ -237,12 +224,10 @@ class Renderer:
         """Render the policy on a grid world.
 
         Args:
-        ----
             policy (Policy): The policy to render.
             state (State): The current state.
 
         Returns:
-        -------
             None
         """
         if self.ax is None:
@@ -264,7 +249,6 @@ class Renderer:
         """Generate a policy based on the state-action values.
 
         Returns:
-        -------
             Policy: A dictionary representing the policy, where each state maps to a dictionary of action probabilities.
         """
         policy: Policy = Policy()
@@ -283,16 +267,14 @@ class Renderer:
         """Render the Q-values of the grid world environment.
 
         Args:
-        ----
             q: A dictionary containing the Q-values for each state-action pair.
             show_greedy_policy: A boolean indicating whether to show the greedy policy.
 
         Returns:
-        -------
             None
 
 
-        ------      Raises:
+        Raises:
             None
 
         """
@@ -333,7 +315,6 @@ class Renderer:
         """Render the reward value of a given state.
 
         Args:
-        ----
             state (State): The state for which the reward is being rendered.
             reward (float): The reward value for the state.
         """
@@ -351,7 +332,6 @@ class Renderer:
         """Render a polygon representing a state-action pair in the grid world.
 
         Args:
-        ----
             state (State): The state of the grid world.
             action (Action): The action taken in the state.
             color_scale: The color scale for the polygon.
@@ -378,7 +358,6 @@ class Renderer:
         """Generate Offsets Q.
 
         Returns:
-        -------
         - A dictionary that maps each action to a tuple of offset values.
           The offset values represent the coordinates where the action label should be placed in the grid.
         """
@@ -393,11 +372,9 @@ class Renderer:
         """Generate the action map for a given state.
 
         Args:
-        ----
             state (State): The current state for which the action map needs to be generated.
 
         Returns:
-        -------
             Dict[Action, Tuple[Tuple[float, float], Tuple[float, float], Tuple[float, float]]]:
             The action map consisting of the coordinates of the four vertices of each action.
         """

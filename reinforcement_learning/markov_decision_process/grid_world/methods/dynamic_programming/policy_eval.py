@@ -23,14 +23,12 @@ def eval_one_step(
     """Evaluate one step of the Value Iteration algorithm.
 
     Args:
-    ----
         pi: The policy, represented as a dictionary mapping states to action probability distributions.
         v: The current state value function, represented as a dictionary mapping states to values.
         env: The GridWorld environment.
         gamma: The discount factor.
 
     Returns:
-    -------
         The updated state value function after one step of evaluation.
     """
     for state in env.states():
@@ -58,7 +56,6 @@ def policy_eval(
     """Perform policy evaluation for a given policy in a grid world environment using the iterative approach.
 
     Args:
-    ----
         pi: The policy to be evaluated.
         v: The initial state values.
         env: The environment (grid world) in which the policy is to be evaluated.
@@ -66,7 +63,6 @@ def policy_eval(
         threshold: The threshold for convergence.
 
     Returns:
-    -------
         The updated state values after policy evaluation.
     """
     while True:

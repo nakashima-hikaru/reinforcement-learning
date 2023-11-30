@@ -23,7 +23,6 @@ class EpsilonGreedyAgentBase(ABC):
         """Initialize EpsilonGreedyAgentBase.
 
         Args:
-        ----
             epsilon: The value of the exploration rate. Must be between 0 and 1, inclusive.
             action_size: The number of possible actions.
             seed: An optional seed value for random number generation.
@@ -42,7 +41,6 @@ class EpsilonGreedyAgentBase(ABC):
         """Update the agent's internal state based on the given action and reward.
 
         Args:
-        ----
             i_action: An integer representing the chosen action.
             reward: A floating-point number representing the reward received.
 

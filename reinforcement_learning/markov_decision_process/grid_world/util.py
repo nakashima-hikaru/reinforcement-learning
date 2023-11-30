@@ -12,13 +12,11 @@ def greedy_probs(
     """Generate the probabilities of actions where each is chosen by a greedy approach.
 
     Args:
-    ----
         q: A dictionary mapping pairs of state and action to a float value, representing Q-value function.
         state: The current state for which the action probabilities are to be generated.
         epsilon: The factor determining the trade-off between exploration and exploitation.
 
     Returns:
-    -------
         action_probs: A dictionary where keys represent actions and values represent the probability for each action according to epsilon-greedy approach.
     """
     qs = {}

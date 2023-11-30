@@ -23,7 +23,6 @@ class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
         """Initialize AlphaEpsilonGreedyAgent.
 
         Args:
-        ----
             epsilon: The value of epsilon for epsilon-greedy action selection.
             action_size: The number of possible actions.
             alpha: The learning rate for updating action values.
@@ -37,12 +36,10 @@ class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
         """Update the action-value estimation for the specified action using the given reward.
 
         Args:
-        ----
             i_action (int): The index of the action to update the estimation for.
             reward (float): The reward received after taking the action.
 
         Returns:
-        -------
             None
         """
         self.__action_values[i_action] += (reward - self.__action_values[i_action]) * self.__alpha

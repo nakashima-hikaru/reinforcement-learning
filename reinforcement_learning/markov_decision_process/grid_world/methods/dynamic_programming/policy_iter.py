@@ -12,13 +12,11 @@ def greedy_policy(*, v: StateValue, env: GridWorld, gamma: float) -> Policy:
     """Compute the greedy policy based on the given state values.
 
     Args:
-    ----
         v: a dictionary representing the state values of each state in the environment
         env: a GridWorld object representing the environment
         gamma: a float representing the discount factor for future rewards
 
     Returns:
-    -------
         pi: a Policy object representing the greedy policy based on the given state values
     """
     pi: Policy = Policy()
@@ -45,13 +43,11 @@ def policy_iter(*, env: GridWorld, gamma: float, threshold: float) -> Policy:
     """Improve policy through iteration.
 
     Args:
-    ----
         env (GridWorld): The grid world environment.
         gamma (float): The discount factor for future rewards.
         threshold (float): The convergence threshold for the value iteration.
 
     Returns:
-    -------
         Policy: The optimal policy for the given grid world environment.
     """
     pi: Policy = defaultdict(

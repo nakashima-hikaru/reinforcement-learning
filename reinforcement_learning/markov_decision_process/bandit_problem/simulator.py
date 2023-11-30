@@ -18,13 +18,11 @@ def simulate(
     """Simulate the interaction between a bandit and an agent over a number of steps.
 
     Args:
-    ----
         steps (int): The number of steps to simulate.
         bandit (BanditBase): The bandit to interact with.
         agent (EpsilonGreedyAgentBase): The agent to use for selecting actions.
 
     Returns:
-    -------
         tuple[list[float], list[float]]: A tuple containing two lists. The first list
         contains the total rewards accumulated after each step. The second list contains
         the rewards rate at each step.
