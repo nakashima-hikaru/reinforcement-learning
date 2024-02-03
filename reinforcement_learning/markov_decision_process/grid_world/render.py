@@ -46,7 +46,7 @@ class Renderer:
     first_flg (bool): A flag indicating if this is the first render call.
     """
 
-    def __init__(self: Self, *, reward_map: Map, goal_state: State, wall_states: frozenset[State]) -> None:
+    def __init__(self, *, reward_map: Map, goal_state: State, wall_states: frozenset[State]) -> None:
         """Initialize the Renderer class.
 
         Args:
@@ -74,7 +74,7 @@ class Renderer:
         self.fig: Figure | None = None
         self.first_flg: bool = True
 
-    def set_figure(self: Self, *, figsize: tuple[float, float] | None = None) -> None:
+    def set_figure(self, *, figsize: tuple[float, float] | None = None) -> None:
         """Set the figure size for rendering.
 
         Args:
@@ -92,9 +92,7 @@ class Renderer:
         ax.set_ylim(0, self.ys)
         ax.grid(visible=True)
 
-    def render_v(
-        self: Self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True
-    ) -> None:
+    def render_v(self, *, v: StateValue | None = None, policy: Policy | None = None, print_value: bool = True) -> None:
         """Render the state values of the grid world environment.
 
         Args:
@@ -116,7 +114,7 @@ class Renderer:
 
         plt.show()
 
-    def get_value_array(self: Self, *, v: StateValue | None) -> npt.NDArray[np.float64]:
+    def get_value_array(self, *, v: StateValue | None) -> npt.NDArray[np.float64]:
         """Retrieve the value array from the given StateValue object.
 
         Args:
@@ -133,7 +131,7 @@ class Renderer:
 
         return v_array
 
-    def render_values(self: Self, v_array: npt.NDArray[np.float64]) -> None:
+    def render_values(self, v_array: npt.NDArray[np.float64]) -> None:
         """Render a 2D array of values using a color map.
 
         Args:
@@ -155,9 +153,7 @@ class Renderer:
 
         self.ax.pcolormesh(np.flipud(v_array), cmap=cmap, vmin=vmin, vmax=vmax)
 
-    def render_annotations(
-        self: Self, *, v_array: npt.NDArray[np.float64], policy: Policy | None, print_value: bool
-    ) -> None:
+    def render_annotations(self, *, v_array: npt.NDArray[np.float64], policy: Policy | None, print_value: bool) -> None:
         """Render the annotations for the grid world environment.
 
         Args:
@@ -178,7 +174,7 @@ class Renderer:
                 if state in self.wall_states:
                     self.ax.add_patch(Rectangle((x, self.ys - y - 1), 1, 1, fc=(0.4, 0.4, 0.4, 1.0)))
 
-    def render_reward(self: Self, state: State) -> None:
+    def render_reward(self, state: State) -> None:
         """Render the reward value for a given state on the grid.
 
         Args:
@@ -197,7 +193,7 @@ class Renderer:
 
             self.ax.text(state[1] + 0.1, self.ys - state[0] - 0.9, txt)
 
-    def render_value(self: Self, *, v_array: npt.NDArray[np.float64], state: State, print_value: bool) -> None:
+    def render_value(self, *, v_array: npt.NDArray[np.float64], state: State, print_value: bool) -> None:
         """Render the value of a given state on the matplotlib figure.
 
         Args:
@@ -220,7 +216,7 @@ class Renderer:
         offset = offsets[key]
         self.ax.text(state[1] + offset[0], self.ys - state[0] + offset[1], f"{v_array[state]:12.2f}")
 
-    def render_policy(self: Self, policy: Policy, state: State) -> None:
+    def render_policy(self, policy: Policy, state: State) -> None:
         """Render the policy on a grid world.
 
         Args:
@@ -245,7 +241,7 @@ class Renderer:
             offset = offsets[action]
             self.ax.text(state[1] + 0.45 + offset[0], self.ys - state[0] - 0.5 + offset[1], arrow)
 
-    def generate_policy(self: Self, *, q: ReadOnlyActionValue) -> Policy:
+    def generate_policy(self, *, q: ReadOnlyActionValue) -> Policy:
         """Generate a policy based on the state-action values.
 
         Returns:
@@ -263,7 +259,7 @@ class Renderer:
 
         return policy
 
-    def render_q(self: Self, *, q: ReadOnlyActionValue, show_greedy_policy: bool = True) -> None:
+    def render_q(self, *, q: ReadOnlyActionValue, show_greedy_policy: bool = True) -> None:
         """Render the Q-values of the grid world environment.
 
         Args:
@@ -311,7 +307,7 @@ class Renderer:
             policy = self.generate_policy(q=q)
             self.render_v(v=None, policy=policy)
 
-    def render_reward_q(self: Self, *, state: State, reward: float) -> None:
+    def render_reward_q(self, *, state: State, reward: float) -> None:
         """Render the reward value of a given state.
 
         Args:
@@ -328,7 +324,7 @@ class Renderer:
                 raise NotInitializedError(instance_name=str(self), attribute_name="ax")
             self.ax.text(x + 0.05, self.ys - y - 0.95, txt)
 
-    def render_polygon_q(self: Self, state: State, action: Action, color_scale: float, tq: float) -> None:
+    def render_polygon_q(self, state: State, action: Action, color_scale: float, tq: float) -> None:
         """Render a polygon representing a state-action pair in the grid world.
 
         Args:
@@ -368,7 +364,7 @@ class Renderer:
             Action.RIGHT: (0.4, 0.4),
         }
 
-    def generate_action_map(self: Self, state: State) -> RET:
+    def generate_action_map(self, state: State) -> RET:
         """Generate the action map for a given state.
 
         Args:

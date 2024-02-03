@@ -18,7 +18,7 @@ from collections import defaultdict
 from collections.abc import Iterator
 from enum import IntEnum, unique
 from types import MappingProxyType
-from typing import Final, Self, TypeAlias, cast, final
+from typing import Final, TypeAlias, cast, final
 
 import numpy as np
 import numpy.typing as npt
@@ -47,7 +47,7 @@ class Action(IntEnum):
     LEFT = 2
     RIGHT = 3
 
-    def __str__(self: Self) -> str:
+    def __str__(self) -> str:
         """Return a string representation of the Action enumeration value."""
         ret: str
         match self:
@@ -61,12 +61,12 @@ class Action(IntEnum):
                 ret = "Action.RIGHT"
         return ret
 
-    def __repr__(self: Self) -> str:
+    def __repr__(self) -> str:
         """Return a string representation of the Action enumeration value."""
         return f"Action.{self.name}"
 
     @property
-    def direction(self: Self) -> State:
+    def direction(self) -> State:
         """Gets the direction of an action.
 
         Returns:
@@ -123,7 +123,7 @@ class GridWorld:
     """Class representing a GridWorld environment."""
 
     def __init__(
-        self: Self,
+        self,
         reward_map: Map,
         goal_state: State,
         start_state: State,
@@ -156,7 +156,7 @@ class GridWorld:
         self.__agent_state: State = self.__start_state
 
     @property
-    def goal_state(self: Self) -> State:
+    def goal_state(self) -> State:
         """Return the goal state of the GridWorld.
 
         Returns:
@@ -166,17 +166,17 @@ class GridWorld:
         return self.__goal_state
 
     @property
-    def agent_state(self: Self) -> State:
+    def agent_state(self) -> State:
         """Return the current state of the agent."""
         return self.__agent_state
 
     @property
-    def wall_states(self: Self) -> frozenset[State]:
+    def wall_states(self) -> frozenset[State]:
         """Return the wall states of the GridWorld."""
         return self.__wall_states
 
     @property
-    def height(self: Self) -> int:
+    def height(self) -> int:
         """Return the height of the grid in the GridWorld object.
 
         Returns:
@@ -185,7 +185,7 @@ class GridWorld:
         return len(self.__reward_map)
 
     @property
-    def width(self: Self) -> int:
+    def width(self) -> int:
         """Return the width of the reward map.
 
         Returns:
@@ -195,26 +195,26 @@ class GridWorld:
         return len(self.__reward_map[0])
 
     @property
-    def shape(self: Self) -> tuple[int, int]:
+    def shape(self) -> tuple[int, int]:
         """Obtain the shape of the reward map as a tuple.
 
         Returns: the shape of the reward map.
         """
         return cast(tuple[int, int], self.__reward_map.shape)
 
-    def state(self: Self) -> Iterator[State]:
+    def state(self) -> Iterator[State]:
         """Iterate over the state of the GridWorld."""
         for h in range(self.height):
             for w in range(self.width):
                 yield h, w
 
-    def states(self: Self) -> Iterator[State]:
+    def states(self) -> Iterator[State]:
         """Execute and yield all possible states in the two-dimensional grid."""
         for h in range(self.height):
             for w in range(self.width):
                 yield h, w
 
-    def next_state(self: Self, state: State, action: Action) -> State:
+    def next_state(self, state: State, action: Action) -> State:
         """Move to the next state based on the provided action.
 
         Args:
@@ -234,7 +234,7 @@ class GridWorld:
             next_state = state
         return next_state
 
-    def reward(self: Self, *, next_state: State) -> float:
+    def reward(self, *, next_state: State) -> float:
         """Compute the reward for a given state transition.
 
         Args:
@@ -245,7 +245,7 @@ class GridWorld:
         """
         return cast(float, self.__reward_map[next_state])
 
-    def step(self: Self, *, action: Action) -> ActionResult:
+    def step(self, *, action: Action) -> ActionResult:
         """Perform an environment step based on the provided action.
 
         Args:
@@ -260,11 +260,11 @@ class GridWorld:
         self.__agent_state = next_state
         return ActionResult(next_state=next_state, reward=reward, done=done)
 
-    def reset_agent_state(self: Self) -> None:
+    def reset_agent_state(self) -> None:
         """Reset the agent's state to the start state."""
         self.__agent_state = self.__start_state
 
-    def convert_to_one_hot(self: Self, *, state: State) -> Tensor:
+    def convert_to_one_hot(self, *, state: State) -> Tensor:
         """Convert the given state into a one-hot encoded tensor.
 
         Args:
@@ -277,4 +277,4 @@ class GridWorld:
         y, x = state
         idx = self.width * y + x
         vec[idx] = 1.0
-        return cast(Tensor, vec.unsqueeze(dim=0))
+        return vec.unsqueeze(dim=0)

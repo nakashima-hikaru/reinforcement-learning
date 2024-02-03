@@ -1,15 +1,11 @@
 """Custom exception classes for numpy array validations."""
-from typing import Self, final
+from typing import final
 
 
 class NumpyValidationError(Exception):
-    """Exception raised when encountering a validation error in numpy arrays.
+    """Exception raised when encountering a validation error in numpy arrays."""
 
-    Attributes:
-        message (str): Description of the validation error.
-    """
-
-    def __init__(self: Self, *, message: str) -> None:
+    def __init__(self, *, message: str) -> None:
         """Initialize a NumpyValidationError object with the given message.
 
         Args:
@@ -29,7 +25,7 @@ class NumpyDimError(NumpyValidationError):
     Raised when the dimensionality of a numpy array does not match the expected dimensionality.
     """
 
-    def __init__(self: Self, expected_dim: int, actual_dim: int) -> None:
+    def __init__(self, expected_dim: int, actual_dim: int) -> None:
         """Initialize the instance with expected and actual dimensions.
 
         Args:
@@ -45,7 +41,7 @@ class NumpyDimError(NumpyValidationError):
 class NotInitializedError(Exception):
     """An Exception that is raised when an attribute is accessed before it has been initialized."""
 
-    def __init__(self: Self, instance_name: str, attribute_name: str) -> None:
+    def __init__(self, instance_name: str, attribute_name: str) -> None:
         """Initialize the instance."""
         message = f"{attribute_name} of {instance_name} is not initialized."
         super().__init__(message)

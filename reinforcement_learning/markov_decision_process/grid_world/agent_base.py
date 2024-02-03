@@ -1,6 +1,5 @@
 """The base agent class for reinforcement learning models."""
 from abc import ABC, abstractmethod
-from typing import Self
 
 import numpy as np
 
@@ -15,7 +14,7 @@ from reinforcement_learning.markov_decision_process.grid_world.environment impor
 class AgentBase(ABC):
     """Abstract base class for reinforcement learning agents."""
 
-    def __init__(self: Self, *, seed: int | None) -> None:
+    def __init__(self, *, seed: int | None) -> None:
         """Initialize the AgentBase with the given seed.
 
         Args:
@@ -24,12 +23,12 @@ class AgentBase(ABC):
         self.__rng: np.random.Generator = np.random.default_rng(seed=seed)
 
     @property
-    def rng(self: Self) -> np.random.Generator:
+    def rng(self) -> np.random.Generator:
         """Return the random number generator."""
         return self.__rng
 
     @abstractmethod
-    def get_action(self: Self, *, state: State) -> Action:
+    def get_action(self, *, state: State) -> Action:
         """Select an action.
 
         Args:
@@ -41,7 +40,7 @@ class AgentBase(ABC):
         """
 
     @abstractmethod
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -51,11 +50,11 @@ class AgentBase(ABC):
         """
 
     @abstractmethod
-    def reset_memory(self: Self) -> None:
+    def reset_memory(self) -> None:
         """Reset the agent's memory."""
 
     @abstractmethod
-    def update(self: Self) -> None:
+    def update(self) -> None:
         """Update the agent's internal state based on the current conditions and any new information."""
 
 
@@ -64,10 +63,10 @@ class DistributionModelAgent(AgentBase, ABC):
 
     @property
     @abstractmethod
-    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+    def behavior_policy(self) -> ReadOnlyPolicy:
         """Return the behavior policy."""
 
-    def get_action(self: Self, *, state: State) -> Action:
+    def get_action(self, *, state: State) -> Action:
         """Select an action based on policy `self.__b`.
 
         Args:

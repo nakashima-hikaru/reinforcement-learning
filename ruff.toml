@@ -1,5 +1,5 @@
 target-version = "py311"
-line-length = 120
+line-length = 200
 
 [lint]
 select = ["ALL"]
@@ -20,12 +20,18 @@ ignore = [
     "COM819",
     "ISC001",
     "ISC002",
+    # should use polars instead
+    "PD",
+    # deprecated
+    "ANN101",
+    "ANN102",
 ]
 
 [lint.extend-per-file-ignores]
 "__init__.py" = ["D"]
 "tests/*" = ["D"]
 "examples/*" = ["D"]
+"reinforcement_learning/markov_decision_process/cart_pole/type.py" = ["TRY003", "EM101"]  # The idiomatic implementation of `PydanticCustomError`s are imcompatible with these rules
 
 fixable = ["ALL"]
 unfixable = []

@@ -11,9 +11,7 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_
 
 def test_update_with_empty_memory() -> None:
     agent = TdAgent(gamma=0.9, alpha=0.1, seed=0)
-    with pytest.raises(
-        NotInitializedError, match=str(NotInitializedError(instance_name=str(agent), attribute_name="__memory"))
-    ):
+    with pytest.raises(NotInitializedError, match=str(NotInitializedError(instance_name=str(agent), attribute_name="__memory"))):
         agent.update()
 
 

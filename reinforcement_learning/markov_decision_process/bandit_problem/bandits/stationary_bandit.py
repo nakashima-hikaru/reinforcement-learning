@@ -5,7 +5,7 @@ where the reward probabilities remain constant over time. This is referred to as
 The class defines a method for maintaining the same reward rates ('_change_rates'),
 since in a stationary bandit problem, the rates do not change.
 """
-from typing import Self, final
+from typing import final
 
 import numpy as np
 from numpy.typing import NDArray
@@ -17,7 +17,7 @@ from reinforcement_learning.markov_decision_process.bandit_problem.bandits.base 
 class StationaryBandit(BanditBase):
     """A class representing a stationary bandit problem."""
 
-    def __init__(self: Self, *, n_arms: int, seed: int | None = None) -> None:
+    def __init__(self, *, n_arms: int, seed: int | None = None) -> None:
         """Initialize StationaryBandit.
 
         Args:
@@ -27,5 +27,5 @@ class StationaryBandit(BanditBase):
         """
         super().__init__(n_arms=n_arms, seed=seed)
 
-    def _next_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
+    def _next_rates(self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
         return rates

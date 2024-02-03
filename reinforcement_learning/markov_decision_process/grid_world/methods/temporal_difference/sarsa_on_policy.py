@@ -12,7 +12,7 @@ and keeps track of the action-value and behavior policy on each state as it cont
 """
 from collections import defaultdict
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Self, final
+from typing import TYPE_CHECKING, final
 
 from reinforcement_learning.errors import InvalidMemoryError
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
@@ -36,7 +36,7 @@ if TYPE_CHECKING:
 class SarsaOnPolicyAgent(SarsaAgentBase):
     """A Sarsa agent that uses an on-policy update rule to update its Q-values."""
 
-    def __init__(self: Self, *, seed: int | None = None):
+    def __init__(self, *, seed: int | None = None):
         """Initialize the instance.
 
         Args:
@@ -47,7 +47,7 @@ class SarsaOnPolicyAgent(SarsaAgentBase):
         self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @property
-    def action_value(self: Self) -> ReadOnlyActionValue:
+    def action_value(self) -> ReadOnlyActionValue:
         """Get the current value of the action-value function.
 
         Returns:
@@ -56,11 +56,11 @@ class SarsaOnPolicyAgent(SarsaAgentBase):
         return MappingProxyType(self.__action_value)
 
     @property
-    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+    def behavior_policy(self) -> ReadOnlyPolicy:
         """Return the behavior policy."""
         return MappingProxyType(self.__behavior_policy)
 
-    def update(self: Self) -> None:
+    def update(self) -> None:
         """Update the Q-values in the Sarsa agent."""
         if len(self.memories) < SarsaAgentBase.max_memory_length:
             return
@@ -79,6 +79,4 @@ class SarsaOnPolicyAgent(SarsaAgentBase):
         target = current_memory.reward + self.gamma * next_q
         key = current_memory.state, current_memory.action
         self.__action_value[key] += (target - self.__action_value[key]) * self.alpha
-        self.__behavior_policy[current_memory.state] = greedy_probs(
-            q=self.__action_value, state=current_memory.state, epsilon=self.epsilon
-        )
+        self.__behavior_policy[current_memory.state] = greedy_probs(q=self.__action_value, state=current_memory.state, epsilon=self.epsilon)

@@ -6,7 +6,7 @@ The policy, named 'epsilon-greedy', randomly explores with epsilon probability,
 otherwise exploits its current knowledge.
 The agent's state and action-value estimations are updated based on the rewards received after choosing actions.
 """
-from typing import Self, final
+from typing import final
 
 import numpy as np
 import numpy.typing as npt
@@ -19,11 +19,11 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
     """An agent for Epsilon-greedy exploration strategy for the multi-armed bandit problem."""
 
     @property
-    def action_values(self: Self) -> npt.NDArray[np.float64]:
+    def action_values(self) -> npt.NDArray[np.float64]:
         """Return the array of action values for the current agent."""
         return self.__action_values
 
-    def __init__(self: Self, epsilon: float, action_size: int, seed: int | None = None) -> None:
+    def __init__(self, epsilon: float, action_size: int, seed: int | None = None) -> None:
         """Initialize an EpsilonGreedyAgent instance.
 
         Args:
@@ -38,7 +38,7 @@ class EpsilonGreedyAgent(EpsilonGreedyAgentBase):
         self.__ns: npt.NDArray[np.int64] = np.zeros(action_size, dtype=np.int64)
         self.__action_values: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
 
-    def update(self: Self, *, i_action: int, reward: float) -> None:
+    def update(self, *, i_action: int, reward: float) -> None:
         """Update the agent's estimate of the action value based on the received reward.
 
         Args:

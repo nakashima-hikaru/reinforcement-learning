@@ -1,7 +1,7 @@
 """Sarsa agent."""
 from abc import ABC
 from collections import deque
-from typing import Final, Self, final
+from typing import Final, final
 
 from pydantic import StrictBool, StrictFloat
 from pydantic.dataclasses import dataclass
@@ -37,7 +37,7 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
 
     max_memory_length: Final[int] = 2
 
-    def __init__(self: Self, *, seed: int | None) -> None:
+    def __init__(self, *, seed: int | None) -> None:
         """Initialize an instance of the SarsaAgent class."""
         super().__init__(seed=seed)
         self.__gamma: float = 0.9
@@ -46,7 +46,7 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         self.__memories: deque[SarsaMemory | State] = deque(maxlen=SarsaAgentBase.max_memory_length)
 
     @property
-    def gamma(self: Self) -> float:
+    def gamma(self) -> float:
         """Return the gamma value of the SarsaAgentBase.
 
         Returns:
@@ -55,7 +55,7 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         return self.__gamma
 
     @property
-    def alpha(self: Self) -> float:
+    def alpha(self) -> float:
         """Return the alpha value of the SarsaAgentBase.
 
         Returns:
@@ -64,7 +64,7 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         return self.__alpha
 
     @property
-    def epsilon(self: Self) -> float:
+    def epsilon(self) -> float:
         """Return the epsilon value of the SarsaAgentBase.
 
         Returns:
@@ -73,11 +73,11 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         return self.__epsilon
 
     @property
-    def memories(self: Self) -> tuple[SarsaMemory | State, ...]:
+    def memories(self) -> tuple[SarsaMemory | State, ...]:
         """Return a tuple of memories."""
         return tuple(self.__memories)
 
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -93,7 +93,7 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         )
         self.__memories.append(memory)
 
-    def add_state_as_memory(self: Self, *, state: State) -> None:
+    def add_state_as_memory(self, *, state: State) -> None:
         """Add a state to the agent's memory.
 
         Args:
@@ -101,6 +101,6 @@ class SarsaAgentBase(DistributionModelAgent, ABC):
         """
         self.__memories.append(state)
 
-    def reset_memory(self: Self) -> None:
+    def reset_memory(self) -> None:
         """Reset the agent's memory."""
         self.__memories.clear()

@@ -9,7 +9,7 @@ epsilon-greedy action probabilities for a given state.
 """
 from collections import defaultdict
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Self, final
+from typing import TYPE_CHECKING, final
 
 from reinforcement_learning.markov_decision_process.grid_world.environment import (
     RANDOM_ACTIONS,
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class RandomAgent(McAgentBase):
     """An agent that makes decisions using a randomized policy, and learns from its experiences."""
 
-    def __init__(self: Self, *, gamma: float, seed: int | None = None) -> None:
+    def __init__(self, *, gamma: float, seed: int | None = None) -> None:
         """Initialize the instance of the RandomAgent class.
 
         Args:
@@ -40,17 +40,17 @@ class RandomAgent(McAgentBase):
         self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @property
-    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+    def behavior_policy(self) -> ReadOnlyPolicy:
         """Return the behavior policy."""
         return MappingProxyType(self.__behavior_policy)
 
     @property
-    def state_value(self: Self) -> ReadOnlyStateValue:
+    def state_value(self) -> ReadOnlyStateValue:
         """Return the current state value."""
         return MappingProxyType(self.__state_value)
 
     @final
-    def update(self: Self) -> None:
+    def update(self) -> None:
         """Evaluate the value function for the current policy.
 
         Returns:

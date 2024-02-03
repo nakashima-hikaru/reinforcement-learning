@@ -2,7 +2,7 @@
 
 The agent employs an epsilon-greedy strategy (with a step-size) to balance exploration and exploitation, and it uses a constant learning rate 'alpha' for value estimation updates.
 """
-from typing import Self, final
+from typing import final
 
 import numpy as np
 import numpy.typing as npt
@@ -15,11 +15,11 @@ class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
     """Implement an Alpha Epsilon Greedy Agent for multi-armed bandit problems."""
 
     @property
-    def action_values(self: Self) -> npt.NDArray[np.float64]:
+    def action_values(self) -> npt.NDArray[np.float64]:
         """Return the array of action values for the current agent."""
         return self.__action_values
 
-    def __init__(self: Self, *, epsilon: float, action_size: int, alpha: float, seed: int | None = None) -> None:
+    def __init__(self, *, epsilon: float, action_size: int, alpha: float, seed: int | None = None) -> None:
         """Initialize AlphaEpsilonGreedyAgent.
 
         Args:
@@ -32,7 +32,7 @@ class AlphaEpsilonGreedyAgent(EpsilonGreedyAgentBase):
         self.__alpha: float = alpha
         self.__action_values: npt.NDArray[np.float64] = np.zeros(action_size, dtype=np.float64)
 
-    def update(self: Self, i_action: int, reward: float) -> None:
+    def update(self, i_action: int, reward: float) -> None:
         """Update the action-value estimation for the specified action using the given reward.
 
         Args:

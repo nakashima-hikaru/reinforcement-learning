@@ -1,7 +1,7 @@
 """Classes and methods for reinforcement learning in a grid world environment."""
 from collections import defaultdict
 from types import MappingProxyType
-from typing import Self, cast
+from typing import cast
 
 import torch
 import torch.nn.functional as f
@@ -24,13 +24,13 @@ from reinforcement_learning.markov_decision_process.grid_world.methods.temporal_
 class Qnet(nn.Module):
     """A Q-network for reinforcement learning in a grid world environment."""
 
-    def __init__(self: Self) -> None:
+    def __init__(self) -> None:
         """Initialize a Qnet object."""
         super().__init__()
         self.l1: nn.Linear = nn.Linear(in_features=12, out_features=128)
         self.l2: nn.Linear = nn.Linear(in_features=128, out_features=len(Action))
 
-    def forward(self: Self, x: Tensor) -> Tensor:
+    def forward(self, x: Tensor) -> Tensor:
         """Perform the forward pass of the Qnet neural network.
 
         Args:
@@ -54,27 +54,27 @@ class QLearningAgent(AgentBase):
     - __count (int): Count of training steps performed.
 
     Methods:
-    - average_loss(self: Self) -> float:
+    - average_loss(self) -> float:
         Returns the average loss per training step.
 
-    - action_value(self: Self) -> ReadOnlyActionValue:
+    - action_value(self) -> ReadOnlyActionValue:
         Returns a read-only mapping of state-action pairs to their estimated action values.
 
-    - get_action(self: Self, *, state: State) -> Action:
+    - get_action(self, *, state: State) -> Action:
         Selects an action to take given the current state based on the epsilon-greedy policy.
 
-    - add_memory(self: Self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
+    - add_memory(self, *, state: State, action: Action | None, result: ActionResult | None) -> None:
         Adds a new experience to the agent's memory.
 
-    - reset_memory(self: Self) -> None:
+    - reset_memory(self) -> None:
         Resets the agent's memory.
 
-    - update(self: Self) -> None:
+    - update(self) -> None:
         Performs a single update step of the Q-learning algorithm.
 
     """
 
-    def __init__(self: Self, *, seed: int | None, env: GridWorld):
+    def __init__(self, *, seed: int | None, env: GridWorld):
         """Initialize an agent.
 
         Args:
@@ -93,30 +93,28 @@ class QLearningAgent(AgentBase):
         self.__count: int = 0
 
     @property
-    def average_loss(self: Self) -> float:
+    def average_loss(self) -> float:
         """Calculate the average loss of the QLearningAgent."""
         return self.__total_loss / self.__count
 
     @property
-    def action_value(self: Self) -> ReadOnlyActionValue:
+    def action_value(self) -> ReadOnlyActionValue:
         """Return a readonly action value map for the agent."""
         ret: defaultdict[tuple[State, Action], float] = defaultdict()
         with torch.set_grad_enabled(mode=False):
             for state in self.__env.state():
                 for action in Action:
-                    ret[state, action] = float(
-                        self.__q_net(self.__env.convert_to_one_hot(state=state))[:, action.value]
-                    )
+                    ret[state, action] = float(self.__q_net(self.__env.convert_to_one_hot(state=state))[:, action.value])
         return MappingProxyType(ret)
 
-    def get_action(self: Self, *, state: State) -> Action:
+    def get_action(self, *, state: State) -> Action:
         """Select an action based on `self.rng`."""
         if self.rng.random() < self.__epsilon:
             return Action(self.rng.choice(list(Action)))
 
-        return Action(torch.argmax(self.__q_net(self.__env.convert_to_one_hot(state=state)), dim=1)[0].item())
+        return Action(cast(int, torch.argmax(self.__q_net(self.__env.convert_to_one_hot(state=state)), dim=1)[0].item()))
 
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -124,27 +122,26 @@ class QLearningAgent(AgentBase):
             action: The action taken by the agent.
             result: The result of the action taken by the agent.
         """
-        self.__memory = QLearningMemory(
-            state=state, action=action, reward=result.reward, next_state=result.next_state, done=result.done
-        )
+        self.__memory = QLearningMemory(state=state, action=action, reward=result.reward, next_state=result.next_state, done=result.done)
 
-    def reset_memory(self: Self) -> None:
+    def reset_memory(self) -> None:
         """Reset the agent's memory."""
         self.__memory = None
         self.__total_loss = 0.0
         self.__count = 0
 
-    def update(self: Self) -> None:
+    def update(self) -> None:
         """Updates the Q-values in the Q-learning agent based on the current memory."""
         if self.__memory is None:
             raise NotInitializedError(instance_name=str(self), attribute_name="__memory")
-        if self.__memory.done:
-            next_action_value = torch.zeros(size=[1])
-        else:
-            next_action_value = torch.max(  # noqa: PD011
+        next_action_value = (
+            torch.zeros(size=[1])
+            if self.__memory.done
+            else torch.max(
                 self.__q_net(self.__env.convert_to_one_hot(state=self.__memory.next_state)),
                 dim=1,
             ).values
+        )
         target = self.__gamma * next_action_value + self.__memory.reward
         current_action_values = self.__q_net(self.__env.convert_to_one_hot(state=self.__memory.state))
         current_action_value = current_action_values[:, self.__memory.action.value]

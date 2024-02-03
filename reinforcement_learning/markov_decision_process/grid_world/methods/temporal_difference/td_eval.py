@@ -23,7 +23,7 @@ imported to be used in a reinforcement learning process.
 from collections import defaultdict
 from dataclasses import dataclass
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Self, final
+from typing import TYPE_CHECKING, final
 
 from pydantic import StrictBool, StrictFloat
 
@@ -67,7 +67,7 @@ class TdMemory:
 class TdAgent(DistributionModelAgent):
     """Represent a Temporal Difference (TD) Agent for reinforcement learning."""
 
-    def __init__(self: Self, *, gamma: float, alpha: float, seed: int | None = None) -> None:
+    def __init__(self, *, gamma: float, alpha: float, seed: int | None = None) -> None:
         """Initialize the reinforcement learning object.
 
         Args:
@@ -83,16 +83,16 @@ class TdAgent(DistributionModelAgent):
         self.__behavior_policy: Policy = defaultdict(lambda: RANDOM_ACTIONS)
 
     @property
-    def behavior_policy(self: Self) -> ReadOnlyPolicy:
+    def behavior_policy(self) -> ReadOnlyPolicy:
         """Return the behavior policy."""
         return MappingProxyType(self.__behavior_policy)
 
     @property
-    def v(self: Self) -> ReadOnlyStateValue:
+    def v(self) -> ReadOnlyStateValue:
         """Return the state value."""
         return MappingProxyType(self.__v)
 
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:  # noqa: ARG002
+    def add_memory(self, *, state: State, action: Action, result: ActionResult) -> None:  # noqa: ARG002
         """Add a new experience into the memory.
 
         Args:
@@ -103,11 +103,11 @@ class TdAgent(DistributionModelAgent):
         memory = TdMemory(state=state, reward=result.reward, next_state=result.next_state, done=result.done)
         self.__memory = memory
 
-    def reset_memory(self: Self) -> None:
+    def reset_memory(self) -> None:
         """Reset the agent's memory."""
         self.__memory = None
 
-    def update(self: Self) -> None:
+    def update(self) -> None:
         """Update the value of the current state using the temporal difference (TD) algorithm.
 
         Args:

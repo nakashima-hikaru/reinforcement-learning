@@ -5,7 +5,7 @@ consists of a current state, reward received, next state and a boolean flag indi
 """
 from collections import defaultdict
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Self, final
+from typing import TYPE_CHECKING, final
 
 import numpy as np
 from pydantic import StrictBool, StrictFloat
@@ -47,7 +47,7 @@ class QLearningMemory:
 class QLearningAgent(AgentBase):
     """An agent that uses the Q-learning algorithm to learn and make decisions in a grid world environment."""
 
-    def __init__(self: Self, *, seed: int | None):
+    def __init__(self, *, seed: int | None):
         """Initialize the agent with the given seed."""
         super().__init__(seed=seed)
         self.__gamma: float = 0.9
@@ -57,7 +57,7 @@ class QLearningAgent(AgentBase):
         self.__memory: QLearningMemory | None = None
 
     @property
-    def action_value(self: Self) -> ReadOnlyActionValue:
+    def action_value(self) -> ReadOnlyActionValue:
         """Get the current value of the action-value function.
 
         Returns:
@@ -65,13 +65,13 @@ class QLearningAgent(AgentBase):
         """
         return MappingProxyType(self.__action_value)
 
-    def get_action(self: Self, *, state: State) -> Action:
+    def get_action(self, *, state: State) -> Action:
         """Select an action based on `self.rng`."""
         if self.rng.random() < self.__epsilon:
             return Action(self.rng.choice(list(Action)))
         return Action(np.argmax([self.__action_value[state, action] for action in Action]).item())
 
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -79,23 +79,16 @@ class QLearningAgent(AgentBase):
             action: The action taken by the agent.
             result: The result of the action taken by the agent.
         """
-        self.__memory = QLearningMemory(
-            state=state, action=action, reward=result.reward, next_state=result.next_state, done=result.done
-        )
+        self.__memory = QLearningMemory(state=state, action=action, reward=result.reward, next_state=result.next_state, done=result.done)
 
-    def reset_memory(self: Self) -> None:
+    def reset_memory(self) -> None:
         """Reset the agent's memory."""
         self.__memory = None
 
-    def update(self: Self) -> None:
+    def update(self) -> None:
         """Update the action-value estimates of the Q-learning agent."""
         if self.__memory is None:
             raise NotInitializedError(instance_name=str(self), attribute_name="__memory")
-        if self.__memory.done:
-            max_next_action_value = 0.0
-        else:
-            max_next_action_value = max(self.__action_value[self.__memory.next_state, action] for action in Action)
+        max_next_action_value = 0.0 if self.__memory.done else max(self.__action_value[self.__memory.next_state, action] for action in Action)
         target = self.__gamma * max_next_action_value + self.__memory.reward
-        self.__action_value[self.__memory.state, self.__memory.action] += (
-            target - self.__action_value[self.__memory.state, self.__memory.action]
-        ) * self.__alpha
+        self.__action_value[self.__memory.state, self.__memory.action] += (target - self.__action_value[self.__memory.state, self.__memory.action]) * self.__alpha

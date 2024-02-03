@@ -7,7 +7,7 @@ An important concept in bandit algorithms is that of 'arms'
 which refer to the options or decisions that the agent can make.
 """
 from abc import ABC, abstractmethod
-from typing import Final, Self, cast
+from typing import Final, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -18,7 +18,7 @@ SEED: Final[int] = 0
 class BanditBase(ABC):
     """Abstract base class for implementing bandit algorithms."""
 
-    def __init__(self: Self, *, n_arms: int, seed: int | None = None) -> None:
+    def __init__(self, *, n_arms: int, seed: int | None = None) -> None:
         """Initialize BanditBase.
 
         Args:
@@ -31,24 +31,24 @@ class BanditBase(ABC):
         self.rates: NDArray[np.float64] = self.__rng.random(n_arms)
 
     @property
-    def rng(self: Self) -> np.random.Generator:
+    def rng(self) -> np.random.Generator:
         """Return the random number generator."""
         return self.__rng
 
     @property
-    def n_arms(self: Self) -> int:
+    def n_arms(self) -> int:
         """Return the number of the arms."""
         return self.__n_arms
 
     @abstractmethod
-    def _next_rates(self: Self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
+    def _next_rates(self, *, rates: NDArray[np.float64]) -> NDArray[np.float64]:
         """Return next rates.
 
         Args:
             rates: An NDArray containing rates of a bandit machine.
         """
 
-    def play(self: Self, *, i_arm: int) -> float:
+    def play(self, *, i_arm: int) -> float:
         """Play a single round of the bandit game.
 
         Args:

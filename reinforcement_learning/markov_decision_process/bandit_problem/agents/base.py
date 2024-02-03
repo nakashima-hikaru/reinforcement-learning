@@ -6,7 +6,6 @@ The class includes essential methods that each epsilon-greedy agent should imple
 estimation and 'get_action' to get the next action following the epsilon-greedy policy.
 """
 from abc import ABC, abstractmethod
-from typing import Self
 
 import numpy as np
 import numpy.typing as npt
@@ -19,7 +18,7 @@ class EpsilonGreedyAgentBase(ABC):
     which is an exploration-exploitation algorithm commonly used in Reinforcement Learning.
     """
 
-    def __init__(self: Self, *, epsilon: float, seed: int | None) -> None:
+    def __init__(self, *, epsilon: float, seed: int | None) -> None:
         """Initialize EpsilonGreedyAgentBase.
 
         Args:
@@ -33,11 +32,11 @@ class EpsilonGreedyAgentBase(ABC):
 
     @property
     @abstractmethod
-    def action_values(self: Self) -> npt.NDArray[np.float64]:
+    def action_values(self) -> npt.NDArray[np.float64]:
         """Return the action value."""
 
     @abstractmethod
-    def update(self: Self, *, i_action: int, reward: float) -> None:
+    def update(self, *, i_action: int, reward: float) -> None:
         """Update the agent's internal state based on the given action and reward.
 
         Args:
@@ -46,7 +45,7 @@ class EpsilonGreedyAgentBase(ABC):
 
         """
 
-    def get_action(self: Self) -> int:
+    def get_action(self) -> int:
         """Determine an action according to its policy."""
         if self.__rng.random() < self.__epsilon:
             return int(self.__rng.integers(0, len(self.action_values)))

@@ -1,6 +1,6 @@
 """Interface."""
 from abc import ABC
-from typing import Self, final
+from typing import final
 
 from pydantic import StrictFloat
 from pydantic.dataclasses import dataclass
@@ -28,13 +28,13 @@ class McMemory:
 class McAgentBase(DistributionModelAgent, ABC):
     """A base class for reinforcement learning agents using Monte Carlo methods."""
 
-    def __init__(self: Self, *, seed: int | None) -> None:
+    def __init__(self, *, seed: int | None) -> None:
         """Initialize the instance."""
         super().__init__(seed=seed)
         self.__memories: list[McMemory] = []
 
     @property
-    def memories(self: Self) -> tuple[McMemory, ...]:
+    def memories(self) -> tuple[McMemory, ...]:
         """Get the memories of the agent.
 
         Returns:
@@ -43,7 +43,7 @@ class McAgentBase(DistributionModelAgent, ABC):
         return tuple(self.__memories)
 
     @final
-    def add_memory(self: Self, *, state: State, action: Action, result: ActionResult) -> None:
+    def add_memory(self, *, state: State, action: Action, result: ActionResult) -> None:
         """Add a new experience into the memory.
 
         Args:
@@ -55,7 +55,7 @@ class McAgentBase(DistributionModelAgent, ABC):
         self.__memories.append(memory)
 
     @final
-    def reset_memory(self: Self) -> None:
+    def reset_memory(self) -> None:
         """Reset the agent's memory."""
         self.__memories.clear()
 
